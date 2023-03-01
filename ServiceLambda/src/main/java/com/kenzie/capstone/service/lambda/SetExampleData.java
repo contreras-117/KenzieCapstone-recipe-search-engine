@@ -1,6 +1,6 @@
 package com.kenzie.capstone.service.lambda;
 
-import com.kenzie.capstone.service.LambdaService;
+import com.kenzie.capstone.service.RecipeService;
 import com.kenzie.capstone.service.dependency.ServiceComponent;
 import com.kenzie.capstone.service.model.ExampleData;
 import com.kenzie.capstone.service.dependency.DaggerServiceComponent;
@@ -29,7 +29,7 @@ public class SetExampleData implements RequestHandler<APIGatewayProxyRequestEven
         log.info(gson.toJson(input));
 
         ServiceComponent serviceComponent = DaggerServiceComponent.create();
-        LambdaService lambdaService = serviceComponent.provideLambdaService();
+        RecipeService lambdaService = serviceComponent.provideLambdaService();
         Map<String, String> headers = new HashMap<>();
         headers.put("Content-Type", "application/json");
 
@@ -44,18 +44,19 @@ public class SetExampleData implements RequestHandler<APIGatewayProxyRequestEven
                     .withBody("data is invalid");
         }
 
-        try {
-            ExampleData exampleData = lambdaService.setExampleData(data);
-            String output = gson.toJson(exampleData);
-
-            return response
-                    .withStatusCode(200)
-                    .withBody(output);
-
-        } catch (Exception e) {
-            return response
-                    .withStatusCode(400)
-                    .withBody(gson.toJson(e.getMessage()));
-        }
+//        try {
+//            ExampleData exampleData = lambdaService.setExampleData(data);
+//            String output = gson.toJson(exampleData);
+//
+//            return response
+//                    .withStatusCode(200)
+//                    .withBody(output);
+//
+//        } catch (Exception e) {
+//            return response
+//                    .withStatusCode(400)
+//                    .withBody(gson.toJson(e.getMessage()));
+//        }
+        return null;
     }
 }
