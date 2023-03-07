@@ -5,6 +5,7 @@ import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBHashKey;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBTable;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 
 @DynamoDBTable(tableName = "ChefMateUser")
@@ -20,17 +21,9 @@ public class ChefMateUserRecord {
         return userId;
     }
 
-    public void setUserId(String userId) {
-        this.userId = userId;
-    }
-
     @DynamoDBAttribute(attributeName = "userName")
     public String getUserName() {
         return userName;
-    }
-
-    public void setUserName(String userName) {
-        this.userName = userName;
     }
 
     @DynamoDBAttribute(attributeName = "userPreferences")
@@ -38,17 +31,9 @@ public class ChefMateUserRecord {
         return userPreferences;
     }
 
-    public void setUserPreferences(List<String> userPreferences) {
-        this.userPreferences = userPreferences;
-    }
-
     @DynamoDBAttribute(attributeName = "recipesTried")
     public Set<String> getRecipesTried() {
         return recipesTried;
-    }
-
-    public void setRecipesTried(Set<String> recipesTried) {
-        this.recipesTried = recipesTried;
     }
 
     @DynamoDBAttribute(attributeName = "ingredients")
@@ -56,8 +41,37 @@ public class ChefMateUserRecord {
         return ingredients;
     }
 
+    public void setUserId(String userId) {
+        this.userId = userId;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
+
+    public void setUserPreferences(List<String> userPreferences) {
+        this.userPreferences = userPreferences;
+    }
+
+    public void setRecipesTried(Set<String> recipesTried) {
+        this.recipesTried = recipesTried;
+    }
+
     public void setIngredients(Set<String> ingredients) {
         this.ingredients = ingredients;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        ChefMateUserRecord that = (ChefMateUserRecord) o;
+        return Objects.equals(userId, that.userId);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(userId);
     }
 
 }
