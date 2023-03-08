@@ -1,6 +1,13 @@
 package com.kenzie.capstone.service.dao;
 
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBMapper;
+import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBSaveExpression;
+import com.amazonaws.services.dynamodbv2.model.ConditionalCheckFailedException;
+import com.amazonaws.services.dynamodbv2.model.ExpectedAttributeValue;
+import com.google.common.collect.ImmutableMap;
+import com.kenzie.capstone.service.model.ReviewRecord;
+
+import java.util.Map;
 
 public class ReviewDao {
     private DynamoDBMapper mapper;
@@ -13,19 +20,20 @@ public class ReviewDao {
         this.mapper = mapper;
     }
 
-//    public ExampleData storeExampleData(ExampleData exampleData) {
-//        try {
-//            mapper.save(exampleData, new DynamoDBSaveExpression()
-//                    .withExpected(ImmutableMap.of(
-//                            "id",
-//                            new ExpectedAttributeValue().withExists(false)
-//                    )));
-//        } catch (ConditionalCheckFailedException e) {
-//            throw new IllegalArgumentException("id has already been used");
-//        }
-//
-//        return exampleData;
-//    }
+    public ReviewRecord addReview(ReviewRecord record) {
+        try {
+            Map<String, ExpectedAttributeValue> expected =
+                    Map.of("recipeId", new ExpectedAttributeValue().withExists(true),
+                            "reviewerId", new ExpectedAttributeValue().withExists(true));
+            DynamoDBSaveExpression expression = new DynamoDBSaveExpression();
+            expression.setExpected(expected);
+            mapper.save(record, expression);
+        } catch (ConditionalCheckFailedException e) {
+            throw new IllegalArgumentException("id has already been used");
+        }
+
+        return record;
+    }
 //
 //    public List<RecipeRecord> getExampleData(String id) {
 //        RecipeRecord exampleRecord = new RecipeRecord();

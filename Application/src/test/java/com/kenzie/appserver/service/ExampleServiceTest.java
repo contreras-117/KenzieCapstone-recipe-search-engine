@@ -1,20 +1,15 @@
 package com.kenzie.appserver.service;
 
-import com.kenzie.capstone.service.client.LambdaServiceClient;
-import org.junit.jupiter.api.Assertions;
+import com.kenzie.capstone.service.client.ReviewLambdaServiceClient;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.util.Optional;
-
-import static java.util.UUID.randomUUID;
 import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
 
 public class ExampleServiceTest {
 //    private ReviewRepository exampleRepository;
 //    private ReviewService exampleService;
-    private LambdaServiceClient lambdaServiceClient;
+    private ReviewLambdaServiceClient reviewLambdaServiceClient;
 
     @BeforeEach
     void setup() {

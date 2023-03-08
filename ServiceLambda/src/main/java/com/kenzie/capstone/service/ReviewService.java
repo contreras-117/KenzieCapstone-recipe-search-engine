@@ -1,16 +1,20 @@
 package com.kenzie.capstone.service;
 
+import com.kenzie.capstone.service.converter.ReviewConverter;
 import com.kenzie.capstone.service.dao.ReviewDao;
+import com.kenzie.capstone.service.model.ReviewRecord;
+import com.kenzie.capstone.service.model.ReviewRequest;
+import com.kenzie.capstone.service.model.ReviewResponse;
 
 import javax.inject.Inject;
 
 public class ReviewService {
 
-    private ReviewDao exampleDao;
+    private ReviewDao reviewDao;
 
     @Inject
-    public ReviewService(ReviewDao exampleDao) {
-        this.exampleDao = exampleDao;
+    public ReviewService(ReviewDao reviewDao) {
+        this.reviewDao = reviewDao;
     }
 
 //    public ExampleData getExampleData(String id) {
@@ -26,4 +30,17 @@ public class ReviewService {
 //        RecipeRecord record = exampleDao.setExampleData(id, data);
 //        return new ExampleData(id, data);
 //    }
+    public ReviewResponse addReview(ReviewRequest review) {
+        //TODO implement all ID checks
+//        if (review == null ||)
+        ReviewRecord record = new ReviewRecord();
+        record.setReviewerId(review.getReviewerId());
+        record.setComment(review.getComment());
+        record.setRating(review.getRating());
+        record.setRecipeId(review.getRecipeId());
+
+        reviewDao.addReview(record);
+        return ReviewConverter.fromRecordToResponse(record);
+
+    }
 }
