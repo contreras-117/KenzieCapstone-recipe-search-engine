@@ -2,7 +2,6 @@ package com.kenzie.capstone.service.lambda;
 
 import com.kenzie.capstone.service.ReviewService;
 import com.kenzie.capstone.service.dependency.ServiceComponent;
-import com.kenzie.capstone.service.model.ExampleData;
 import com.kenzie.capstone.service.dependency.DaggerServiceComponent;
 
 import com.amazonaws.services.lambda.runtime.Context;
