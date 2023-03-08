@@ -1,6 +1,6 @@
 package com.kenzie.capstone.service.lambda;
 
-import com.kenzie.capstone.service.RecipeService;
+import com.kenzie.capstone.service.ReviewService;
 import com.kenzie.capstone.service.dependency.ServiceComponent;
 import com.kenzie.capstone.service.model.ExampleData;
 import com.kenzie.capstone.service.dependency.DaggerServiceComponent;
@@ -29,7 +29,7 @@ public class SetExampleData implements RequestHandler<APIGatewayProxyRequestEven
         log.info(gson.toJson(input));
 
         ServiceComponent serviceComponent = DaggerServiceComponent.create();
-        RecipeService lambdaService = serviceComponent.provideLambdaService();
+        ReviewService lambdaService = serviceComponent.provideLambdaService();
         Map<String, String> headers = new HashMap<>();
         headers.put("Content-Type", "application/json");
 

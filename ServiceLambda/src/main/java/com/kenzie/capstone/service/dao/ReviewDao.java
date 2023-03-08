@@ -1,7 +1,6 @@
 package com.kenzie.capstone.service.dao;
 
 import com.kenzie.capstone.service.model.ExampleData;
-import com.kenzie.capstone.service.model.RecipeRecord;
 
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBMapper;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBQueryExpression;

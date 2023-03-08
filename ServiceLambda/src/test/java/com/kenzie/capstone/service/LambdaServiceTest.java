@@ -1,8 +1,7 @@
 package com.kenzie.capstone.service;
 
-import com.kenzie.capstone.service.dao.RecipeDao;
-import com.kenzie.capstone.service.model.ExampleData;
-import com.kenzie.capstone.service.model.RecipeRecord;
+import com.kenzie.capstone.service.dao.ReviewDao;
+
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
@@ -24,13 +23,13 @@ class LambdaServiceTest {
      *  expenseService.getExpenseById
      *  ------------------------------------------------------------------------ **/
 
-    private RecipeDao exampleDao;
-    private RecipeService lambdaService;
+    private ReviewDao exampleDao;
+    private ReviewService lambdaService;
 
     @BeforeAll
     void setup() {
-        this.exampleDao = mock(RecipeDao.class);
-        this.lambdaService = new RecipeService(exampleDao);
+        this.exampleDao = mock(ReviewDao.class);
+        this.lambdaService = new ReviewService(exampleDao);
     }
 
     @Test
