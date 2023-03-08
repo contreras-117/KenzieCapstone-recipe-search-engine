@@ -8,11 +8,11 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class ReviewService {
-    private ReviewRepository exampleRepository;
+    private ReviewRepository reviewRepository;
     private LambdaServiceClient lambdaServiceClient;
 
     public ReviewService(ReviewRepository reviewRepository, LambdaServiceClient lambdaServiceClient) {
-        this.exampleRepository = reviewRepository;
+        this.reviewRepository = reviewRepository;
         this.lambdaServiceClient = lambdaServiceClient;
     }
 

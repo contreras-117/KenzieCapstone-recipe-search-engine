@@ -12,14 +12,14 @@ import com.google.common.collect.ImmutableMap;
 
 import java.util.List;
 
-public class RecipeDao {
+public class ReviewDao {
     private DynamoDBMapper mapper;
 
     /**
      * Allows access to and manipulation of Match objects from the data store.
      * @param mapper Access to DynamoDB
      */
-    public RecipeDao(DynamoDBMapper mapper) {
+    public ReviewDao(DynamoDBMapper mapper) {
         this.mapper = mapper;
     }
 

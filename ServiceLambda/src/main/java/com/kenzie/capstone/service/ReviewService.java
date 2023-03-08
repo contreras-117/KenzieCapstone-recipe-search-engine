@@ -1,20 +1,15 @@
 package com.kenzie.capstone.service;
 
-import com.kenzie.capstone.service.model.ExampleData;
-import com.kenzie.capstone.service.dao.RecipeDao;
-import com.kenzie.capstone.service.model.RecipeRecord;
+import com.kenzie.capstone.service.dao.ReviewDao;
 
 import javax.inject.Inject;
 
-import java.util.List;
-import java.util.UUID;
+public class ReviewService {
 
-public class RecipeService {
-
-    private RecipeDao exampleDao;
+    private ReviewDao exampleDao;
 
     @Inject
-    public RecipeService(RecipeDao exampleDao) {
+    public ReviewService(ReviewDao exampleDao) {
         this.exampleDao = exampleDao;
     }
 

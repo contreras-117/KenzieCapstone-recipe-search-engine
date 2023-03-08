@@ -1,7 +1,7 @@
 package com.kenzie.capstone.service.dependency;
 
 
-import com.kenzie.capstone.service.dao.RecipeDao;
+import com.kenzie.capstone.service.dao.ReviewDao;
 import com.kenzie.capstone.service.util.DynamoDbClientProvider;
 
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBMapper;
@@ -27,10 +27,10 @@ public class DaoModule {
 
     @Singleton
     @Provides
-    @Named("RecipeDao")
+    @Named("ReviewDao")
     @Inject
-    public RecipeDao provideExampleDao(@Named("DynamoDBMapper") DynamoDBMapper mapper) {
-        return new RecipeDao(mapper);
+    public ReviewDao provideExampleDao(@Named("DynamoDBMapper") DynamoDBMapper mapper) {
+        return new ReviewDao(mapper);
     }
 
 }
