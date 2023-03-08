@@ -1,28 +1,29 @@
 package com.kenzie.appserver.service;
 
-import dao.RecipeDao;
-import org.junit.Before;
+import com.kenzie.appserver.client.SpoonacularClient;
+import com.kenzie.appserver.controller.model.RecipeResponse;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
 
 import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
 
 public class RecipeServiceTest {
 
     private RecipeService recipeService;
-    private RecipeDao recipeDao;
+    private SpoonacularClient spoonacularClient;
 
     @BeforeEach
     void setup(){
-        recipeDao = mock(RecipeDao.class);
-        recipeService = new RecipeService(recipeDao);
+        spoonacularClient = mock(SpoonacularClient.class);
+        recipeService = new RecipeService(spoonacularClient);
     }
 
     @Test
     void getRandomRecipe_returnsRandomRecipe() throws IOException, InterruptedException {
+        RecipeResponse response = recipeService.getRandomRecipe();
+
 
     }
 }

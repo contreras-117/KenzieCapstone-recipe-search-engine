@@ -1,7 +1,7 @@
 package com.kenzie.appserver.service;
 
 import com.kenzie.appserver.controller.model.RecipeResponse;
-import dao.RecipeDao;
+import com.kenzie.appserver.client.SpoonacularClient;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
@@ -9,10 +9,10 @@ import java.util.*;
 
 @Service
 public class RecipeService {
-    RecipeDao recipeDao;
+    SpoonacularClient spoonacularClient;
 
-    public RecipeService(RecipeDao recipeDao){
-        this.recipeDao = recipeDao;
+    public RecipeService(SpoonacularClient spoonacularClient){
+        this.spoonacularClient = spoonacularClient;
     }
     public List<RecipeResponse> getAllRecipes(){
         return null;
@@ -20,7 +20,7 @@ public class RecipeService {
 
     public RecipeResponse getRandomRecipe() throws IOException, InterruptedException {
 //        need to implement logic to check that recipe is unique to user
-        return recipeDao.getRandomRecipe();
+        return spoonacularClient.getRandomRecipe();
     }
 
 }
