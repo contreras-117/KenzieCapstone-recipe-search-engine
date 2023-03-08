@@ -1,7 +1,6 @@
 package com.kenzie.appserver.controller;
 
 import com.kenzie.appserver.IntegrationTest;
-import com.kenzie.appserver.service.ReviewService;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import net.andreinc.mockneat.MockNeat;
@@ -20,8 +19,6 @@ class ReviewControllerTest {
     @Autowired
     private MockMvc mvc;
 
-    @Autowired
-    ReviewService reviewService;
 
     private final MockNeat mockNeat = MockNeat.threadLocal();
 
