@@ -10,11 +10,16 @@ import java.util.*;
 @Service
 public class RecipeService {
     RecipeDao recipeDao;
+
+    public RecipeService(RecipeDao recipeDao){
+        this.recipeDao = recipeDao;
+    }
     public List<RecipeResponse> getAllRecipes(){
         return null;
     }
 
     public RecipeResponse getRandomRecipe() throws IOException, InterruptedException {
+//        need to implement logic to check that recipe is unique to user
         return recipeDao.getRandomRecipe();
     }
 

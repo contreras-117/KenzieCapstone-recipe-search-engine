@@ -1,24 +1,25 @@
 package dao;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.kenzie.appserver.controller.model.RecipeResponse;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
-import javax.net.ssl.SSLContext;
-import javax.net.ssl.SSLParameters;
 import java.io.IOException;
-import java.net.Authenticator;
-import java.net.CookieHandler;
-import java.net.ProxySelector;
 import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.util.*;
 
+@Component
 public class RecipeDao {
     private static final String SPOONACULAR_API_URL = "https://api.spoonacular.com";
     private static final String API_KEY = "&apiKey=66ada6da0bmshd09fe8ebb84e544p1f2c13jsn12e801189520";
+
+    @Autowired
+    public RecipeDao() {
+    }
 
     public List<RecipeResponse> getAllRecipes(){
         return null;
