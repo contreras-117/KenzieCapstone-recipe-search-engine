@@ -15,3 +15,7 @@ include(':IntegrationTests')
 include(':ServiceLambdaModel')
 include(':ServiceLambdaJavaClient')
 include(':ServiceLambda')
+include 'RecipeServiceLambda'
+include 'RecipeServiceLambdaModel'
+include 'RecipeServiceLambda'
+
