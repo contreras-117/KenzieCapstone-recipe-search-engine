@@ -18,4 +18,6 @@ include(':ServiceLambda')
 include 'RecipeServiceLambda'
 include 'RecipeServiceLambdaModel'
 include 'RecipeServiceLambda'
+include 'RecipeServiceLambdaJavaClient'
+include 'RecipeServiceLambdaModel'
 
