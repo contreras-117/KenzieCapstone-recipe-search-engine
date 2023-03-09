@@ -3,12 +3,20 @@ Resources:
     Type: AWS::DynamoDB::Table
     Properties:
       "AttributeDefinitions":
-        - "AttributeName": "id"
+        - "AttributeName": "recipeId"
           "AttributeType": "S"
+        - "AttributeName": "reviewerId"
+          "AttributeType": "S"
+        - "AttributeName": "comment"
+          "AttributeType": "S"
+        - "AttributeName": "rating"
+          "AttributeType": "N"
       "KeySchema":
-        - "AttributeName": "id"
+        - "AttributeName": "recipeId"
           "KeyType": "HASH"
+        - "AttributeName": "rviewerId"
+          "KeyType": "RANGE"
       PointInTimeRecoverySpecification:
         PointInTimeRecoveryEnabled: false
       BillingMode: PAY_PER_REQUEST
-      TableName: "LambdaExample"
+      TableName: "ReviewTable"
