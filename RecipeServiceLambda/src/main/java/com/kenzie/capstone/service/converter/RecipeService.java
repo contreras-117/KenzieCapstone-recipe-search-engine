@@ -1,6 +1,7 @@
 package com.kenzie.capstone.service.converter;
 
 import com.kenzie.capstone.service.converter.converter.RecipeConverter;
+import com.kenzie.capstone.service.converter.dao.RecipeDao;
 import com.kenzie.capstone.service.dao.ReviewDao;
 import com.kenzie.capstone.service.model.ReviewRecord;
 import com.kenzie.capstone.service.model.ReviewRequest;
@@ -10,37 +11,24 @@ import javax.inject.Inject;
 
 public class RecipeService {
 
-    private ReviewDao reviewDao;
+    private RecipeDao recipeDao;
 
     @Inject
-    public RecipeService(ReviewDao reviewDao) {
-        this.reviewDao = reviewDao;
+    public RecipeService(RecipeDao recipeDao) {
+        this.recipeDao = recipeDao;
     }
 
-//    public ExampleData getExampleData(String id) {
-//        List<RecipeRecord> records = exampleDao.getExampleData(id);
-//        if (records.size() > 0) {
-//            return new ExampleData(records.get(0).getId(), records.get(0).getData());
-//        }
-//        return null;
-//    }
+    public String getAllRecipes(String query) {
+        //will finish implementing
+        String result = recipeDao.getAllRecipes(query);
 
-//    public ExampleData setExampleData(String data) {
-//        String id = UUID.randomUUID().toString();
-//        RecipeRecord record = exampleDao.setExampleData(id, data);
-//        return new ExampleData(id, data);
-//    }
-    public ReviewResponse addReview(ReviewRequest review) {
-        //TODO implement all ID checks
-//        if (review == null ||)
-        ReviewRecord record = new ReviewRecord();
-        record.setReviewerId(review.getReviewerId());
-        record.setComment(review.getComment());
-        record.setRating(review.getRating());
-        record.setRecipeId(review.getRecipeId());
+        return result;
+    }
 
-        reviewDao.addReview(record);
-        return RecipeConverter.fromRecordToResponse(record);
+    public String getRandomRecipe(){
+        //will finish implementing
+        String result = recipeDao.getRandomRecipe();
 
+        return result;
     }
 }

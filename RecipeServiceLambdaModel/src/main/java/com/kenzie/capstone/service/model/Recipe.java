@@ -4,67 +4,44 @@ import java.util.Objects;
 
 public class Recipe {
     private String recipeId;
-    private String reviewerId;
-    private Double rating;
-    private String comment;
+    private String name;
+    private String image;
+    private String instructions;
 
-
-    public Recipe(String recipeId, String reviewerId, Double rating, String comment) {
+    public Recipe(String recipeId, String name, String image, String instructions) {
         this.recipeId = recipeId;
-        this.reviewerId = reviewerId;
-        this.rating = rating;
-        this.comment = comment;
+        this.name = name;
+        this.image = image;
+        this.instructions = instructions;
     }
 
     public String getRecipeId() {
         return recipeId;
     }
 
-    public void setRecipeId(String recipeId) {
-        this.recipeId = recipeId;
+    public String getName() {
+        return name;
     }
 
-    public String getReviewerId() {
-        return reviewerId;
+    public String getImage() {
+        return image;
     }
 
-    public void setReviewerId(String reviewerId) {
-        this.reviewerId = reviewerId;
+    public String getInstructions() {
+        return instructions;
     }
-
-    public Double getRating() {
-        return rating;
-    }
-
-    public void setRating(Double rating) {
-        this.rating = rating;
-    }
-
-    public String getComment() {
-        return comment;
-    }
-
-    public void setComment(String comment) {
-        this.comment = comment;
-    }
-
-    public Recipe() {}
-
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) {
-            return true;
-        }
-        if (o == null || getClass() != o.getClass()) {
-            return false;
-        }
-        Recipe that = (Recipe) o;
-        return Objects.equals(recipeId, that.recipeId) && Objects.equals(reviewerId, that.reviewerId);
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Recipe recipe = (Recipe) o;
+        return Objects.equals(recipeId, recipe.recipeId) && Objects.equals(name, recipe.name) && Objects.equals(instructions, recipe.instructions);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(recipeId, reviewerId);
+        return Objects.hash(recipeId, name, instructions);
     }
 }
+

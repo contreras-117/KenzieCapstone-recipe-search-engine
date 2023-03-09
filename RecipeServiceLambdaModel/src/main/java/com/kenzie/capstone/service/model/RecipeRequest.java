@@ -2,15 +2,13 @@ package com.kenzie.capstone.service.model;
 
 public class RecipeRequest {
     private String recipeId;
-    private String reviewerId;
-    private Double rating;
-    private String comment;
+    private String name;
+    private String instructions;
 
-    public RecipeRequest(String recipeId, String reviewerId, Double rating, String comment) {
+    public RecipeRequest(String recipeId, String name, String instructions) {
         this.recipeId = recipeId;
-        this.reviewerId = reviewerId;
-        this.rating = rating;
-        this.comment = comment;
+        this.name = name;
+        this.instructions = instructions;
     }
 
     public String getRecipeId() {
@@ -21,27 +19,20 @@ public class RecipeRequest {
         this.recipeId = recipeId;
     }
 
-    public String getReviewerId() {
-        return reviewerId;
+    public String getName() {
+        return name;
     }
 
-    public void setReviewerId(String reviewerId) {
-        this.reviewerId = reviewerId;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public Double getRating() {
-        return rating;
+
+    public String getInstructions() {
+        return instructions;
     }
 
-    public void setRating(Double rating) {
-        this.rating = rating;
-    }
-
-    public String getComment() {
-        return comment;
-    }
-
-    public void setComment(String comment) {
-        this.comment = comment;
+    public void setInstructions(String instructions) {
+        this.instructions = instructions;
     }
 }

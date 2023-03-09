@@ -1,63 +1,55 @@
 package com.kenzie.capstone.service.converter.dao;
 
-import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBMapper;
-import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBSaveExpression;
-import com.amazonaws.services.dynamodbv2.model.ConditionalCheckFailedException;
-import com.amazonaws.services.dynamodbv2.model.ExpectedAttributeValue;
-import com.kenzie.capstone.service.model.ReviewRecord;
-
-import java.util.Map;
+import java.io.IOException;
+import java.net.URI;
+import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
 
 public class RecipeDao {
-    private DynamoDBMapper mapper;
+    private static final String SPOONACULAR_API_URL = "https://api.spoonacular.com";
+    private static final String API_KEY = "&apiKey=66ada6da0bmshd09fe8ebb84e544p1f2c13jsn12e801189520";
 
-    /**
-     * Allows access to and manipulation of Match objects from the data store.
-     * @param mapper Access to DynamoDB
-     */
-    public RecipeDao(DynamoDBMapper mapper) {
-        this.mapper = mapper;
-    }
+    public String getAllRecipes(String query) {
+        HttpClient httpClient = HttpClient.newHttpClient();
 
-    public ReviewRecord addReview(ReviewRecord record) {
-        try {
-            Map<String, ExpectedAttributeValue> expected =
-                    Map.of("recipeId", new ExpectedAttributeValue().withExists(true),
-                            "reviewerId", new ExpectedAttributeValue().withExists(true));
-            DynamoDBSaveExpression expression = new DynamoDBSaveExpression();
-            expression.setExpected(expected);
-            mapper.save(record, expression);
-        } catch (ConditionalCheckFailedException e) {
-            throw new IllegalArgumentException("id has already been used");
+        HttpRequest request = HttpRequest.newBuilder()
+                .uri(URI.create(SPOONACULAR_API_URL + "/food/search?query=" + query + API_KEY))
+                .header("Accept", "application/json")
+                .GET()
+                .build();
+
+        try{
+            HttpResponse<String> httpResponse = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
+            int statusCode = httpResponse.statusCode();
+            if (statusCode == 200) {
+                return httpResponse.body();
+            } else {
+                return String.format("GET request failed: %d status code received", statusCode);
+            }
+        } catch (IOException | InterruptedException e){
+            return e.getMessage();
         }
-
-        return record;
     }
-//
-//    public List<RecipeRecord> getExampleData(String id) {
-//        RecipeRecord exampleRecord = new RecipeRecord();
-//        exampleRecord.setId(id);
-//
-//        DynamoDBQueryExpression<RecipeRecord> queryExpression = new DynamoDBQueryExpression<RecipeRecord>()
-//                .withHashKeyValues(exampleRecord)
-//                .withConsistentRead(false);
-//
-//        return mapper.query(RecipeRecord.class, queryExpression);
-//    }
-//
-//    public RecipeRecord setExampleData(String id, String data) {
-//        RecipeRecord exampleRecord = new RecipeRecord();
-//
-//        try {
-//            mapper.save(exampleRecord, new DynamoDBSaveExpression()
-//                    .withExpected(ImmutableMap.of(
-//                            "id",
-//                            new ExpectedAttributeValue().withExists(false)
-//                    )));
-//        } catch (ConditionalCheckFailedException e) {
-//            throw new IllegalArgumentException("id already exists");
-//        }
-//
-//        return exampleRecord;
-//    }
+
+    public String getRandomRecipe() {
+        HttpClient httpClient = HttpClient.newHttpClient();
+
+        HttpRequest request = HttpRequest.newBuilder()
+                .uri(URI.create(SPOONACULAR_API_URL + "/random" + API_KEY))
+                .header("Accept", "application/json")
+                .GET()
+                .build();
+        try {
+            HttpResponse<String> httpResponse = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
+            int statusCode = httpResponse.statusCode();
+            if (statusCode == 200) {
+                return httpResponse.body();
+            } else {
+                throw new IOException(String.format("GET request failed: %d status code received", statusCode));
+            }
+        } catch (IOException | InterruptedException e){
+            return e.getMessage();
+        }
+    }
 }
