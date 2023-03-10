@@ -7,14 +7,10 @@ Resources:
           "AttributeType": "S"
         - "AttributeName": "reviewerId"
           "AttributeType": "S"
-        - "AttributeName": "comment"
-          "AttributeType": "S"
-        - "AttributeName": "rating"
-          "AttributeType": "N"
       "KeySchema":
         - "AttributeName": "recipeId"
           "KeyType": "HASH"
-        - "AttributeName": "rviewerId"
+        - "AttributeName": "reviewerId"
           "KeyType": "RANGE"
       PointInTimeRecoverySpecification:
         PointInTimeRecoveryEnabled: false
