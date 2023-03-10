@@ -3,6 +3,8 @@ package com.kenzie.appserver.controller;
 
 import com.kenzie.appserver.controller.model.ChefMateUserResponse;
 import com.kenzie.appserver.controller.model.CreateChefMateUserRequest;
+import com.kenzie.appserver.controller.model.UpdateRecipesTriedRequest;
+import com.kenzie.appserver.controller.model.UpdateUserPreferencesRequest;
 import com.kenzie.appserver.service.ChefMateUserService;
 import com.kenzie.appserver.service.model.AuthUserProfile;
 import org.springframework.boot.autoconfigure.security.oauth2.resource.OAuth2ResourceServerProperties;
@@ -12,6 +14,8 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.net.URI;
+import java.util.List;
+import java.util.Set;
 
 @RestController
 @RequestMapping("/user")
@@ -41,8 +45,13 @@ public class ChefMateUserController {
         return null;
     }
 
-    @PostMapping("/updateUser/{userId}")
-    public ResponseEntity<ChefMateUserResponse> updateUser(@RequestBody CreateChefMateUserRequest chefMateUserRequest) {
+    @PutMapping("/userPreferences/{userPreferences}")
+    public ResponseEntity<ChefMateUserResponse> updateUserPreferences(@PathVariable("userPreferences") List<String> userPreferences, @RequestBody UpdateUserPreferencesRequest updateUserPreferencesRequest) {
+        return null;
+    }
+
+    @PutMapping("/recipesTried/{recipesTried}")
+    public ResponseEntity<ChefMateUserResponse> updateRecipesTried(@PathVariable("recipesTried") Set<String> recipesTried, @RequestBody UpdateRecipesTriedRequest updateRecipesTriedRequest) {
         return null;
     }
 
