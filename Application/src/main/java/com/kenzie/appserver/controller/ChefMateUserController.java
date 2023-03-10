@@ -1,44 +1,67 @@
 package com.kenzie.appserver.controller;
 
 
+import com.kenzie.appserver.controller.model.ChefMateUserResponse;
+import com.kenzie.appserver.controller.model.CreateChefMateUserRequest;
+import com.kenzie.appserver.service.ChefMateUserService;
 import com.kenzie.appserver.service.model.AuthUserProfile;
 import org.springframework.boot.autoconfigure.security.oauth2.resource.OAuth2ResourceServerProperties;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestHeader;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
+
+import java.net.URI;
 
 @RestController
 @RequestMapping("/user")
 public class ChefMateUserController {
-   /* @GetMapping("/profile")
+
+    private ChefMateUserService chefMateUserService;
+
+    ChefMateUserController(ChefMateUserService chefMateUserService) {
+        this.chefMateUserService = chefMateUserService;
+    }
+
+    @GetMapping("/userProfile")
     public AuthUserProfile getUserProfile(@RequestHeader("Authorization") String authorizationHeader) {
-        String accessToken = extractAccessToken(authorizationHeader);
+       /* String accessToken = extractAccessToken(authorizationHeader);
         OAuth2ResourceServerProperties.Jwt jwt = decodeAccessToken(accessToken);
         String userId = jwt.;
         String email = jwt.getClaim("email").asString();
         return new AuthUserProfile(userId, email);
+        */
+    return null;
     }
 
-    private String extractAccessToken(String authorizationHeader) {
-        if (authorizationHeader == null || !authorizationHeader.startsWith("Bearer ")) {
-            throw new IllegalArgumentException("Invalid Authorization header");
-        }
-        return authorizationHeader.substring(7);
+
+    @PostMapping("/createUser")
+    public ResponseEntity<ChefMateUserResponse> addNewUser(@RequestBody CreateChefMateUserRequest createChefMateUserRequest) {
+
+        return null;
     }
 
-    private OAuth2ResourceServerProperties.Jwt decodeAccessToken(String accessToken) {
-        String jwkSetUrl = "https://<your auth0 domain>/.well-known/jwks.json";
-        JwkProvider jwkProvider = new UrlJwkProvider(jwkSetUrl);
-        JwtConsumer jwtConsumer = new JwtConsumerBuilder()
-                .setVerificationKeyResolver(new JwkVerificationKeyResolver(jwkProvider))
-                .setExpectedIssuer("<your auth0 domain>")
-                .setExpectedAudience("<your auth0 API audience>")
-                .build();
-        try {
-            return jwtConsumer.processToClaims(accessToken).getJwt();
-        } catch (InvalidJwtException e) {
-            throw new IllegalArgumentException("Invalid access token", e);
-        }*/
+    @PostMapping("/updateUser/{userId}")
+    public ResponseEntity<ChefMateUserResponse> updateUser(@RequestBody CreateChefMateUserRequest chefMateUserRequest) {
+        return null;
+    }
+
+    @GetMapping("/getUserById/{userId}")
+    public ResponseEntity<ChefMateUserResponse> getUserById(@PathVariable("userId") String userId) {
+        return null;
+    }
+
+    @DeleteMapping("/deleteUser/{userId}")
+    public ResponseEntity deleteUserById(@PathVariable("userId") String userId) {
+        return null;
+    }
+
+
+
+
+       /* -----------------------------------------------------------------------------------------------------------
+        Private Methods
+       ----------------------------------------------------------------------------------------------------------- */
+
 
 }
