@@ -1,11 +1,6 @@
 package com.kenzie.capstone.service.converter;
 
-import com.kenzie.capstone.service.converter.converter.RecipeConverter;
 import com.kenzie.capstone.service.converter.dao.RecipeDao;
-import com.kenzie.capstone.service.dao.ReviewDao;
-import com.kenzie.capstone.service.model.ReviewRecord;
-import com.kenzie.capstone.service.model.ReviewRequest;
-import com.kenzie.capstone.service.model.ReviewResponse;
 
 import javax.inject.Inject;
 

@@ -1,8 +1,9 @@
 package com.kenzie.capstone.service.converter.dependency;
 
 
-import com.kenzie.capstone.service.ReviewService;
-import com.kenzie.capstone.service.dao.ReviewDao;
+//import com.kenzie.capstone.service.RecipeService;
+import com.kenzie.capstone.service.converter.RecipeService;
+import com.kenzie.capstone.service.converter.dao.RecipeDao;
 import dagger.Provides;
 
 import javax.inject.Inject;
@@ -17,8 +18,8 @@ public class ServiceModule {
     @Singleton
     @Provides
     @Inject
-    public ReviewService provideLambdaService(@Named("ReviewDao") ReviewDao reviewDao) {
-        return new ReviewService(reviewDao);
+    public RecipeService provideLambdaService(@Named("RecipeDao") RecipeDao recipeDao) {
+        return new RecipeService(recipeDao);
     }
 }
 

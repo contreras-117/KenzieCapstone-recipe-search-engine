@@ -6,9 +6,8 @@ import com.amazonaws.services.lambda.runtime.events.APIGatewayProxyRequestEvent;
 import com.amazonaws.services.lambda.runtime.events.APIGatewayProxyResponseEvent;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.kenzie.capstone.service.ReviewService;
-import com.kenzie.capstone.service.dependency.DaggerServiceComponent;
-import com.kenzie.capstone.service.dependency.ServiceComponent;
+import com.kenzie.capstone.service.converter.RecipeService;
+import com.kenzie.capstone.service.converter.dependency.ServiceComponent;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -27,7 +26,7 @@ public class GetExampleData implements RequestHandler<APIGatewayProxyRequestEven
         log.info(gson.toJson(input));
 
         ServiceComponent serviceComponent = DaggerServiceComponent.create();
-        ReviewService lambdaService = serviceComponent.provideLambdaService();
+        RecipeService lambdaService = serviceComponent.provideLambdaService();
         Map<String, String> headers = new HashMap<>();
         headers.put("Content-Type", "application/json");
 
