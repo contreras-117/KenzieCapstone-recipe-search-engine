@@ -7,15 +7,18 @@ import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 
 public class RecipeDao {
-    private static final String SPOONACULAR_API_URL = "https://api.spoonacular.com";
-    private static final String API_KEY = "&apiKey=66ada6da0bmshd09fe8ebb84e544p1f2c13jsn12e801189520";
+    private static final String SPOONACULAR_API_URL = "https://spoonacular-recipe-food-nutrition-v1.p.rapidapi.com";
+    private static final String API_KEY = "66ada6da0bmshd09fe8ebb84e544p1f2c13jsn12e801189520";
+    private static final String API_HEADER = "spoonacular-recipe-food-nutrition-v1.p.rapidapi.com";
 
     public String getAllRecipes(String query) {
         HttpClient httpClient = HttpClient.newHttpClient();
 
         HttpRequest request = HttpRequest.newBuilder()
-                .uri(URI.create(SPOONACULAR_API_URL + "/food/search?query=" + query + API_KEY))
+                .uri(URI.create(SPOONACULAR_API_URL + "/food/search?query=" + query))
                 .header("Accept", "application/json")
+                .header("X-RapidAPI-Key", API_KEY)
+                .header("X-RapidAPI-Host", API_HEADER)
                 .GET()
                 .build();
 
