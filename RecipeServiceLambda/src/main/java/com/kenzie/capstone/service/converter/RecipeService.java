@@ -21,9 +21,6 @@ public class RecipeService {
     }
 
     public String getRandomRecipe(){
-        //will finish implementing
-        String result = recipeDao.getRandomRecipe();
-
-        return result;
+        return recipeDao.getRandomRecipe();
     }
 }

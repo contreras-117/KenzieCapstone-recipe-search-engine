@@ -41,6 +41,8 @@ public class RecipeDao {
         HttpRequest request = HttpRequest.newBuilder()
                 .uri(URI.create(SPOONACULAR_API_URL + "/random" + API_KEY))
                 .header("Accept", "application/json")
+                .header("X-RapidAPI-Key", API_KEY)
+                .header("X-RapidAPI-Host", API_HEADER)
                 .GET()
                 .build();
         try {
