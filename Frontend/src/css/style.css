@@ -193,8 +193,13 @@
 }
 
 #img-placeholder {
-max-width: 100%;
+    max-width: 100%;
     height: 100%;
+    border-radius: 50px;
+    padding-top: 25px;
+    padding-left: 25px;
+    padding-right: 25px;
+    padding-bottom: 25px;
 }
 
 .checked {
