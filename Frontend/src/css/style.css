@@ -56,8 +56,10 @@
 .card {
     color: var(--primary-color);
     background-color: var(--secondary-color);
-    margin: 20px;
+    /*margin: 20px;*/
     padding: 10px 20px;
+    width: 100%;
+    height: 20em;
 }
 
 .validated-field:invalid {
@@ -86,4 +88,164 @@
 
 .state.active {
     display: block;
+}
+
+#homepage {
+    display: flex;
+    width: 100%;
+        background-color: var(--secondary-color);
+}
+
+/*#mainNavbar {
+*//*    top: 0;
+        right: 0;
+        left: 0;
+        z-index: 1;*//*
+    position: static;
+}*/
+
+.navbar-nav {
+    margin-right: 20px;
+}
+
+.split-view {
+    width: 100%;
+}
+
+/*#intro-header-container {
+    position: relative;
+    background: gray;
+    width: 100%px;
+    height: 200px;
+}*/
+
+#intro-header {
+/*    margin-left: 20px;
+    top: 50%;
+    left: 25%;
+    width: 50%;
+    height: 100px;
+    border: 1px solid black;
+    position: absolute;*/
+    text-align: right;
+    padding-top: 100px;
+    padding-right: 100px;
+}
+
+#intro-description {
+    padding-top: 100px;
+    text-align: center;
+}
+
+#introducing-chefMate {
+    margin-left: 90px;
+    font-weight: normal;
+}
+
+#recipe-generator {
+    margin-left: 135px;
+    font-weight: normal;
+}
+
+#search-label {
+    font-weight: bold;
+    /*text-align: center;*/
+/*    margin-left: 25%;
+    padding-top: 25px;
+    padding-bottom: 10px;*/
+}
+
+#search-container {
+    text-align: center;
+    padding-top: 50px;
+}
+
+#get-by-id-form {
+    text-align: center;
+}
+
+.search-form {
+    display: flex;
+    width: 60%;
+    margin-left: 20%;
+    padding-bottom: 20px;
+    padding-top: 10px;
+}
+
+#review-field {
+    width: 100%
+    height: 500px
+}
+
+.review-form {
+  padding-top: 50px;
+    text-align: center;
+    justify-content: center;
+}
+
+#review-text-area {
+    width: 50%;
+    height: 200px;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 10px;
+}
+
+#img-placeholder {
+max-width: 100%;
+    height: 100%;
+}
+
+.checked {
+  color: orange;
+}
+
+.star-container {
+    padding: 10px;
+    justify-content: center;
+    display:flex;
+    margin-left: 25%;
+    margin-right: 25%;
+    background: none;
+}
+
+#submit-review-button {
+   border-radius: 20px;
+   margin-right: 10px;
+}
+
+.star-container .star-rating input {
+    display: none;
+}
+
+.star-rating label {
+    font-size: 20px;
+    padding: 10px;
+    align-items: center;
+    float: right;
+    transition: all 0.2s ease;
+    color: #449;
+}
+
+input:not(:checked) ~ label:hover,
+input:not(:checked) ~ label:hover ~ label {
+    color:#fd4;
+}
+
+input:checked ~ label {
+    color: #fd4;
+}
+
+input#rate-5:checked ~ label {
+    color: #fe7;
+/*    text-shadow: 0 0 20px #952;*/
+}
+
+#search-button {
+    margin-left: 5px;
+}
+
+#options-button {
+    margin-right: 5px;
 }
