@@ -10,7 +10,7 @@ import com.kenzie.capstone.service.model.ReviewResponse;
 public class ReviewLambdaServiceClient {
 
     private static final String ADD_REVIEW_ENDPOINT = "review/add";
-    private static final String SET_EXAMPLE_ENDPOINT = "example";
+    private static final String GET_EXAMPLE_ENDPOINT = "review/get";
 
     private ObjectMapper mapper;
 
