@@ -7,8 +7,6 @@ import com.amazonaws.services.dynamodbv2.model.ExpectedAttributeValue;
 import com.google.common.collect.ImmutableMap;
 import com.kenzie.capstone.service.model.ReviewRecord;
 
-import java.util.Map;
-
 public class ReviewDao {
     private DynamoDBMapper mapper;
 
@@ -22,12 +20,9 @@ public class ReviewDao {
 
     public ReviewRecord addReview(ReviewRecord record) {
         try {
-            Map<String, ExpectedAttributeValue> expected =
-                    Map.of("recipeId", new ExpectedAttributeValue().withExists(false),
-                            "reviewerId", new ExpectedAttributeValue().withExists(false));
-            DynamoDBSaveExpression expression = new DynamoDBSaveExpression();
-            expression.setExpected(expected);
-            mapper.save(record, expression);
+            mapper.save(record, new DynamoDBSaveExpression().withExpected(ImmutableMap.of(
+                    "recipedId", new ExpectedAttributeValue().withExists(false)
+            )));
         } catch (ConditionalCheckFailedException e) {
             throw new IllegalArgumentException("id has already been used");
         }
