@@ -11,7 +11,6 @@ import java.util.Set;
 @DynamoDBTable(tableName = "ChefMateUser")
 public class ChefMateUserRecord {
     private String userId;
-    private String userName;
     private List<String> userPreferences;
     private Set<String> recipesTried;
     private Set<String> ingredients;
@@ -19,11 +18,6 @@ public class ChefMateUserRecord {
     @DynamoDBHashKey(attributeName = "userId")
     public String getUserId() {
         return userId;
-    }
-
-    @DynamoDBAttribute(attributeName = "userName")
-    public String getUserName() {
-        return userName;
     }
 
     @DynamoDBAttribute(attributeName = "userPreferences")
@@ -43,10 +37,6 @@ public class ChefMateUserRecord {
 
     public void setUserId(String userId) {
         this.userId = userId;
-    }
-
-    public void setUserName(String userName) {
-        this.userName = userName;
     }
 
     public void setUserPreferences(List<String> userPreferences) {
