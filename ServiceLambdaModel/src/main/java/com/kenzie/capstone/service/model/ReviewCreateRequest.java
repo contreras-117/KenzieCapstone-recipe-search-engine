@@ -1,12 +1,12 @@
 package com.kenzie.capstone.service.model;
 
-public class ReviewRequest {
+public class ReviewCreateRequest {
     private String recipeId;
     private String reviewerId;
     private Double rating;
     private String comment;
 
-    public ReviewRequest(String recipeId, String reviewerId, Double rating, String comment) {
+    public ReviewCreateRequest(String recipeId, String reviewerId, Double rating, String comment) {
         this.recipeId = recipeId;
         this.reviewerId = reviewerId;
         this.rating = rating;

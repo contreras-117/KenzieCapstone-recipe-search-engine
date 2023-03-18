@@ -3,7 +3,7 @@ package com.kenzie.capstone.service;
 import com.kenzie.capstone.service.converter.ReviewConverter;
 import com.kenzie.capstone.service.dao.ReviewDao;
 import com.kenzie.capstone.service.model.ReviewRecord;
-import com.kenzie.capstone.service.model.ReviewRequest;
+import com.kenzie.capstone.service.model.ReviewCreateRequest;
 import com.kenzie.capstone.service.model.ReviewResponse;
 
 import javax.inject.Inject;
@@ -30,7 +30,7 @@ public class ReviewService {
 //        RecipeRecord record = exampleDao.setExampleData(id, data);
 //        return new ExampleData(id, data);
 //    }
-    public ReviewResponse addReview(ReviewRequest review) {
+    public ReviewResponse addReview(ReviewCreateRequest review) {
         //TODO implement all ID checks
 //        if (review == null ||)
         ReviewRecord record = new ReviewRecord();

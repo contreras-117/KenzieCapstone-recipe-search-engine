@@ -1,9 +1,6 @@
 package com.kenzie.capstone.service.client;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.kenzie.capstone.service.model.ReviewRequest;
-import com.kenzie.capstone.service.model.ReviewResponse;
 
 
 public class RecipeLambdaServiceClient {

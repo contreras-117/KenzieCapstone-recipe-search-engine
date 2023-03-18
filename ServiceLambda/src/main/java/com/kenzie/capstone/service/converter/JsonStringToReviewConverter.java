@@ -3,15 +3,15 @@ package com.kenzie.capstone.service.converter;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.kenzie.capstone.service.exceptions.InvalidDataException;
-import com.kenzie.capstone.service.model.ReviewRequest;
+import com.kenzie.capstone.service.model.ReviewCreateRequest;
 
 public class JsonStringToReviewConverter {
-    public ReviewRequest convert(String body) {
+    public ReviewCreateRequest convert(String body) {
         try {
             GsonBuilder builder = new GsonBuilder();
             Gson gson = builder.create();
-            ReviewRequest reviewRequest = gson.fromJson(body, ReviewRequest.class);
-            return reviewRequest;
+            ReviewCreateRequest reviewCreateRequest = gson.fromJson(body, ReviewCreateRequest.class);
+            return reviewCreateRequest;
         } catch (Exception e) {
             throw new InvalidDataException("Referral could not be deserialized");
         }

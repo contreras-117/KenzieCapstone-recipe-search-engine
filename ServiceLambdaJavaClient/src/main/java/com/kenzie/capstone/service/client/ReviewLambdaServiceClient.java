@@ -2,8 +2,7 @@ package com.kenzie.capstone.service.client;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.kenzie.capstone.service.model.Review;
-import com.kenzie.capstone.service.model.ReviewRequest;
+import com.kenzie.capstone.service.model.ReviewCreateRequest;
 import com.kenzie.capstone.service.model.ReviewResponse;
 
 
@@ -30,11 +29,11 @@ public class ReviewLambdaServiceClient {
 //        return review;
 //    }
 
-    public ReviewResponse addReview(ReviewRequest reviewRequest) {
+    public ReviewResponse addReview(ReviewCreateRequest reviewCreateRequest) {
         EndpointUtility endpointUtility = new EndpointUtility();
         String request;
         try {
-            request = mapper.writeValueAsString(reviewRequest);
+            request = mapper.writeValueAsString(reviewCreateRequest);
         } catch(JsonProcessingException e) {
             throw new ApiGatewayException("Unable to serialize request: " + e);
         }

@@ -11,7 +11,7 @@ import com.amazonaws.services.lambda.runtime.events.APIGatewayProxyRequestEvent;
 import com.amazonaws.services.lambda.runtime.events.APIGatewayProxyResponseEvent;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.kenzie.capstone.service.model.ReviewRequest;
+import com.kenzie.capstone.service.model.ReviewCreateRequest;
 import com.kenzie.capstone.service.model.ReviewResponse;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -32,7 +32,7 @@ public class AddReview implements RequestHandler<APIGatewayProxyRequestEvent, AP
         log.info(gson.toJson(input));
 
         ServiceComponent serviceComponent = DaggerServiceComponent.create();
-        ReviewService lambdaService = serviceComponent.provideLambdaService();
+        ReviewService reviewLambdaService = serviceComponent.provideLambdaService();
         Map<String, String> headers = new HashMap<>();
         headers.put("Content-Type", "application/json");
 
@@ -48,8 +48,8 @@ public class AddReview implements RequestHandler<APIGatewayProxyRequestEvent, AP
         }
 
         try {
-            ReviewRequest reviewRequest = converter.convert(input.getBody());
-            ReviewResponse reviewResponse = lambdaService.addReview(reviewRequest);
+            ReviewCreateRequest reviewCreateRequest = converter.convert(input.getBody());
+            ReviewResponse reviewResponse = reviewLambdaService.addReview(reviewCreateRequest);
 
             return response
                     .withStatusCode(200)
