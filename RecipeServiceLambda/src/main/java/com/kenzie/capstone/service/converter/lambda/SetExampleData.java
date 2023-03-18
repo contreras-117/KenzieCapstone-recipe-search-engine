@@ -25,8 +25,8 @@ public class SetExampleData implements RequestHandler<APIGatewayProxyRequestEven
 
         log.info(gson.toJson(input));
 
-        ServiceComponent serviceComponent = DaggerServiceComponent.create();
-        RecipeService lambdaService = serviceComponent.provideLambdaService();
+//        ServiceComponent serviceComponent = DaggerServiceComponent.create();
+//        RecipeService lambdaService = serviceComponent.provideLambdaService();
         Map<String, String> headers = new HashMap<>();
         headers.put("Content-Type", "application/json");
 
