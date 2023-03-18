@@ -1,6 +1,7 @@
 package com.kenzie.capstone.service.lambda;
 
 import com.kenzie.capstone.service.ReviewService;
+import com.kenzie.capstone.service.converter.JsonStringToReviewConverter;
 import com.kenzie.capstone.service.dependency.ServiceComponent;
 import com.kenzie.capstone.service.dependency.DaggerServiceComponent;
 
@@ -10,6 +11,8 @@ import com.amazonaws.services.lambda.runtime.events.APIGatewayProxyRequestEvent;
 import com.amazonaws.services.lambda.runtime.events.APIGatewayProxyResponseEvent;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.kenzie.capstone.service.model.ReviewRequest;
+import com.kenzie.capstone.service.model.ReviewResponse;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -22,6 +25,7 @@ public class SetExampleData implements RequestHandler<APIGatewayProxyRequestEven
 
     @Override
     public APIGatewayProxyResponseEvent handleRequest(APIGatewayProxyRequestEvent input, Context context) {
+        JsonStringToReviewConverter converter = new JsonStringToReviewConverter();
         GsonBuilder builder = new GsonBuilder();
         Gson gson = builder.create();
 
@@ -43,19 +47,18 @@ public class SetExampleData implements RequestHandler<APIGatewayProxyRequestEven
                     .withBody("data is invalid");
         }
 
-//        try {
-//            ExampleData exampleData = lambdaService.setExampleData(data);
-//            String output = gson.toJson(exampleData);
-//
-//            return response
-//                    .withStatusCode(200)
-//                    .withBody(output);
-//
-//        } catch (Exception e) {
-//            return response
-//                    .withStatusCode(400)
-//                    .withBody(gson.toJson(e.getMessage()));
-//        }
-        return null;
+        try {
+            ReviewRequest reviewRequest = converter.convert(input.getBody());
+            ReviewResponse reviewResponse = lambdaService.addReview(reviewRequest);
+
+            return response
+                    .withStatusCode(200)
+                    .withBody(gson.toJson(reviewResponse));
+
+        } catch (Exception e) {
+            return response
+                    .withStatusCode(400)
+                    .withBody(gson.toJson(e.getMessage()));
+        }
     }
 }

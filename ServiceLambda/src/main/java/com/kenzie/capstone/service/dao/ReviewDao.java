@@ -22,6 +22,7 @@ public class ReviewDao {
 
     public ReviewRecord addReview(ReviewRecord record) {
         try {
+            //TODO change true to false
             Map<String, ExpectedAttributeValue> expected =
                     Map.of("recipeId", new ExpectedAttributeValue().withExists(true),
                             "reviewerId", new ExpectedAttributeValue().withExists(true));
