@@ -1,21 +1,15 @@
 package com.kenzie.appserver.controller;
 
-import com.kenzie.appserver.IntegrationTest;
-
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.kenzie.appserver.IntegrationTest;
 import net.andreinc.mockneat.MockNeat;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.web.servlet.MockMvc;
 
-import static org.hamcrest.Matchers.is;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
-
 
 @IntegrationTest
-class ReviewControllerTest {
+class ReviewLambdaTest {
     @Autowired
     private MockMvc mvc;
 
@@ -41,6 +35,7 @@ class ReviewControllerTest {
 
     @Test
     public void createExample_CreateSuccessful() throws Exception {
+
 //        String name = mockNeat.strings().valStr();
 //
 //        ExampleCreateRequest exampleCreateRequest = new ExampleCreateRequest();
