@@ -1,6 +1,7 @@
 package com.kenzie.capstone.service;
 
-import com.kenzie.capstone.service.dao.ReviewDao;
+import com.kenzie.capstone.service.ReviewServiceLambda.ReviewService;
+import com.kenzie.capstone.service.ReviewServiceLambda.dao.ReviewDao;
 
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;

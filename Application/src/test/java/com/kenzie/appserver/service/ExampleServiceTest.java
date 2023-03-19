@@ -1,6 +1,6 @@
 package com.kenzie.appserver.service;
 
-import com.kenzie.capstone.service.client.ReviewLambdaServiceClient;
+import com.kenzie.capstone.service.client.ReviewServiceLambdaJavaClient.ReviewLambdaServiceClient;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

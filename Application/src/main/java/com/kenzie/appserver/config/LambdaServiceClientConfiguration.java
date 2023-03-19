@@ -1,6 +1,6 @@
 package com.kenzie.appserver.config;
 
-import com.kenzie.capstone.service.client.ReviewLambdaServiceClient;
+import com.kenzie.capstone.service.client.ReviewServiceLambdaJavaClient.ReviewLambdaServiceClient;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
