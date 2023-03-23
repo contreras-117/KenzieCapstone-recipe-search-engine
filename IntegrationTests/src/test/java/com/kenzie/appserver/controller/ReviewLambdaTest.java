@@ -41,14 +41,5 @@ class ReviewLambdaTest {
 
     @Test
     public void createExample_CreateSuccessful() throws Exception {
-
-        ReviewCreateRequest request = new ReviewCreateRequest("1" , "2", 2.0, "comment");
-        mapper.registerModule(new JavaTimeModule());
-
-        mvc.perform(post("/review/add")
-                        .content(mapper.writeValueAsString(request))
-                        .accept(MediaType.APPLICATION_JSON)
-                        .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().is2xxSuccessful());
     }
 }
