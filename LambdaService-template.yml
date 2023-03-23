@@ -34,7 +34,7 @@ Resources:
     Type: AWS::Serverless::Function
     Properties:
       CodeUri: ServiceLambda/build/distributions/ServiceLambda.zip
-      Handler: com.kenzie.capstone.service.lambda.AddReview
+      Handler: com.kenzie.capstone.service.ReviewServiceLambda.lambda.AddReview
       Runtime: java11
       Description: Set Example Data
       MemorySize: 512
