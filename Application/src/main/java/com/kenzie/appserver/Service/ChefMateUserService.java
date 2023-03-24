@@ -1,12 +1,15 @@
 package com.kenzie.appserver.Service;
 
 import com.kenzie.appserver.controller.model.ChefMateUserResponse;
+import com.kenzie.appserver.controller.model.CreateChefMateUserRequest;
 import com.kenzie.appserver.repositories.ChefMateUserRepository;
 import com.kenzie.appserver.repositories.model.ChefMateUserRecord;
 import com.kenzie.capstone.service.client.ReviewServiceLambdaJavaClient.ReviewLambdaServiceClient;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 @Service
 public class ChefMateUserService {
@@ -23,7 +26,7 @@ public class ChefMateUserService {
     /**
      * getUserById
      * @param userId
-     * @return The Customer with the given customerId
+     * @return The user with the given userId
      */
     public ChefMateUserResponse getUserById(String userId) {
 
@@ -32,6 +35,29 @@ public class ChefMateUserService {
                 .map(this::toChefMateUserResponse)
                 .orElse(null);
 
+    }
+
+    /**
+     * addNewUser
+     *
+     * This creates a new user.
+     * @param createChefMateUserRequest
+     * @return A CustomerResponse describing the customer
+     */
+    public ChefMateUserResponse addNewUser(CreateChefMateUserRequest createChefMateUserRequest) {
+
+        Optional<List<String>> userPreferences = createChefMateUserRequest.getUserPreferences();
+        Optional<Set<String>> recipesTried = createChefMateUserRequest.getRecipesTried();
+        Optional<Set<String>> ingredients = createChefMateUserRequest.getIngredients();
+
+        ChefMateUserRecord newRecord = new ChefMateUserRecord();
+        newRecord.setUserId(createChefMateUserRequest.getUserId());
+        userPreferences.ifPresent(newRecord::setUserPreferences);
+        recipesTried.ifPresent(newRecord::setRecipesTried);
+        ingredients.ifPresent(newRecord::setIngredients);
+
+        chefMateUserRepository.save(newRecord);
+        return toChefMateUserResponse(newRecord);
     }
 
 
