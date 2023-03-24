@@ -60,7 +60,11 @@ public class ChefMateUserController {
 
     @GetMapping("/getUserById/{userId}")
     public ResponseEntity<ChefMateUserResponse> getUserById(@PathVariable("userId") String userId) {
-        return null;
+        ChefMateUserResponse userResponse = chefMateUserService.getUserById(userId);
+        if (userResponse == null) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(userResponse);
     }
 
     @DeleteMapping("/deleteUser/{userId}")
