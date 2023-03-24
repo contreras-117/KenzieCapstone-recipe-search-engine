@@ -50,7 +50,9 @@ public class ChefMateUserController {
 
     @PutMapping("/userPreferences/{userPreferences}")
     public ResponseEntity<ChefMateUserResponse> updateUserPreferences(@PathVariable("userPreferences") List<String> userPreferences, @RequestBody UpdateUserPreferencesRequest updateUserPreferencesRequest) {
-        return null;
+
+        ChefMateUserResponse response = chefMateUserService.updateUserPreferences(updateUserPreferencesRequest.getUserId(), updateUserPreferencesRequest.getUserPreferences());
+        return ResponseEntity.ok(response);
     }
 
     @PutMapping("/recipesTried/{recipesTried}")

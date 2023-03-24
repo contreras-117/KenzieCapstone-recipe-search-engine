@@ -2,10 +2,10 @@ package com.kenzie.appserver.controller.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import javax.validation.constraints.NotEmpty;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
+import javax.validation.constraints.NotEmpty;
 
 public class CreateChefMateUserRequest {
     @NotEmpty

@@ -5,7 +5,9 @@ import com.kenzie.appserver.controller.model.CreateChefMateUserRequest;
 import com.kenzie.appserver.repositories.ChefMateUserRepository;
 import com.kenzie.appserver.repositories.model.ChefMateUserRecord;
 import com.kenzie.capstone.service.client.ReviewServiceLambdaJavaClient.ReviewLambdaServiceClient;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 import java.util.Optional;
@@ -58,6 +60,23 @@ public class ChefMateUserService {
 
         chefMateUserRepository.save(newRecord);
         return toChefMateUserResponse(newRecord);
+    }
+
+    /**
+     * updateUserPreferences - This updates the customer name for the given customer id
+     * @param userId - The Id of the user to update
+     * @param userPreferences - The new preferences for the user
+     */
+    public ChefMateUserResponse updateUserPreferences(String userId, Optional<List<String>> userPreferences) {
+
+        Optional<ChefMateUserRecord> user = chefMateUserRepository.findById(userId);
+        ChefMateUserRecord userRecord = user
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST, "User Not Found"));
+
+        userPreferences.ifPresent(userRecord::setUserPreferences);
+        chefMateUserRepository.save(userRecord);
+
+        return toChefMateUserResponse(userRecord);
     }
 
     /**
