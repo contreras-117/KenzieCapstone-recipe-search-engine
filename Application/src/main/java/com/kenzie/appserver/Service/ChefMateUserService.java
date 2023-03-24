@@ -60,6 +60,14 @@ public class ChefMateUserService {
         return toChefMateUserResponse(newRecord);
     }
 
+    /**
+     * deleteUser - This deletes the user record for the given user id
+     * @param userId
+     */
+    public void deleteUser(String userId) {
+        chefMateUserRepository.deleteById(userId);
+    }
+
 
     /* -----------------------------------------------------------------------------------------------------------
     Private Methods

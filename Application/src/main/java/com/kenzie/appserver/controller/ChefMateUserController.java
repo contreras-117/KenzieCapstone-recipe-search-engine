@@ -68,8 +68,9 @@ public class ChefMateUserController {
     }
 
     @DeleteMapping("/deleteUser/{userId}")
-    public ResponseEntity deleteUserById(@PathVariable("userId") String userId) {
-        return null;
+    public ResponseEntity deleteUser(@PathVariable("userId") String userId) {
+        chefMateUserService.deleteUser(userId);
+        return ResponseEntity.ok().build();
     }
 
 
