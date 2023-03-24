@@ -63,17 +63,34 @@ public class ChefMateUserService {
     }
 
     /**
-     * updateUserPreferences - This updates the customer name for the given customer id
+     * updateUserPreferences - This updates the list of userPreferences for the given user id
      * @param userId - The Id of the user to update
      * @param userPreferences - The new preferences for the user
      */
-    public ChefMateUserResponse updateUserPreferences(String userId, Optional<List<String>> userPreferences) {
+    public ChefMateUserResponse updateUserPreferences(String userId, List<String> userPreferences) {
 
         Optional<ChefMateUserRecord> user = chefMateUserRepository.findById(userId);
         ChefMateUserRecord userRecord = user
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST, "User Not Found"));
 
-        userPreferences.ifPresent(userRecord::setUserPreferences);
+        userRecord.setUserPreferences(userPreferences);
+        chefMateUserRepository.save(userRecord);
+
+        return toChefMateUserResponse(userRecord);
+    }
+
+    /**
+     * updateUserPreferences - This updates the set of recipesTried for the given user id
+     * @param userId - The Id of the user to update
+     * @param recipesTried - The new recipesTried for the user
+     */
+    public ChefMateUserResponse updateRecipesTried(String userId, Set<String> recipesTried) {
+
+        Optional<ChefMateUserRecord> user = chefMateUserRepository.findById(userId);
+        ChefMateUserRecord userRecord = user
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST, "User Not Found"));
+
+        userRecord.setRecipesTried(recipesTried);
         chefMateUserRepository.save(userRecord);
 
         return toChefMateUserResponse(userRecord);

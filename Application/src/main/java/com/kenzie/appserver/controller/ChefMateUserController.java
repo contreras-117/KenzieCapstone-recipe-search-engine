@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.net.URI;
+import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 
@@ -51,13 +52,14 @@ public class ChefMateUserController {
     @PutMapping("/userPreferences/{userPreferences}")
     public ResponseEntity<ChefMateUserResponse> updateUserPreferences(@PathVariable("userPreferences") List<String> userPreferences, @RequestBody UpdateUserPreferencesRequest updateUserPreferencesRequest) {
 
-        ChefMateUserResponse response = chefMateUserService.updateUserPreferences(updateUserPreferencesRequest.getUserId(), updateUserPreferencesRequest.getUserPreferences());
+        ChefMateUserResponse response = chefMateUserService.updateUserPreferences(updateUserPreferencesRequest.getUserId(), updateUserPreferencesRequest.getUserPreferences().orElse(Collections.emptyList()));
         return ResponseEntity.ok(response);
     }
 
     @PutMapping("/recipesTried/{recipesTried}")
     public ResponseEntity<ChefMateUserResponse> updateRecipesTried(@PathVariable("recipesTried") Set<String> recipesTried, @RequestBody UpdateRecipesTriedRequest updateRecipesTriedRequest) {
-        return null;
+        ChefMateUserResponse response = chefMateUserService.updateRecipesTried(updateRecipesTriedRequest.getUserId(), updateRecipesTriedRequest.getRecipesTried().orElse(Collections.emptySet()));
+        return ResponseEntity.ok(response);
     }
 
     @GetMapping("/getUserById/{userId}")
