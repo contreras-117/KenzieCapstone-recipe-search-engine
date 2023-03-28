@@ -36,6 +36,88 @@
             <img id="img-placeholder" src="https://www.chansmiles.com/wp-content/uploads/2021/11/thanksgiving-meal.jpg">
         </section>
 
+        <div class="form-popup" id="search-by-nutrients-window" style="display: none;">
+            <form class="search-by-nutrients-form">
+                <!--                <h1>Search By Nutrients</h1>-->
+                <section id="first-section-search-by-nutrients">
+                    <ul>
+                        <label>Min Carbs</label>
+                        <li class="nutrients-listings">
+                            <input type="number" id="min-carbs-input">
+                        </li>
+                        <label>Max Carbs</label>
+                        <li class="nutrients-listings">
+                            <input type="number" id="max-carbs-input">
+                        </li>
+                        <label>Min Protein</label>
+                        <li class="nutrients-listings">
+                            <input type="number" id-="min-protein-input">
+                        </li>
+                        <label>Max Protein</label>
+                        <li class="nutrients-listings">
+                            <input type="number" id="max-protein-input">
+                        </li>
+                        <label>Min Calories</label>
+                        <li class="nutrients-listings">
+                            <input type="number" id="min-calories-input">
+                        </li>
+                        <label>Max Calories</label>
+                        <li class="nutrients-listings">
+                            <input type="number" id="max-calories-input">
+                        </li>
+                        <label>Min Sodium</label>
+                        <li class="nutrients-listings">
+                            <input type="number" id="min-sodium-input">
+                        </li>
+                        <label>Max Sodium</label>
+                        <li class="nutrients-listings">
+                            <input type="number" id="max-sodium-input">
+                        </li>
+                    </ul>
+                </section>
+                <section id="second-section-search-by-nutrients">
+                    <ul>
+                        <label>Min Sugar</label>
+                        <li class="nutrients-listings">
+                            <input type="number" id="min-sugar-input">
+                        </li>
+                        <label>Max Sugar</label>
+                        <li class="nutrients-listings">
+                            <input type="number" id="max-sugar-input">
+                        </li>
+                        <label>Min Fiber</label>
+                        <li class="nutrients-listings" id="min-fiber-input">
+                            <input type="number">
+                        </li>
+                        <label>Max Fiber</label>
+                        <li class="nutrients-listings" id="max-fiber-input">
+                            <input type="number">
+                        </li>
+                        <label>Min Iron</label>
+                        <li class="nutrients-listings" id="min-iron-input">
+                            <input type="number">
+                        </li>
+                        <label>Max Iron</label>
+                        <li class="nutrients-listings" id="max-iron-input">
+                            <input type="number">
+                        </li>
+                        <label>Min Cholesterol</label>
+                        <li class="nutrients-listings" id="min-cholesterol-input">
+                            <input type="number">
+                        </li>
+                        <label>Max Cholesterol</label>
+                        <li class="nutrients-listings" id="max-cholesterol-input">
+                            <input type="number">
+                        </li>
+                    </ul>
+                </section>
+                <button id="search-by-nutrients-submit" type="submit" class="btn">Search</button>
+            </form>
+            <div id="close-search-by-nutrients-window">
+                <button id="close-button" type="button" class="btn cancel" onclick="closeForm()">Close</button>
+            </div>
+        </div>
+
         <section class="split-view">
 
             <div id="intro-header-container">
@@ -63,7 +145,7 @@
                         <ul class="dropdown-menu">
                             <li><a class="dropdown-item" href="https://www.google.com">Google</a></li>
                             <li><a class="dropdown-item" href="https://www.youtube.com">YouTube</a></li>
-                            <li><a class="dropdown-item" href="#">Something else here</a></li>
+                            <li><a class="dropdown-item" href="#" onclick="openForm()">Search By Nutrients</a></li>
                         </ul>
                     </div>
                     <input class="form-control mr-sm-2" type="search" placeholder="Search" required class="validated-field" id="search-field">
@@ -100,6 +182,16 @@
         <h2>Reviews:</h2>
         <p id="result-info"></p>
     </div>
+
+    <script>
+function openForm() {
+  document.getElementById("search-by-nutrients-window").style.display = "block";
+}
+
+function closeForm() {
+  document.getElementById("search-by-nutrients-window").style.display = "none";
+}
+</script>
 
 </body>
 </html>
