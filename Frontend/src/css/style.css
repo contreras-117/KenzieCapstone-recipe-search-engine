@@ -310,6 +310,7 @@ ul {
     list-style-type: none;
 }
 
+<<<<<<< HEAD
 .content {
     width: 20em;
     margin: 15px;
@@ -381,6 +382,8 @@ ul {
 }*/
 
 
+=======
+>>>>>>> fe649d8 (SearchByNutrients feature and added)
 /*
 .dropdown-menu {
     position: absolute;
@@ -412,6 +415,7 @@ ul {
     background-color: transparent;
     border: 0;
 }*/
+<<<<<<< HEAD
 
 #review-section {
     color: var(--primary-color);
@@ -449,3 +453,5 @@ ul {
   background-color: rgba(0, 0, 0, .5);
   -webkit-box-shadow: 0 0 1px rgba(255, 255, 255, .5);
 }
+=======
+>>>>>>> fe649d8 (SearchByNutrients feature and added)
