@@ -1,16 +1,27 @@
 package com.kenzie.capstone.service.model.ReviewServiceLambdaModel;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
+
+
 public class ReviewCreateRequest {
+
+    @JsonProperty("recipeId")
     private String recipeId;
+
+    @JsonProperty("reviewerId")
     private String reviewerId;
+    @JsonProperty("rating")
     private Double rating;
+
+    @JsonProperty("comment")
     private String comment;
 
-    public ReviewCreateRequest(String recipeId, String reviewerId, Double rating, String comment) {
-        this.recipeId = recipeId;
-        this.reviewerId = reviewerId;
-        this.rating = rating;
+    ReviewCreateRequest(String recipeId, String reviewerId, Double rating, String comment) {
         this.comment = comment;
+        this.rating = rating;
+        this.reviewerId = reviewerId;
+        this.recipeId = recipeId;
     }
 
     public String getRecipeId() {

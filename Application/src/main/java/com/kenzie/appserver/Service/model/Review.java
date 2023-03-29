@@ -1,6 +1,4 @@
-package com.kenzie.capstone.service.model.ReviewServiceLambdaModel;
-
-import java.util.Objects;
+package com.kenzie.appserver.Service.model;
 
 public class Review {
     private String recipeId;
@@ -8,12 +6,11 @@ public class Review {
     private Double rating;
     private String comment;
 
-
     public Review(String recipeId, String reviewerId, Double rating, String comment) {
-        this.recipeId = recipeId;
-        this.reviewerId = reviewerId;
-        this.rating = rating;
         this.comment = comment;
+        this.rating = rating;
+        this.reviewerId = reviewerId;
+        this.recipeId = recipeId;
     }
 
     public String getRecipeId() {
@@ -46,25 +43,5 @@ public class Review {
 
     public void setComment(String comment) {
         this.comment = comment;
-    }
-
-    public Review() {}
-
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) {
-            return true;
-        }
-        if (o == null || getClass() != o.getClass()) {
-            return false;
-        }
-        Review that = (Review) o;
-        return Objects.equals(recipeId, that.recipeId) && Objects.equals(reviewerId, that.reviewerId);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(recipeId, reviewerId);
     }
 }

@@ -1,27 +1,16 @@
 package com.kenzie.capstone.service.model.ReviewServiceLambdaModel;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.annotation.JsonProperty;
-@JsonInclude(JsonInclude.Include.NON_NULL)
-public class ReviewResponse {
-
-    @JsonProperty("recipeId")
+public class ReviewData {
     private String recipeId;
-    @JsonProperty("reviewerId")
     private String reviewerId;
-    @JsonProperty("rating")
     private Double rating;
-    @JsonProperty("comment")
     private String comment;
 
-    ReviewResponse(String recipeId, String reviewerId, Double rating, String comment) {
+    public ReviewData(String recipeId, String reviewerId, Double rating, String comment) {
         this.comment = comment;
         this.rating = rating;
         this.reviewerId = reviewerId;
         this.recipeId = recipeId;
-    }
-
-    public ReviewResponse() {
     }
 
     public String getRecipeId() {
