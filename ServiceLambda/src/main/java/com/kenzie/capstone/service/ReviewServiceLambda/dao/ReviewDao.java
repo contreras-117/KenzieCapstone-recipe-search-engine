@@ -5,7 +5,7 @@ import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBSaveExpression;
 import com.amazonaws.services.dynamodbv2.model.ConditionalCheckFailedException;
 import com.amazonaws.services.dynamodbv2.model.ExpectedAttributeValue;
 import com.google.common.collect.ImmutableMap;
-import com.kenzie.capstone.service.model.ReviewRecord;
+import com.kenzie.capstone.service.model.ReviewServiceLambdaModel.ReviewRecord;
 
 public class ReviewDao {
     private DynamoDBMapper mapper;

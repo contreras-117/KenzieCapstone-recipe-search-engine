@@ -1,4 +1,4 @@
-package com.kenzie.capstone.service.model;
+package com.kenzie.capstone.service.model.ReviewServiceLambdaModel;
 
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBAttribute;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBHashKey;

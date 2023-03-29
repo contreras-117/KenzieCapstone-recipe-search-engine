@@ -31,11 +31,11 @@ public class ReviewLambdaServiceClient {
 //        return review;
 //    }
 
-    public ReviewResponse addReview(ReviewCreateRequest reviewCreateRequest) {
+    public ReviewResponse addReview(ReviewCreateRequest taliaIsGreat) {
         EndpointUtility endpointUtility = new EndpointUtility();
         String request;
         try {
-            request = mapper.writeValueAsString(reviewCreateRequest);
+            request = mapper.writeValueAsString(taliaIsGreat);
         } catch(JsonProcessingException e) {
             throw new ApiGatewayException("Unable to serialize request: " + e);
         }

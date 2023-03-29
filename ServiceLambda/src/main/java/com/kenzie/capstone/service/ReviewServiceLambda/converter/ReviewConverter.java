@@ -1,6 +1,6 @@
 package com.kenzie.capstone.service.ReviewServiceLambda.converter;
 
-import com.kenzie.capstone.service.model.ReviewRecord;
+import com.kenzie.capstone.service.model.ReviewServiceLambdaModel.ReviewRecord;
 import com.kenzie.capstone.service.model.ReviewServiceLambdaModel.ReviewResponse;
 
 public class ReviewConverter {

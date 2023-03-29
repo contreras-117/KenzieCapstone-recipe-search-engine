@@ -12,6 +12,7 @@ import com.amazonaws.services.lambda.runtime.events.APIGatewayProxyResponseEvent
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.kenzie.capstone.service.model.ReviewServiceLambdaModel.ReviewCreateRequest;
+import com.kenzie.capstone.service.model.ReviewServiceLambdaModel.ReviewData;
 import com.kenzie.capstone.service.model.ReviewServiceLambdaModel.ReviewResponse;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -49,11 +50,11 @@ public class AddReview implements RequestHandler<APIGatewayProxyRequestEvent, AP
 
         try {
             ReviewCreateRequest reviewCreateRequest = converter.convert(input.getBody());
-            ReviewResponse reviewResponse = reviewLambdaService.addReview(reviewCreateRequest);
+            ReviewData reviewData = reviewLambdaService.setReviewData(reviewCreateRequest);
 
             return response
                     .withStatusCode(200)
-                    .withBody(gson.toJson(reviewResponse));
+                    .withBody(gson.toJson(reviewData));
 
         } catch (Exception e) {
             return response
