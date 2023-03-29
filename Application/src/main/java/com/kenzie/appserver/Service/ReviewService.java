@@ -6,7 +6,9 @@ import com.kenzie.appserver.repositories.ReviewRepository;
 import com.kenzie.capstone.service.client.ReviewServiceLambdaJavaClient.ReviewLambdaServiceClient;
 import com.kenzie.capstone.service.model.ReviewServiceLambdaModel.ReviewRecord;
 import com.kenzie.capstone.service.model.ReviewServiceLambdaModel.ReviewResponse;
+import org.springframework.stereotype.Service;
 
+@Service
 public class ReviewService {
     private ReviewRepository reviewRepository;
     private ReviewLambdaServiceClient lambdaServiceClient;
