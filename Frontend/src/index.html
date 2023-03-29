@@ -32,8 +32,26 @@
 
     <div id = "homepage">
 
-        <section class ="split-view">
+<!--        <section class ="split-view" id="rendering-recipes-section">
             <img id="img-placeholder" src="https://www.chansmiles.com/wp-content/uploads/2021/11/thanksgiving-meal.jpg">
+        </section>-->
+        <section class ="split-view" id="rendering-recipes-section">
+            <div class="recipes">
+                <div class="content">
+                    <img class="recipe-image" src='https://www.chansmiles.com/wp-content/uploads/2021/11/thanksgiving-meal.jpg'>
+                    <div class="recipe-title">
+                        <h5>Crispy Swiss Chard Cakes with Mascarpone-Creamed Spinach</h5>
+                    </div>
+                    <div class="recipe-content">
+                        <ul>
+                            <li>Recipe ID:</li>
+                            <li>ETA: 120 min</li>
+                            <li>Servings:</li>
+                        </ul>
+                    </div>
+                    <button class="instructions-button">Instructions</button>
+                </div>
+            </div>
         </section>
 
         <div class="form-popup" id="search-by-nutrients-window" style="display: none;">
@@ -178,20 +196,44 @@
         </section>
     </div>
 
-    <div class="card" id="result">
+<!--    <div class="card" id="result">
         <h2>Reviews:</h2>
         <p id="result-info"></p>
+    </div>-->
+
+    <div id="reviews-header">
+        <h2>Reviews</h2>
     </div>
 
-    <script>
-function openForm() {
-  document.getElementById("search-by-nutrients-window").style.display = "block";
-}
+    <div id="review-section">
+        <div class="recipes" id="result-area">
+            <div class="content">
+                <img class="recipe-image" src='https://www.chansmiles.com/wp-content/uploads/2021/11/thanksgiving-meal.jpg'>
+                <div class="recipe-title">
+                    <h5>Crispy Swiss Chard Cakes with Mascarpone-Creamed Spinach</h5>
+                </div>
+                <div class="recipe-content">
+                    <ul>
+                        <li>Recipe ID:</li>
+                        <li>ETA: 120 min</li>
+                        <li>Servings:</li>
+                    </ul>
+                </div>
+                <button class="instructions-button">Instructions</button>
+            </div>
+        </div>
+    </div>
+    <br>
 
-function closeForm() {
-  document.getElementById("search-by-nutrients-window").style.display = "none";
-}
-</script>
+    <script>
+        function openForm() {
+            document.getElementById("search-by-nutrients-window").style.display = "block";
+        }
+
+        function closeForm() {
+            document.getElementById("search-by-nutrients-window").style.display = "none";
+        }
+    </script>
 
 </body>
 </html>

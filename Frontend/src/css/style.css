@@ -6,7 +6,7 @@
 }
 
 .background {
-    background-color: #eaeded;
+    background-color: var(--secondary-color);
     margin: 0;
     counter-reset: section;
 }
@@ -109,7 +109,7 @@
 }
 
 .split-view {
-    width: 100%;
+    width: 50%;
 }
 
 /*#intro-header-container {
@@ -310,6 +310,77 @@ ul {
     list-style-type: none;
 }
 
+.content {
+    width: 20em;
+    margin: 15px;
+    height: 25em;
+    box-sizing: border-box;
+    float: left;
+    border-radius: 5% 5% 5px 5px;
+    cursor: pointer;
+    padding-top: 10px;
+    /*box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);*/
+    box-shadow: 0 3px 6px rgba(0,0,0,0.16);
+    transition: .4s;
+    margin-left: 22px;
+}
+
+.recipe-content {
+    margin-left: -20px;
+}
+
+.recipe-title {
+    padding: 10px;
+    text-align: center;
+}
+
+.recipe-image {
+    width: 100%;
+    height: 175px;
+    text-align: center;
+    margin-top: -10px;
+    display: block;
+}
+
+/*@media(max-width: 1000px) {
+    .content {
+        width: 45%;
+    }
+}
+
+@media(max-width: 750px) {
+    .content {
+        width: 100%;
+    }
+    }*/
+
+.content:hover {
+    box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+    transform: translate(0px, -8px);
+}
+
+.instructions-button {
+    width: 100%;
+    background: #87CEFA;
+    border-radius: 0 0 5px 5px;
+    border: none;
+    height: 63px;
+}
+
+.instructions-button:hover {
+    background: #00BFFF;
+}
+
+#rendering-recipes-section {
+    overflow-y: auto;
+    height: 900px;
+}
+
+/*.content:hover > .recipe-content {
+    display: block;
+}*/
+
+
 /*
 .dropdown-menu {
     position: absolute;
@@ -341,3 +412,40 @@ ul {
     background-color: transparent;
     border: 0;
 }*/
+
+#review-section {
+    color: var(--primary-color);
+    background-color: var(--secondary-color);
+    /*margin: 20px;*/
+    padding: 10px 20px;
+    width: 100%;
+    height: 30em;
+    overflow-x: auto;
+    display: flex;
+}
+
+#reviews-header {
+    color: var(--primary-color);
+    background-color: var(--secondary-color);
+    text-align: center;
+    padding-top: 20px;
+    padding-bottom: 5px;
+    margin-bottom: -10px;
+    border-top: 1px solid black;
+}
+
+#rendering-recipes-section::-webkit-scrollbar {
+    display: none
+}
+
+::-webkit-scrollbar {
+  -webkit-appearance: none;
+  width: 4px;
+  height: 7px;
+}
+
+::-webkit-scrollbar-thumb {
+  border-radius: 25px;
+  background-color: rgba(0, 0, 0, .5);
+  -webkit-box-shadow: 0 0 1px rgba(255, 255, 255, .5);
+}
