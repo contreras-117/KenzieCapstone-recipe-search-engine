@@ -310,7 +310,15 @@ ul {
     list-style-type: none;
 }
 
-<<<<<<< HEAD
+/*.catalog {
+    display: flex;
+    flex-wrap: wrap;
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+    margin: 50px 0;
+}*/
+
 .content {
     width: 20em;
     margin: 15px;
@@ -327,6 +335,7 @@ ul {
 }
 
 .recipe-content {
+    /*display: none;*/
     margin-left: -20px;
 }
 
@@ -341,6 +350,7 @@ ul {
     text-align: center;
     margin-top: -10px;
     display: block;
+/*    border-radius: 5% 5% 0 0;*/
 }
 
 /*@media(max-width: 1000px) {
@@ -360,10 +370,24 @@ ul {
     transform: translate(0px, -8px);
 }
 
+/*.content:hover > .recipe-content {
+    display: block;
+}
+
+.content:hover > .instructions-button {
+    display: block;
+
+}*/
+
 .instructions-button {
     width: 100%;
+    /*display: none;*/
     background: #87CEFA;
     border-radius: 0 0 5px 5px;
+/*    border-top: 1px solid black;*/
+/*    border-bottom: none;
+    border-left: none;
+    border-right: none;*/
     border: none;
     height: 63px;
 }
@@ -372,8 +396,13 @@ ul {
     background: #00BFFF;
 }
 
+.recipes {
+
+}
+
 #rendering-recipes-section {
     overflow-y: auto;
+
     height: 900px;
 }
 
@@ -382,8 +411,6 @@ ul {
 }*/
 
 
-=======
->>>>>>> fe649d8 (SearchByNutrients feature and added)
 /*
 .dropdown-menu {
     position: absolute;
@@ -415,7 +442,6 @@ ul {
     background-color: transparent;
     border: 0;
 }*/
-<<<<<<< HEAD
 
 #review-section {
     color: var(--primary-color);
@@ -430,12 +456,13 @@ ul {
 
 #reviews-header {
     color: var(--primary-color);
-    background-color: var(--secondary-color);
-    text-align: center;
-    padding-top: 20px;
-    padding-bottom: 5px;
-    margin-bottom: -10px;
-    border-top: 1px solid black;
+        background-color: var(--secondary-color);
+        text-align: center;
+        padding-top: 20px;
+        padding-bottom: 5px;
+        margin-bottom: -10px;
+            border-top: 1px solid black;
+
 }
 
 #rendering-recipes-section::-webkit-scrollbar {
@@ -453,5 +480,3 @@ ul {
   background-color: rgba(0, 0, 0, .5);
   -webkit-box-shadow: 0 0 1px rgba(255, 255, 255, .5);
 }
-=======
->>>>>>> fe649d8 (SearchByNutrients feature and added)
