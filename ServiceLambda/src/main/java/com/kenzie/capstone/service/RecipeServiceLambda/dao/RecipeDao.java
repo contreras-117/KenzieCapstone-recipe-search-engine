@@ -57,4 +57,51 @@ public class RecipeDao {
             return e.getMessage();
         }
     }
+
+    public String searchByNutrients(String query) {
+        HttpClient httpClient = HttpClient.newHttpClient();
+
+        HttpRequest request = HttpRequest.newBuilder()
+                .uri(URI.create(SPOONACULAR_API_URL + "/recipes/findByNutrients?" + query))
+                .header("Accept", "application/json")
+                .header("X-RapidAPI-Key", API_KEY)
+                .header("X-RapidAPI-Host", API_HEADER)
+                .GET()
+                .build();
+        try {
+            HttpResponse<String> httpResponse = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
+            int statusCode = httpResponse.statusCode();
+            if (statusCode == 200) {
+                return httpResponse.body();
+            } else {
+                return String.format("GET by nutrients failed: %d status code received", statusCode);
+            }
+        } catch (IOException | InterruptedException e) {
+            return e.getMessage();
+        }
+    }
+
+    public String getRecipeInformation(String recipeId) {
+        HttpClient httpClient = HttpClient.newHttpClient();
+
+        HttpRequest request = HttpRequest.newBuilder()
+                .uri(URI.create(SPOONACULAR_API_URL + "/recipes/" + recipeId + "/information"))
+                .header("Accept", "application/json")
+                .header("X-RapidAPI-Key", API_KEY)
+                .header("X-RapidAPI-Host", API_HEADER)
+                .GET()
+                .build();
+        try {
+            HttpResponse<String> httpResponse = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
+            int statusCode = httpResponse.statusCode();
+            if (statusCode == 200) {
+                return httpResponse.body();
+            } else {
+                return String.format("GET information by recipe ID failed: %d status code received", statusCode);
+            }
+        } catch (IOException | InterruptedException e) {
+            return e.getMessage();
+        }
+    }
+
 }

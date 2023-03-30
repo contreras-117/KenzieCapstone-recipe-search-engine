@@ -54,6 +54,34 @@ Resources:
           Properties:
             Path: /review/add
             Method: post
+  SearchByNutrientsFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: ServiceLambda/build/distributions/ServiceLambda.zip
+      Handler: com.kenzie.capstone.service.RecipeServiceLambda.lambda.SearchByNutrients
+      Runtime: java11
+      Description: Retrieves recipes with given nutrients
+      MemorySize: 512
+      Timeout: 240
+      # Function's execution role
+      Policies:
+        - AWSLambdaBasicExecutionRole
+        - AWSLambda_ReadOnlyAccess
+        - AWSXrayWriteOnlyAccess
+        - AWSLambdaVPCAccessExecutionRole
+        - AmazonS3FullAccess
+        - AmazonDynamoDBFullAccess
+      Tracing: Active
+      VpcConfig:
+        SecurityGroupIds: [ { "Fn::GetAtt": ["SecurityGroup", "GroupId"] } ]
+        StudentIds:
+          - !Ref PublicSubnet
+      Events:
+        UpdateResource:
+          Type: Api
+          Properties:
+            Path: /https://spoonacular-recipe-food-nutrition-v1.p.rapidapi.com/recipes/{findByNutrients?}
+            Method: get
 GetAllRecipesFunction:
   Type: AWS::Serverless::Function
   Properties:
