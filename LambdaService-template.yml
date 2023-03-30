@@ -82,3 +82,51 @@ Resources:
           Properties:
             Path: /https://spoonacular-recipe-food-nutrition-v1.p.rapidapi.com/recipes/{findByNutrients?}
             Method: get
+GetAllRecipesFunction:
+  Type: AWS::Serverless::Function
+  Properties:
+    CodeUri: ServiceLambda/build/distributions/ServiceLambda.zip
+    Handler: com.kenzie.capstone.service.lambda.GetAllRecipes
+    Runtime: java11
+    Description: Get all recipe data for query
+    MemorySize: 512
+    Timeout: 240
+    # Function's execution role
+    Policies:
+      - AWSLambdaBasicExecutionRole
+      - AWSLambda_ReadOnlyAccess
+      - AWSXrayWriteOnlyAccess
+      - AWSLambdaVPCAccessExecutionRole
+      - AmazonS3FullAccess
+      - AmazonDynamoDBFullAccess
+    Tracing: Active
+    Events:
+      UpdateResource:
+        Type: Api
+        Properties:
+          Path: /food/search/{query}
+          Method: get
+GetRandomRecipeFunction:
+  Type: AWS::Serverless::Function
+  Properties:
+    CodeUri: ServiceLambda/build/distributions/ServiceLambda.zip
+    Handler: com.kenzie.capstone.service.lambda.GetRandomRecipe
+    Runtime: java11
+    Description: Get random recipe
+    MemorySize: 512
+    Timeout: 240
+    # Function's execution role
+    Policies:
+      - AWSLambdaBasicExecutionRole
+      - AWSLambda_ReadOnlyAccess
+      - AWSXrayWriteOnlyAccess
+      - AWSLambdaVPCAccessExecutionRole
+      - AmazonS3FullAccess
+      - AmazonDynamoDBFullAccess
+    Tracing: Active
+    Events:
+      UpdateResource:
+        Type: Api
+        Properties:
+          Path: /random
+          Method: get
