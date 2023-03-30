@@ -35,10 +35,12 @@ public class ReviewController {
         public ResponseEntity<ReviewResponse> addNewExample(@RequestBody ReviewCreateRequest reviewCreateRequest) {
             Review review = reviewService.addNewReview(reviewCreateRequest);
 
-            ReviewResponse exampleResponse = new ReviewResponse();
-//            exampleResponse.setId(example.getId());
-//            exampleResponse.setName(example.getName());
+            ReviewResponse reviewResponse = new ReviewResponse();
+            reviewResponse.setReviewerId(reviewCreateRequest.getReviewerId());
+            reviewResponse.setComment(reviewCreateRequest.getComment());
+            reviewResponse.setRating(reviewCreateRequest.getRating());
+            reviewResponse.setRecipeId(reviewCreateRequest.getRecipeId());
 
-            return ResponseEntity.ok(exampleResponse);
+            return ResponseEntity.ok(reviewResponse);
         }
 }
