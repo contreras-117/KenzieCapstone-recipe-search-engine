@@ -7,6 +7,7 @@ import com.amazonaws.services.lambda.runtime.events.APIGatewayProxyResponseEvent
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.kenzie.capstone.service.RecipeServiceLambda.RecipeService;
+import com.kenzie.capstone.service.RecipeServiceLambda.dependency.DaggerServiceComponent;
 import com.kenzie.capstone.service.RecipeServiceLambda.dependency.ServiceComponent;
 import com.kenzie.capstone.service.model.RecipeServiceLambdaModel.Recipe;
 import org.apache.logging.log4j.LogManager;
