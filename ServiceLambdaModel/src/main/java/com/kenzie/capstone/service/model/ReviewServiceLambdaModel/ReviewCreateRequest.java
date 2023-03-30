@@ -1,19 +1,20 @@
 package com.kenzie.capstone.service.model.ReviewServiceLambdaModel;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-
+import org.jetbrains.annotations.NotNull;
 
 
 public class ReviewCreateRequest {
-
+    @NotNull
     @JsonProperty("recipeId")
     private String recipeId;
-
+    @NotNull
     @JsonProperty("reviewerId")
     private String reviewerId;
+    @NotNull
     @JsonProperty("rating")
     private Double rating;
-
+    @NotNull
     @JsonProperty("comment")
     private String comment;
 
