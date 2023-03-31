@@ -16,8 +16,6 @@ Resources:
       Tags:
         - Key: Name
           Value: !Ref EnvironmentName
-    InternetGateway:
-      Type: AWS::EC2::InternetGateway
     AttachGateway:
       Type: AWS::EC2::VPCGatewayAttachment
       Properties:
