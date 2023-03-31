@@ -39,29 +39,32 @@ public class RecipeService {
         return recipeDao.getRandomRecipe();
     }
 
-    public List<Recipe> searchByNutrients(String query) {
+    public List<RecipeResponse> searchByNutrients(String query) {
 
         GsonBuilder gsonBuilder = new GsonBuilder();
         Gson gson = gsonBuilder.create();
 
         String recipesByNutrientsJson = recipeDao.searchByNutrients(query);
 
-        List<RecipeResponse> recipeResponses = gson.fromJson(recipesByNutrientsJson, new TypeToken<List<RecipeResponse>>() { }.getType());
+        List<Recipe> recipes = gson.fromJson(recipesByNutrientsJson, new TypeToken<List<Recipe>>() { }.getType());
 
-        for (RecipeResponse recipe : recipeResponses) {
+        for (Recipe recipe : recipes) {
             String recipeInformationJson = recipeDao.getRecipeInformation(recipe.getRecipeId());
-            RecipeResponse recipeInformationRequest = gson.fromJson(recipeInformationJson, new TypeToken<RecipeResponse>(){}.getType());
+            Recipe recipeInformation = gson.fromJson(recipeInformationJson, new TypeToken<Recipe>(){}.getType());
 
-            recipe.setInstructions(recipeInformationRequest.getInstructions());
+            recipe.setInstructions(recipeInformation.getInstructions());
+            recipe.setServings(recipeInformation.getServings());
+            recipe.setReadyInMinutes(recipeInformation.getReadyInMinutes());
+            recipe.setSourceUrl(recipeInformation.getSourceUrl());
         }
 
-        List<Recipe> recipes = new ArrayList<>();
+        List<RecipeResponse> recipeResponses = new ArrayList<>();
 
-        for (RecipeResponse recipeResponse : recipeResponses) {
-            recipes.add(new Recipe(recipeResponse.getRecipeId(), recipeResponse.getName(), recipeResponse.getImage(), recipeResponse.getInstructions()));
+        for (Recipe recipe : recipes) {
+            recipeResponses.add(new RecipeResponse(recipe.getRecipeId(), recipe.getName(), recipe.getImage(), recipe.getInstructions(), recipe.getReadyInMinutes(), recipe.getSourceUrl(), recipe.getServings()));
         }
 
-        return recipes;
+        return recipeResponses;
     }
 
 }

@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.kenzie.capstone.service.client.ApiGatewayException;
 import com.kenzie.capstone.service.client.EndpointUtility;
 import com.kenzie.capstone.service.model.RecipeServiceLambdaModel.Recipe;
+import com.kenzie.capstone.service.model.RecipeServiceLambdaModel.RecipeResponse;
 
 import java.util.Collections;
 import java.util.List;
@@ -16,7 +17,7 @@ public class RecipeLambdaServiceClient {
     private static final String GET_ALL_FOOD_ENDPOINT = "/food/search?query=";
     private static final String GET_RANDOM_RECIPE_ENDPOINT = "/random";
 
-    private static final String GET_SEARCH_BY_NUTRIENTS_ENDPOINT = "/recipes/{findByNutrients?}";
+    private static final String GET_SEARCH_BY_NUTRIENTS_ENDPOINT = "/recipes/food/search/nutrients/{query}";
 
     private ObjectMapper mapper;
 
@@ -38,16 +39,14 @@ public class RecipeLambdaServiceClient {
         return response;
     }
 
-    public List<Recipe> getSearchByNutrients(Map<String, String> parameters) {
+    public List<RecipeResponse> getSearchByNutrients(Map<String, Object> parameters) {
         EndpointUtility endpointUtility = new EndpointUtility();
 
         StringBuilder query = new StringBuilder();
 
-        query.append("findByNutrients?");
-
         int counter = 0;
 
-        for (Map.Entry<String, String> parameter: parameters.entrySet()) {
+        for (Map.Entry<String, Object> parameter: parameters.entrySet()) {
 
             if (counter != parameters.entrySet().size()) {
                 query.append(parameter.getKey()).append("=").append(parameter.getValue()).append("&");
@@ -58,9 +57,9 @@ public class RecipeLambdaServiceClient {
             counter++;
         }
 
-        String response = endpointUtility.getEndpoint(GET_SEARCH_BY_NUTRIENTS_ENDPOINT.replace("{findByNutrients?}", query));
+        String response = endpointUtility.getEndpoint(GET_SEARCH_BY_NUTRIENTS_ENDPOINT.replace("{query}", query));
 
-        List<Recipe> recipes;
+        List<RecipeResponse> recipes;
 
         try {
             recipes = mapper.readValue(response, new TypeReference<>(){});

@@ -271,7 +271,7 @@ input#rate-5:checked ~ label {
     border-radius: 10px;
 }
 
-.search-by-nutrients-form {
+#search-by-nutrients-form {
     display: flex;
     margin-top: 20px;
     margin-left: 15px;

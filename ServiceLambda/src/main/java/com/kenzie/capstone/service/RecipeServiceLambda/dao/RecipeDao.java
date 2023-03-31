@@ -74,6 +74,7 @@ public class RecipeDao {
             if (statusCode == 200) {
                 return httpResponse.body();
             } else {
+                // throw error in appropriate place because we will get an error either way
                 return String.format("GET by nutrients failed: %d status code received", statusCode);
             }
         } catch (IOException | InterruptedException e) {
