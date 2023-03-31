@@ -16,11 +16,6 @@ Resources:
       Tags:
         - Key: Name
           Value: !Ref EnvironmentName
-    PublicSubnetARouteTableAssociation:
-      Type: AWS::EC2::SubnetRouteTableAssociation
-      Properties:
-        SubnetId: !Ref PublicSubnet
-        RouteTableId: !Ref PublicRouteTable
   GetExampleDataFunction:
     Type: AWS::Serverless::Function
     Properties:
