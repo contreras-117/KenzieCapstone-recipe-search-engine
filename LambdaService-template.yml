@@ -6,6 +6,65 @@ Parameters:
     Type: String
     Default: dev
 Resources:
+  VPC:
+    Type: 'AWS::EC2::VPC'
+    Properties:
+      CidrBlock: 10.192.0.0/16
+      EnableDnsSupport: true
+      EnableDnsHostnames: true
+      InstanceTenancy: default
+      Tags:
+        - Key: Name
+          Value: !Ref EnvironmentName
+    InternetGateway:
+      Type: AWS::EC2::InternetGateway
+    AttachGateway:
+      Type: AWS::EC2::VPCGatewayAttachment
+      Properties:
+        VpcId: !Ref VPC
+        InternetGatewayId: !Ref InternetGateway
+    PublicRouteTable:
+      Type: AWS::EC2::RouteTable
+      Properties:
+        VpcId: !Ref VPC
+        Tags:
+          - Key: Name
+            Value: Public
+    PublicRoute1:
+      Type: AWS::EC2::Route
+      DependsOn: AttachGateway
+      Properties:
+        RouteTableId: !Ref PublicRouteTable
+        DestinationCidrBlock: 0.0.0.0/0
+        GatewayId: !Ref InternetGateway
+    SecurityGroup:
+      Type: 'AWS::EC2::SecurityGroup'
+      Properties:
+        GroupDescription: Security Group for Example Replication Group
+        SecurityGroupEgress:
+          - CidrIp: 0.0.0.0/0
+            IpProtocol: "-1"
+        SecurityGroupIngress:
+          - CidrIp: 0.0.0.0/0
+            FromPort: 6379
+            ToPort: 6379
+            IpProtocol: tcp
+        VpcId: !Ref VPC
+    PublicSubnet:
+      Type: AWS::EC2::Subnet
+      Properties:
+        VpcId: !Ref VPC
+        AvailabilityZone: !Select [ 0, !GetAZs '' ]
+        CidrBlock: 10.192.11.0/24
+        MapPublicIpOnLaunch: true
+        Tags:
+          - Key: Name
+            Value: !Sub ${EnvironmentName} Public Subnet (AZ1)
+    PublicSubnetARouteTableAssociation:
+      Type: AWS::EC2::SubnetRouteTableAssociation
+      Properties:
+        SubnetId: !Ref PublicSubnet
+        RouteTableId: !Ref PublicRouteTable
   GetExampleDataFunction:
     Type: AWS::Serverless::Function
     Properties:
@@ -80,7 +139,7 @@ Resources:
         UpdateResource:
           Type: Api
           Properties:
-            Path: /https://spoonacular-recipe-food-nutrition-v1.p.rapidapi.com/recipes/{findByNutrients?}
+            Path: /recipes/food/search/nutrients/{query}"
             Method: get
   GetAllRecipesFunction:
     Type: AWS::Serverless::Function

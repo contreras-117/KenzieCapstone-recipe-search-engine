@@ -10,6 +10,7 @@ import com.kenzie.capstone.service.RecipeServiceLambda.RecipeService;
 import com.kenzie.capstone.service.RecipeServiceLambda.dependency.DaggerServiceComponent;
 import com.kenzie.capstone.service.RecipeServiceLambda.dependency.ServiceComponent;
 import com.kenzie.capstone.service.model.RecipeServiceLambdaModel.Recipe;
+import com.kenzie.capstone.service.model.RecipeServiceLambdaModel.RecipeResponse;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -36,22 +37,10 @@ public class SearchByNutrients implements RequestHandler<APIGatewayProxyRequestE
         APIGatewayProxyResponseEvent response = new APIGatewayProxyResponseEvent()
                 .withHeaders(headers);
 
-        Map<String, String> parameters = input.getPathParameters();
-        StringBuilder query = new StringBuilder();
-        int counter = 0;
-        for (Map.Entry<String, String> parameter: parameters.entrySet()) {
-
-            if (counter != parameters.entrySet().size()) {
-                query.append(parameter.getKey()).append("=").append(parameter.getValue()).append("&");
-            } else {
-                query.append(parameter.getKey()).append("=").append(parameter.getValue());
-            }
-
-            counter++;
-        }
+        String query = input.getPathParameters().get("query");
 
         try {
-            List<Recipe> recipes = recipeLambdaService.searchByNutrients(query.toString());
+            List<RecipeResponse> recipes = recipeLambdaService.searchByNutrients(query);
             String output = gson.toJson(recipes);
 
             return response
