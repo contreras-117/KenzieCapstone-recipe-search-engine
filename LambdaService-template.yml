@@ -122,7 +122,7 @@ Resources:
         UpdateResource:
           Type: Api
           Properties:
-            Path: /recipes/food/search/nutrients/{query}"
+            Path: /recipes/food/search/nutrients/{query}
             Method: get
   GetAllRecipesFunction:
     Type: AWS::Serverless::Function
