@@ -16,13 +16,6 @@ Resources:
       Tags:
         - Key: Name
           Value: !Ref EnvironmentName
-    PublicRoute1:
-      Type: AWS::EC2::Route
-      DependsOn: AttachGateway
-      Properties:
-        RouteTableId: !Ref PublicRouteTable
-        DestinationCidrBlock: 0.0.0.0/0
-        GatewayId: !Ref InternetGateway
     SecurityGroup:
       Type: 'AWS::EC2::SecurityGroup'
       Properties:
