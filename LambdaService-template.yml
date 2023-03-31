@@ -16,19 +16,6 @@ Resources:
       Tags:
         - Key: Name
           Value: !Ref EnvironmentName
-    SecurityGroup:
-      Type: 'AWS::EC2::SecurityGroup'
-      Properties:
-        GroupDescription: Security Group for Example Replication Group
-        SecurityGroupEgress:
-          - CidrIp: 0.0.0.0/0
-            IpProtocol: "-1"
-        SecurityGroupIngress:
-          - CidrIp: 0.0.0.0/0
-            FromPort: 6379
-            ToPort: 6379
-            IpProtocol: tcp
-        VpcId: !Ref VPC
     PublicSubnet:
       Type: AWS::EC2::Subnet
       Properties:
