@@ -16,16 +16,6 @@ Resources:
       Tags:
         - Key: Name
           Value: !Ref EnvironmentName
-    PublicSubnet:
-      Type: AWS::EC2::Subnet
-      Properties:
-        VpcId: !Ref VPC
-        AvailabilityZone: !Select [ 0, !GetAZs '' ]
-        CidrBlock: 10.192.11.0/24
-        MapPublicIpOnLaunch: true
-        Tags:
-          - Key: Name
-            Value: !Sub ${EnvironmentName} Public Subnet (AZ1)
     PublicSubnetARouteTableAssociation:
       Type: AWS::EC2::SubnetRouteTableAssociation
       Properties:
