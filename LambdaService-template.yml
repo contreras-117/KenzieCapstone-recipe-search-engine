@@ -16,16 +16,6 @@ Resources:
       Tags:
         - Key: Name
           Value: !Ref EnvironmentName
-      Properties:
-        VpcId: !Ref VPC
-        InternetGatewayId: !Ref InternetGateway
-    PublicRouteTable:
-      Type: AWS::EC2::RouteTable
-      Properties:
-        VpcId: !Ref VPC
-        Tags:
-          - Key: Name
-            Value: Public
     PublicRoute1:
       Type: AWS::EC2::Route
       DependsOn: AttachGateway
