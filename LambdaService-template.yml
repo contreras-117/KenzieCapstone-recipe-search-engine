@@ -15,7 +15,21 @@ Resources:
       InstanceTenancy: default
       Tags:
         - Key: Name
-          Value: !Ref EnvironmentName
+          Value: EnvironmentName
+  SecurityGroup:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupDescription: Security Group for Example Replication Group
+      SecurityGroupEgress:
+        - CidrIp: 0.0.0.0/0
+          IpProtocol: '-1'
+      SecurityGroupIngress:
+        - CidrIp: 0.0.0.0/0
+          FromPort: 6379
+          ToPort: 6379
+          IpProtocol: tcp
+      VpcId:
+        Ref: VPC
   GetExampleDataFunction:
     Type: AWS::Serverless::Function
     Properties:
@@ -83,9 +97,12 @@ Resources:
         - AmazonDynamoDBFullAccess
       Tracing: Active
       VpcConfig:
-        SecurityGroupIds: [ { "Fn::GetAtt": ["SecurityGroup", "GroupId"] } ]
+        SecurityGroupIds:
+          - Fn::GetAtt:
+              - SecurityGroup
+              - GroupId
         SubnetIds:
-          - !Ref PublicSubnet
+          - Ref: PublicSubnet
       Events:
         UpdateResource:
           Type: Api
