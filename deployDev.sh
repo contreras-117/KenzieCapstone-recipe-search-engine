@@ -1,5 +1,6 @@
 #!/bin/bash
 set -eo pipefail
+source ./setupEnvironment.sh
 TEMPLATE=LambdaService-template.yml
 
 ./gradlew :ServiceLambda:build -i
