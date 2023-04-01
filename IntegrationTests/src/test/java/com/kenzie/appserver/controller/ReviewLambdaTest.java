@@ -12,30 +12,14 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 
 @IntegrationTest
 class ReviewLambdaTest {
-    @Autowired
-    private MockMvc mvc;
-
-
-    private final MockNeat mockNeat = MockNeat.threadLocal();
-
-    private final ObjectMapper mapper = new ObjectMapper();
-
-    @Test
-    public void getById_Exists() throws Exception {
+//    @Autowired
+//    private MockMvc mvc;
 //
-//        String name = mockNeat.strings().valStr();
 //
-//        Review persistedExample = reviewService.addNewExample(name);
-//        mvc.perform(get("/example/{id}", persistedExample.getId())
-//                        .accept(MediaType.APPLICATION_JSON))
-//                .andExpect(jsonPath("id")
-//                        .isString())
-//                .andExpect(jsonPath("name")
-//                        .value(is(name)))
-//                .andExpect(status().is2xxSuccessful());
-    }
+//    private final MockNeat mockNeat = MockNeat.threadLocal();
+//
+//    private final ObjectMapper mapper = new ObjectMapper();
+//
+//    @Test
 
-    @Test
-    public void createExample_CreateSuccessful() throws Exception {
-    }
 }

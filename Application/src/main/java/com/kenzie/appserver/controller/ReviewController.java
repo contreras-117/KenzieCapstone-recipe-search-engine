@@ -16,20 +16,20 @@ public class ReviewController {
             this.reviewService = reviewService;
         }
 
-        @GetMapping("/{id}")
-        public ResponseEntity<ReviewResponse> get(@PathVariable("id") String id) {
-
-            Review review = reviewService.findById(id);
-            if (review == null) {
-                return ResponseEntity.notFound().build();
-            }
-
-            ReviewResponse reviewResponse = new ReviewResponse();
-//            exampleResponse.setId(example.getId());
-//            exampleResponse.setName(example.getName());
-//            return ResponseEntity.ok(exampleResponse);
-            return null;
-        }
+//        @GetMapping("/{id}")
+//        public ResponseEntity<ReviewResponse> get(@PathVariable("id") String id) {
+//
+//            Review review = reviewService.findById(id);
+//            if (review == null) {
+//                return ResponseEntity.notFound().build();
+//            }
+//
+//            ReviewResponse reviewResponse = new ReviewResponse();
+////            exampleResponse.setId(example.getId());
+////            exampleResponse.setName(example.getName());
+////            return ResponseEntity.ok(exampleResponse);
+//            return null;
+//        }
 
         @PostMapping
         public ResponseEntity<ReviewResponse> addNewExample(@RequestBody ReviewCreateRequest reviewCreateRequest) {
