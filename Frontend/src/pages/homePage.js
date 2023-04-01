@@ -70,24 +70,63 @@ class ExamplePage extends BaseClass {
         let minCholesterol = document.getElementById("min-cholesterol-input").value;
         let maxCholesterol = document.getElementById("max-cholesterol-input").value;
 
-        let query = "";
+        let query = "{";
 
         if (minCarbs !== "undefined" && minCarbs !== "") {
-            query += "{ 'minCarbs': " + minCarbs + "," + "'maxCarbs': " + maxCarbs + ",";
+            query += "'minCarbs': " + minCarbs + ",";
         }
-        if (maxCarbs === "undefined" && minCarbs === "") {
-            maxCarbs = 0;
+        if (maxCarbs !== "undefined" && maxCarbs !== "") {
+            query += "'maxCarbs': " + maxCarbs + ",";;
+        }
+        if (minProtein !== "undefined" && minProtein !== "") {
+            query += "'minProtein': " + minProtein + ",";
+        }
+        if (maxProtein !== "undefined" && maxProtein !== "") {
+            query += "'maxProtein': " + maxProtein + ",";
+        }
+        if (minCalories !== "undefined" && minCalories !== "") {
+            query += "'minCalories': " + minCalories + ",";
+        }
+        if (maxCalories !== "undefined" && maxCalories !== "") {
+            query += "'maxCalories': " + maxCalories + ",";
+        }
+        if (minSodium !== "undefined" && minSodium !== "") {
+            query += "'minSodium': " + minSodium + ",";
+        }
+        if (maxSodium !== "undefined" && maxSodium !== "") {
+            query += "'maxSodium': " + maxSodium + ",";
+        }
+        if (minSugar !== "undefined" && minSugar !== "") {
+            query += "'minSugar': " + minSugar + ",";
+        }
+        if (maxSugar !== "undefined" && maxSugar !== "") {
+            query += "'maxSugar': " + maxSugar + ",";
+        }
+        if (minFiber !== "undefined" && minFiber !== "") {
+            query += "'minFiber': " + minFiber + ",";
+        }
+        if (maxFiber !== "undefined" && maxFiber !== "") {
+            query += "'maxFiber': " + maxFiber + ",";
+        }
+        if (minIron !== "undefined" && minIron !== "") {
+            query += "'maxFiber': " + minIron + ",";
+        }
+        if (maxIron !== "undefined" && maxIron !== "") {
+            query += "'maxIron': " + maxIron + ",";
+        }
+        if (minCholesterol !== "undefined" && minCholesterol !== "") {
+            query += "'minCholesterol': " + minCholesterol + ",";
+        }
+        if (maxCholesterol !== "undefined" && maxCholesterol !== "") {
+            query += "'maxCholesterol': " + maxCholesterol + ",";
+        }
+
+        if (query.charAt(query.length - 1) == ",") {
+            query = query.slice(0, query.length - 1);
         }
 
 
-        let query = "{ 'minCarbs': " + minCarbs + "," + "'maxCarbs': " + maxCarbs + ",";
-        query += "{ 'minProtein': " + minProtein + "," + "'maxProtein': " + maxProtein + ",";
-        query += "{ 'minCalories': " + minCalories + "," + "'maxCalories': " + maxCalories + ",";
-        query += "{ 'minSodium': " + minSodium + "," + "'maxSodium': " + maxSodium + ",";
-        query += "{ 'minSugar': " + minSugar + "," + "'maxSugar': " + maxSugar + ",";
-        query += "{ 'minFiber': " + minFiber + "," + "'maxFiber': " + maxFiber + ",";
-        query += "{ 'minIron': " + minIron + "," + "'maxIron': " + maxIron + ",";
-        query += "{ 'minCholesterol': " + minCholesterol + "," + "'maxCholesterol': " + maxCholesterol + " }";
+        query += "}";
 
         let result = await this.client.searchByNutrients(query, this.errorHandler);
         this.dataStore.set("searchByNutrients", result);
@@ -113,7 +152,7 @@ class ExamplePage extends BaseClass {
             html += `<li>Servings: ${recipe.servings}</li>`;
             html += "</ul>";
             html += "</div>";
-            html += `<button onclick="window.open("${recipe.sourceUrl}",'_blank')" class="instructions-button">Instructions</button>";
+            html += `<button onclick="window.open("${recipe.sourceUrl}",'_blank')" class="instructions-button">Instructions</button>`;
             html += "</div>";
             html += "</div>";
 

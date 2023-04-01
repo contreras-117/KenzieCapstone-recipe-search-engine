@@ -1,15 +1,12 @@
 package com.kenzie.appserver.controller;
 
-import com.kenzie.appserver.service.RecipeService;
+import com.kenzie.appserver.Service.RecipeService;
 import com.kenzie.capstone.service.model.RecipeServiceLambdaModel.Recipe;
 import com.kenzie.capstone.service.model.RecipeServiceLambdaModel.RecipeRequest;
 import com.kenzie.capstone.service.model.RecipeServiceLambdaModel.RecipeResponse;
 import org.springframework.boot.json.GsonJsonParser;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Map;
@@ -33,8 +30,8 @@ public class RecipeController {
         return recipeService.getRandomRecipe();
     }
 
-    @GetMapping("/food/search/nutrients/{query}")
-    public ResponseEntity<List<RecipeResponse>> searchByNutrients(@RequestBody String json) {
+   @GetMapping("/food/search/nutrients/{query}")
+    public ResponseEntity<List<RecipeResponse>> searchByNutrients(@PathVariable("query") String json) {
 
         /*GsonBuilder builder = new GsonBuilder();
         Gson gson = builder.create();*/

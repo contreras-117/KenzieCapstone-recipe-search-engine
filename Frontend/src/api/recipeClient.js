@@ -38,7 +38,7 @@ export default class RecipeClient extends BaseClass {
      */
     async searchByNutrients(query, errorCallback) {
         try {
-            const response = await this.client.get(`/recipes/search/nutrients/{query}`);
+            const response = await this.client.get(`/recipes/search/nutrients/${query}`);
             return response.data;
         } catch (error) {
             this.handleError("searchByNutrients", error, errorCallback);
