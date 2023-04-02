@@ -5,16 +5,15 @@ import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBHashKey;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBRangeKey;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBTable;
 
-import java.util.Arrays;
-import java.util.Objects;
-
 @DynamoDBTable(tableName = "Review")
 public class ReviewRecord {
+
 
     private String recipeId;
     private String reviewerId;
     private Double rating;
     private String comment;
+
 
     @DynamoDBHashKey(attributeName = "recipeId")
     public String getRecipeId() {

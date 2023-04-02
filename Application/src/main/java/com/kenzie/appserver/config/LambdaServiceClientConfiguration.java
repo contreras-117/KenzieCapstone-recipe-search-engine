@@ -9,7 +9,7 @@ import org.springframework.context.annotation.Configuration;
 public class LambdaServiceClientConfiguration {
 
     @Bean
-    public ReviewLambdaServiceClient referralServiceClient() {
+    public ReviewLambdaServiceClient reviewServiceClient() {
         return new ReviewLambdaServiceClient();
     }
     @Bean

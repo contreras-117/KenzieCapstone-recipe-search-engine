@@ -1,4 +1,4 @@
-package com.kenzie.capstone.service.exceptions;
+package com.kenzie.capstone.service.ReviewServiceLambda.exceptions;
 
 import java.util.HashMap;
 import java.util.Map;
