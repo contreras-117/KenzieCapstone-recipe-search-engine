@@ -17,7 +17,7 @@ public class RecipeLambdaServiceClient {
     private static final String GET_ALL_FOOD_ENDPOINT = "/food/search?query=";
     private static final String GET_RANDOM_RECIPE_ENDPOINT = "/random";
 
-    private static final String GET_SEARCH_BY_NUTRIENTS_ENDPOINT = "/recipes/food/search/nutrients/{query}";
+    private static final String GET_SEARCH_BY_NUTRIENTS_ENDPOINT = "recipes/food/search/nutrients/{query}";
 
     private ObjectMapper mapper;
 
@@ -39,7 +39,24 @@ public class RecipeLambdaServiceClient {
         return response;
     }
 
-    public List<RecipeResponse> getSearchByNutrients(Map<String, Object> parameters) {
+    public List<RecipeResponse> getSearchByNutrients(String query) {
+        EndpointUtility endpointUtility = new EndpointUtility();
+
+        String response = endpointUtility.getEndpoint(GET_SEARCH_BY_NUTRIENTS_ENDPOINT.replace("{query}", query));
+
+        List<RecipeResponse> recipes;
+
+        try {
+            recipes = mapper.readValue(response, new TypeReference<>(){});
+        } catch (Exception e) {
+            throw new ApiGatewayException("Unable to map deserialize JSON: " + e);
+        }
+
+        return recipes;
+    }
+
+    // Old implementation
+    /*public List<RecipeResponse> getSearchByNutrients(Map<String, Object> parameters) {
         EndpointUtility endpointUtility = new EndpointUtility();
 
         StringBuilder query = new StringBuilder();
@@ -68,5 +85,5 @@ public class RecipeLambdaServiceClient {
         }
 
         return recipes;
-    }
+    }*/
 }
