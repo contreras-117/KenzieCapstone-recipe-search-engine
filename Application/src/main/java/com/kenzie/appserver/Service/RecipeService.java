@@ -10,7 +10,11 @@ import java.util.Map;
 
 @Service
 public class RecipeService {
-    private RecipeLambdaServiceClient recipeLambdaServiceClient = new RecipeLambdaServiceClient();
+    private RecipeLambdaServiceClient recipeLambdaServiceClient;
+
+    public RecipeService(RecipeLambdaServiceClient recipeLambdaServiceClient) {
+        this.recipeLambdaServiceClient = recipeLambdaServiceClient;
+    }
 
     public String getAllRecipes(String query){
         return recipeLambdaServiceClient.getAllRecipes(query);
@@ -20,8 +24,13 @@ public class RecipeService {
         return recipeLambdaServiceClient.getRandomRecipe();
     }
 
-    public List<RecipeResponse> searchByNutrients(Map<String, Object> parameters) {
-        return recipeLambdaServiceClient.getSearchByNutrients(parameters);
+    public List<RecipeResponse> searchByNutrients(String query) {
+        return recipeLambdaServiceClient.getSearchByNutrients(query);
     }
+
+    // Old Implementation
+    /*public List<RecipeResponse> searchByNutrients(Map<String, Object> parameters) {
+        return recipeLambdaServiceClient.getSearchByNutrients(parameters);
+    }*/
 
 }

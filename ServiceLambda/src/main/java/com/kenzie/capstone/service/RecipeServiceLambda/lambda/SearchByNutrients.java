@@ -39,15 +39,23 @@ public class SearchByNutrients implements RequestHandler<APIGatewayProxyRequestE
 
         String query = input.getPathParameters().get("query");
 
+        log.info("The query is:" + query);
+
         try {
             List<RecipeResponse> recipes = recipeLambdaService.searchByNutrients(query);
             String output = gson.toJson(recipes);
+
+            log.info("Response code with body:" + response.withStatusCode(200).withBody(output));
 
             return response
                     .withStatusCode(200)
                     .withBody(output);
 
+
         } catch (Exception e) {
+
+            log.info("Response code with body:" + response.withStatusCode(400).withBody(gson.toJson(e.getMessage())));
+
             return response
                     .withStatusCode(400)
                     .withBody(gson.toJson(e.getMessage()));

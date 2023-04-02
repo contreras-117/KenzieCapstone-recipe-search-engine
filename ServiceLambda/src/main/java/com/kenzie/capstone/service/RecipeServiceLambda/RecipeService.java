@@ -46,11 +46,10 @@ public class RecipeService {
 
         String recipesByNutrientsJson = recipeDao.searchByNutrients(query);
 
-        List<Recipe> recipes = gson.fromJson(recipesByNutrientsJson, new TypeToken<List<Recipe>>() { }.getType());
+        List<RecipeResponse> recipes = gson.fromJson(recipesByNutrientsJson, new TypeToken<List<RecipeResponse>>() { }.getType());
 
-        for (Recipe recipe : recipes) {
-            String recipeInformationJson = recipeDao.getRecipeInformation(recipe.getRecipeId());
-            Recipe recipeInformation = gson.fromJson(recipeInformationJson, new TypeToken<Recipe>(){}.getType());
+        for (RecipeResponse recipe : recipes) {
+            RecipeResponse recipeInformation = getRecipeInformation(recipe.getRecipeId());
 
             recipe.setInstructions(recipeInformation.getInstructions());
             recipe.setServings(recipeInformation.getServings());
@@ -58,13 +57,39 @@ public class RecipeService {
             recipe.setSourceUrl(recipeInformation.getSourceUrl());
         }
 
-        List<RecipeResponse> recipeResponses = new ArrayList<>();
-
-        for (Recipe recipe : recipes) {
-            recipeResponses.add(new RecipeResponse(recipe.getRecipeId(), recipe.getName(), recipe.getImage(), recipe.getInstructions(), recipe.getReadyInMinutes(), recipe.getSourceUrl(), recipe.getServings()));
-        }
-
-        return recipeResponses;
+        return recipes;
     }
+
+    public RecipeResponse getRecipeInformation(String recipeId) {
+        GsonBuilder gsonBuilder = new GsonBuilder();
+        Gson gson = gsonBuilder.create();
+
+        String jsonRecipeInformation = recipeDao.getRecipeInformation(recipeId);
+
+        return gson.fromJson(jsonRecipeInformation, new TypeToken<RecipeResponse>(){}.getType());
+    }
+
+/*    public static void main(String[] args) {
+        RecipeDao recipeDao1 = new RecipeDao();
+        RecipeService recipeService = new RecipeService(recipeDao1);
+        RecipeResponse recipeResponse = recipeService.getRecipeInformation("20183");
+       // System.out.println(recipeResponse.getRecipeId());
+
+        List<RecipeResponse> recipeResponses = recipeService.searchByNutrients("minCarbs=10");
+
+        int counter = 1;
+
+        for (RecipeResponse response : recipeResponses) {
+            System.out.println("Recipe #" + counter++);
+            System.out.println(response.getRecipeId());
+            System.out.println(response.getName());
+            System.out.println(response.getImage());
+            System.out.println(response.getSourceUrl());
+            System.out.println(response.getServings());
+            System.out.println(response.getInstructions());
+            System.out.println(response.getReadyInMinutes());
+            System.out.println();
+        }
+    }*/
 
 }
