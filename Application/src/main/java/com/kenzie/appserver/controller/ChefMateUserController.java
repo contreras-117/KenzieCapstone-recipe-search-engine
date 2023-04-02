@@ -79,7 +79,7 @@ public class ChefMateUserController {
         return ResponseEntity.ok().build();
     }
 
-    @PostMapping("/createReview")
+    @PostMapping("/{userId}/review/createReview")
     public ResponseEntity<ReviewResponse> addReview(@RequestBody ReviewCreateRequest reviewCreateRequest) {
         if (reviewCreateRequest.getReviewerId() == null || reviewCreateRequest.getRecipeId() ==null) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "User Id or Recipe Ids are null");
@@ -91,6 +91,4 @@ public class ChefMateUserController {
        /* -----------------------------------------------------------------------------------------------------------
         Private Methods
        ----------------------------------------------------------------------------------------------------------- */
-
-
 }

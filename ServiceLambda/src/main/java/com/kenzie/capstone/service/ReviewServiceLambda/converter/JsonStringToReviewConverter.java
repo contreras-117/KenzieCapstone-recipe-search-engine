@@ -10,8 +10,7 @@ public class JsonStringToReviewConverter {
         try {
             GsonBuilder builder = new GsonBuilder();
             Gson gson = builder.create();
-            ReviewCreateRequest reviewCreateRequest = gson.fromJson(body, ReviewCreateRequest.class);
-            return reviewCreateRequest;
+            return gson.fromJson(body, ReviewCreateRequest.class);
         } catch (Exception e) {
             throw new InvalidDataException("Referral could not be deserialized");
         }
