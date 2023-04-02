@@ -24,7 +24,7 @@ public class ReviewService {
         return null;
     }
 
-    public ReviewData setReviewData(ReviewCreateRequest reviewCreateRequest) {
+    public ReviewData addReview(ReviewCreateRequest reviewCreateRequest) {
         ReviewRecord reviewRecord = new ReviewRecord();
         reviewRecord.setRecipeId(reviewCreateRequest.getRecipeId());
         reviewRecord.setReviewerId(reviewCreateRequest.getReviewerId());

@@ -6,6 +6,8 @@ import com.kenzie.appserver.controller.model.ChefMateUserResponse;
 import com.kenzie.appserver.controller.model.CreateChefMateUserRequest;
 import com.kenzie.appserver.controller.model.UpdateRecipesTriedRequest;
 import com.kenzie.appserver.controller.model.UpdateUserPreferencesRequest;
+import com.kenzie.capstone.service.model.ReviewServiceLambdaModel.ReviewCreateRequest;
+import com.kenzie.capstone.service.model.ReviewServiceLambdaModel.ReviewResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -77,8 +79,14 @@ public class ChefMateUserController {
         return ResponseEntity.ok().build();
     }
 
-
-
+    @PostMapping("/createReview")
+    public ResponseEntity<ReviewResponse> addReview(@RequestBody ReviewCreateRequest reviewCreateRequest) {
+        if (reviewCreateRequest.getReviewerId() == null || reviewCreateRequest.getRecipeId() ==null) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "User Id or Recipe Ids are null");
+        }
+        ReviewResponse reviewResponse = chefMateUserService.addReview(reviewCreateRequest);
+        return ResponseEntity.created(URI.create("/review/createReview" + reviewResponse.getReviewerId() + reviewResponse.getRecipeId())).body(reviewResponse);
+    }
 
        /* -----------------------------------------------------------------------------------------------------------
         Private Methods

@@ -5,6 +5,8 @@ import com.kenzie.appserver.controller.model.CreateChefMateUserRequest;
 import com.kenzie.appserver.repositories.ChefMateUserRepository;
 import com.kenzie.appserver.repositories.model.ChefMateUserRecord;
 import com.kenzie.capstone.service.client.ReviewServiceLambdaJavaClient.ReviewLambdaServiceClient;
+import com.kenzie.capstone.service.model.ReviewServiceLambdaModel.ReviewCreateRequest;
+import com.kenzie.capstone.service.model.ReviewServiceLambdaModel.ReviewResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
@@ -102,6 +104,21 @@ public class ChefMateUserService {
      */
     public void deleteUser(String userId) {
         chefMateUserRepository.deleteById(userId);
+    }
+
+    public ReviewResponse addReview(ReviewCreateRequest request) {
+        Optional<ChefMateUserRecord> userExists = chefMateUserRepository.findById(request.getReviewerId());
+        if (userExists.isEmpty()) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "User Not Found");
+        }
+
+        ChefMateUserRecord userRecord = userExists.get();
+
+        if (!userRecord.getRecipesTried().contains(request.getRecipeId())) {
+            throw new IllegalArgumentException("Cannot review recipe you havent tried");
+        }
+
+        return reviewLambdaServiceClient.addReview(request);
     }
 
 

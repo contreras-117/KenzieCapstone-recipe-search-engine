@@ -50,7 +50,7 @@ public class AddReview implements RequestHandler<APIGatewayProxyRequestEvent, AP
 
         try {
             ReviewCreateRequest reviewCreateRequest = converter.convert(input.getBody());
-            ReviewData reviewData = reviewLambdaService.setReviewData(reviewCreateRequest);
+            ReviewData reviewData = reviewLambdaService.addReview(reviewCreateRequest);
 
             return response
                     .withStatusCode(200)

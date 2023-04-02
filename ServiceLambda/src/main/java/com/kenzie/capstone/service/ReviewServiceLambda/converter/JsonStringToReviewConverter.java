@@ -2,7 +2,7 @@ package com.kenzie.capstone.service.ReviewServiceLambda.converter;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.kenzie.capstone.service.exceptions.InvalidDataException;
+import com.kenzie.capstone.service.ReviewServiceLambda.exceptions.InvalidDataException;
 import com.kenzie.capstone.service.model.ReviewServiceLambdaModel.ReviewCreateRequest;
 
 public class JsonStringToReviewConverter {
