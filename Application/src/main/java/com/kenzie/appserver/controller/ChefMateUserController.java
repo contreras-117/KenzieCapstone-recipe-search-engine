@@ -106,6 +106,15 @@ public class ChefMateUserController {
     }
 
 
+    @GetMapping("review/list/{recipeId}")
+    public ResponseEntity<List<ReviewResponse>> getRecipeReviews(@PathVariable("recipeId") String recipeId) {
+        if (recipeId == null) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Recipe Ids cannot be null");
+        }
+        List<ReviewResponse> reviewResponses = chefMateUserService.getRecipeReviews(recipeId);
+        return ResponseEntity.ok(reviewResponses);
+    }
+
        /* -----------------------------------------------------------------------------------------------------------
         Private Methods
        ----------------------------------------------------------------------------------------------------------- */

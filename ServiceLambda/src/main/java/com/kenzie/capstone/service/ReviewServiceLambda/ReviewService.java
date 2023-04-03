@@ -1,6 +1,7 @@
 package com.kenzie.capstone.service.ReviewServiceLambda;
 
 import com.kenzie.capstone.service.ReviewServiceLambda.dao.ReviewDao;
+import com.kenzie.capstone.service.model.ReviewServiceLambdaModel.Review;
 import com.kenzie.capstone.service.model.ReviewServiceLambdaModel.ReviewCreateRequest;
 import com.kenzie.capstone.service.model.ReviewServiceLambdaModel.ReviewRecord;
 import com.kenzie.capstone.service.model.ReviewServiceLambdaModel.ReviewData;
@@ -18,17 +19,17 @@ public class ReviewService {
         this.reviewDao = reviewDao;
     }
 
-    public List<ReviewData> getRecipeReviews(String recipeId) {
+    public List<Review> getRecipeReviews(String recipeId) {
         List<ReviewRecord> records = reviewDao.getRecipeReviews(recipeId);
 
         return records.stream()
-                .map(reviewRecord -> {
-                    ReviewData reviewData = new ReviewData();
-                    reviewData.setReviewerId(reviewRecord.getReviewerId());
-                    reviewData.setRecipeId(recipeId);
-                    reviewData.setRating(reviewRecord.getRating());
-                    reviewData.setComment(reviewRecord.getComment());
-                    return reviewData;
+                .map(reviewInstance -> {
+                    Review review = new Review();
+                    review.setReviewerId(review.getReviewerId());
+                    review.setRecipeId(recipeId);
+                    review.setRating(review.getRating());
+                    review.setComment(review.getComment());
+                    return review;
                 })
                 .collect(Collectors.toList());
     }

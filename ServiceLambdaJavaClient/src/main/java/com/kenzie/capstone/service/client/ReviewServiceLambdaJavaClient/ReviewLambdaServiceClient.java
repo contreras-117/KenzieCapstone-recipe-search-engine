@@ -1,17 +1,21 @@
 package com.kenzie.capstone.service.client.ReviewServiceLambdaJavaClient;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.kenzie.capstone.service.client.ApiGatewayException;
 import com.kenzie.capstone.service.client.EndpointUtility;
+import com.kenzie.capstone.service.model.ReviewServiceLambdaModel.Review;
 import com.kenzie.capstone.service.model.ReviewServiceLambdaModel.ReviewCreateRequest;
 import com.kenzie.capstone.service.model.ReviewServiceLambdaModel.ReviewResponse;
+
+import java.util.List;
 
 
 public class ReviewLambdaServiceClient {
 
     private static final String ADD_REVIEW_ENDPOINT = "review/add";
-    private static final String GET_EXAMPLE_ENDPOINT = "review/get";
+    private static final String GET_REVIEW_ENDPOINT = "review/list/{recipeId}";
 
     private ObjectMapper mapper;
 
@@ -19,17 +23,17 @@ public class ReviewLambdaServiceClient {
         this.mapper = new ObjectMapper();
     }
 
-//    public Review getExampleData(String id) {
-//        EndpointUtility endpointUtility = new EndpointUtility();
-//        String response = endpointUtility.getEndpoint(GET_EXAMPLE_ENDPOINT.replace("{id}", id));
-//        Review review;
-//        try {
-//            review = mapper.readValue(response, Review.class);
-//        } catch (Exception e) {
-//            throw new ApiGatewayException("Unable to map deserialize JSON: " + e);
-//        }
-//        return review;
-//    }
+    public List<Review> getRecipeReviews(String recipeId) {
+        EndpointUtility endpointUtility = new EndpointUtility();
+        String response = endpointUtility.getEndpoint(GET_REVIEW_ENDPOINT.replace("{recipeId}", recipeId));
+        List<Review> reviews;
+        try {
+            reviews = mapper.readValue(response, new TypeReference<>(){});
+        } catch (Exception e) {
+            throw new ApiGatewayException("Unable to map deserialize JSON: " + e);
+        }
+        return reviews;
+    }
 
     public ReviewResponse addReview(ReviewCreateRequest reviewCreateRequest) {
         EndpointUtility endpointUtility = new EndpointUtility();

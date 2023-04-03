@@ -5,15 +5,18 @@ import com.kenzie.appserver.controller.model.CreateChefMateUserRequest;
 import com.kenzie.appserver.repositories.ChefMateUserRepository;
 import com.kenzie.appserver.repositories.model.ChefMateUserRecord;
 import com.kenzie.capstone.service.client.ReviewServiceLambdaJavaClient.ReviewLambdaServiceClient;
+import com.kenzie.capstone.service.model.ReviewServiceLambdaModel.Review;
 import com.kenzie.capstone.service.model.ReviewServiceLambdaModel.ReviewCreateRequest;
 import com.kenzie.capstone.service.model.ReviewServiceLambdaModel.ReviewResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
 public class ChefMateUserService {
@@ -121,6 +124,18 @@ public class ChefMateUserService {
         return reviewLambdaServiceClient.addReview(request);
     }
 
+    public List<ReviewResponse> getRecipeReviews(String recipeId) {
+        if (recipeId == null || recipeId.length() == 0) {
+            throw new IllegalArgumentException("Recipe Id cannot be null");
+        }
+
+        return Optional.ofNullable(reviewLambdaServiceClient.getRecipeReviews(recipeId))
+                .orElse(Collections.emptyList())
+                .stream()
+                .map(this::reviewToResponseConverter)
+                .collect(Collectors.toList());
+    }
+
 
     /* -----------------------------------------------------------------------------------------------------------
     Private Methods
@@ -146,6 +161,15 @@ public class ChefMateUserService {
                     response.setIngredients(record.getIngredients());
                 });
 
+        return response;
+    }
+
+    private ReviewResponse reviewToResponseConverter(Review review) {
+        ReviewResponse response = new ReviewResponse();
+        response.setReviewerId(review.getReviewerId());
+        response.setComment(review.getComment());
+        response.setRecipeId(review.getRecipeId());
+        response.setRating(review.getRating());
         return response;
     }
 
