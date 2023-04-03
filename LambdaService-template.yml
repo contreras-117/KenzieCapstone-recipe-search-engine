@@ -45,13 +45,13 @@ Resources:
         - Key: Name
           Value:
             Fn::Sub: ${EnvironmentName} Public Subnet (AZ1)
-  GetExampleDataFunction:
+  GetRecipeReviewsFunction:
     Type: AWS::Serverless::Function
     Properties:
       CodeUri: ServiceLambda/build/distributions/ServiceLambda.zip
-      Handler: com.kenzie.capstone.service.lambda.GetExampleData
+      Handler: com.kenzie.capstone.service.ReviewServiceLambda.lambda.GetRecipeReviews
       Runtime: java11
-      Description: Get Example Data for given id
+      Description: Get reviews for given Recipe
       MemorySize: 512
       Timeout: 240
       # Function's execution role
@@ -67,7 +67,7 @@ Resources:
         UpdateResource:
           Type: Api
           Properties:
-            Path: /example/{id}
+            Path: /reviews/recipeId
             Method: get
   AddReviewFunction:
     Type: AWS::Serverless::Function
@@ -75,7 +75,7 @@ Resources:
       CodeUri: ServiceLambda/build/distributions/ServiceLambda.zip
       Handler: com.kenzie.capstone.service.ReviewServiceLambda.lambda.AddReview
       Runtime: java11
-      Description: Set Example Data
+      Description: Add a new Review
       MemorySize: 512
       Timeout: 240
       # Function's execution role

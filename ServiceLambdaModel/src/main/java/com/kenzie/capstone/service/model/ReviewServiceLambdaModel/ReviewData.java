@@ -12,6 +12,8 @@ public class ReviewData {
         this.reviewerId = reviewerId;
         this.recipeId = recipeId;
     }
+    public ReviewData() {
+    }
 
     public String getRecipeId() {
         return recipeId;

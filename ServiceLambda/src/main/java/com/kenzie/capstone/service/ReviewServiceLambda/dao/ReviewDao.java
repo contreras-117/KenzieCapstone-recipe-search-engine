@@ -1,11 +1,14 @@
 package com.kenzie.capstone.service.ReviewServiceLambda.dao;
 
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBMapper;
+import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBQueryExpression;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBSaveExpression;
 import com.amazonaws.services.dynamodbv2.model.ConditionalCheckFailedException;
 import com.amazonaws.services.dynamodbv2.model.ExpectedAttributeValue;
 import com.google.common.collect.ImmutableMap;
 import com.kenzie.capstone.service.model.ReviewServiceLambdaModel.ReviewRecord;
+
+import java.util.List;
 
 public class ReviewDao {
     private DynamoDBMapper mapper;
@@ -21,39 +24,24 @@ public class ReviewDao {
     public ReviewRecord addReview(ReviewRecord record) {
         try {
             mapper.save(record, new DynamoDBSaveExpression().withExpected(ImmutableMap.of(
-                    "recipeId", new ExpectedAttributeValue().withExists(false)
-            )));
+                    "recipeId", new ExpectedAttributeValue(),
+                    "reviewerId", new ExpectedAttributeValue())
+            ));
         } catch (ConditionalCheckFailedException e) {
             throw new IllegalArgumentException("id has already been used");
         }
-
         return record;
     }
-//
-//    public List<RecipeRecord> getExampleData(String id) {
-//        RecipeRecord exampleRecord = new RecipeRecord();
-//        exampleRecord.setId(id);
-//
-//        DynamoDBQueryExpression<RecipeRecord> queryExpression = new DynamoDBQueryExpression<RecipeRecord>()
-//                .withHashKeyValues(exampleRecord)
-//                .withConsistentRead(false);
-//
-//        return mapper.query(RecipeRecord.class, queryExpression);
-//    }
-//
-//    public RecipeRecord setExampleData(String id, String data) {
-//        RecipeRecord exampleRecord = new RecipeRecord();
-//
-//        try {
-//            mapper.save(exampleRecord, new DynamoDBSaveExpression()
-//                    .withExpected(ImmutableMap.of(
-//                            "id",
-//                            new ExpectedAttributeValue().withExists(false)
-//                    )));
-//        } catch (ConditionalCheckFailedException e) {
-//            throw new IllegalArgumentException("id already exists");
-//        }
-//
-//        return exampleRecord;
-//    }
+
+    public List<ReviewRecord> getRecipeReviews(String recipeId) {
+        ReviewRecord reviewRecord = new ReviewRecord();
+        reviewRecord.setRecipeId(recipeId);
+
+        DynamoDBQueryExpression<ReviewRecord> queryExpression = new DynamoDBQueryExpression<ReviewRecord>()
+                .withHashKeyValues(reviewRecord)
+                .withConsistentRead(false);
+
+        return mapper.query(ReviewRecord.class, queryExpression);
+    }
+
 }

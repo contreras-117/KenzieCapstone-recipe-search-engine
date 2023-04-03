@@ -6,6 +6,8 @@ import com.kenzie.capstone.service.model.ReviewServiceLambdaModel.ReviewRecord;
 import com.kenzie.capstone.service.model.ReviewServiceLambdaModel.ReviewData;
 
 import javax.inject.Inject;
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class ReviewService {
 
@@ -16,12 +18,19 @@ public class ReviewService {
         this.reviewDao = reviewDao;
     }
 
-    public ReviewData getExampleData(String id) {
-//        List<ReviewRecord> records = reviewDao.getExampleData(id);
-//        if (records.size() > 0) {
-//            return new ExampleData(records.get(0).getId(), records.get(0).getData());
-//        }
-        return null;
+    public List<ReviewData> getRecipeReviews(String recipeId) {
+        List<ReviewRecord> records = reviewDao.getRecipeReviews(recipeId);
+
+        return records.stream()
+                .map(reviewRecord -> {
+                    ReviewData reviewData = new ReviewData();
+                    reviewData.setReviewerId(reviewRecord.getReviewerId());
+                    reviewData.setRecipeId(recipeId);
+                    reviewData.setRating(reviewRecord.getRating());
+                    reviewData.setComment(reviewRecord.getComment());
+                    return reviewData;
+                })
+                .collect(Collectors.toList());
     }
 
     public ReviewData addReview(ReviewCreateRequest reviewCreateRequest) {
@@ -30,7 +39,7 @@ public class ReviewService {
         reviewRecord.setReviewerId(reviewCreateRequest.getReviewerId());
         reviewRecord.setRating(reviewCreateRequest.getRating());
         reviewRecord.setComment(reviewCreateRequest.getComment());
-        ReviewRecord record = reviewDao.addReview(reviewRecord);
+        reviewDao.addReview(reviewRecord);
         return new ReviewData(reviewCreateRequest.getRecipeId(),
                 reviewCreateRequest.getReviewerId(),
                 reviewCreateRequest.getRating(),

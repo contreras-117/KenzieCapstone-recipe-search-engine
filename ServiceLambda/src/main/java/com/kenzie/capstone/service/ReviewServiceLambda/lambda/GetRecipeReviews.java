@@ -16,7 +16,7 @@ import org.apache.logging.log4j.Logger;
 import java.util.HashMap;
 import java.util.Map;
 
-public class GetExampleData implements RequestHandler<APIGatewayProxyRequestEvent, APIGatewayProxyResponseEvent> {
+public class GetRecipeReviews implements RequestHandler<APIGatewayProxyRequestEvent, APIGatewayProxyResponseEvent> {
 
     static final Logger log = LogManager.getLogger();
 
@@ -35,27 +35,25 @@ public class GetExampleData implements RequestHandler<APIGatewayProxyRequestEven
         APIGatewayProxyResponseEvent response = new APIGatewayProxyResponseEvent()
                 .withHeaders(headers);
 
-        String id = input.getPathParameters().get("id");
+        String recipeId = input.getPathParameters().get("recipeId");
 
-        if (id == null || id.length() == 0) {
+        if (recipeId == null || recipeId.length() == 0) {
             return response
                     .withStatusCode(400)
-                    .withBody("Id is invalid");
+                    .withBody("Recipe Id is invalid");
         }
 
-//        try {
-//            ExampleData exampleData = lambdaService.getExampleData(id);
-//            String output = gson.toJson(exampleData);
-//
-//            return response
-//                    .withStatusCode(200)
-//                    .withBody(output);
-//
-//        } catch (Exception e) {
-//            return response
-//                    .withStatusCode(400)
-//                    .withBody(gson.toJson(e.getMessage()));
-//        }
-        return null;
+        try {
+            String output = gson.toJson(lambdaService.getRecipeReviews(recipeId));
+
+            return response
+                    .withStatusCode(200)
+                    .withBody(output);
+
+        } catch (Exception e) {
+            return response
+                    .withStatusCode(400)
+                    .withBody(gson.toJson(e.getMessage()));
+        }
     }
 }
