@@ -36,9 +36,9 @@ export default class RecipeClient extends BaseClass {
      * @param errorCallback (Optional) A function to execute if the call fails.
      * @returns The concert
      */
-    async searchByNutrients(query, errorCallback) {
+    async searchByNutrients(userId, query, errorCallback) {
         try {
-            const response = await this.client.get(`/recipes/search/nutrients/${query}`);
+            const response = await this.client.get(`/user/${userId}/recipes/food/search/nutrients/${query}`);
             return response.data;
         } catch (error) {
             this.handleError("searchByNutrients", error, errorCallback);

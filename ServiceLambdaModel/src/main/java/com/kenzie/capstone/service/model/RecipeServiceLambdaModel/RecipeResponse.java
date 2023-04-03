@@ -5,7 +5,7 @@ import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
 
-@JsonInclude(JsonInclude.Include.NON_NULL)
+/*@JsonInclude(JsonInclude.Include.NON_NULL)*/
 public class RecipeResponse implements Serializable {
 
     @SerializedName("id")

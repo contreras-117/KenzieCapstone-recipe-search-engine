@@ -5,7 +5,7 @@ import RecipeClient from "../api/recipeClient";
 /**
  * Logic needed for the view playlist page of the website.
  */
-class ExamplePage extends BaseClass {
+class HomePage extends BaseClass {
 
     constructor() {
         super();
@@ -17,7 +17,7 @@ class ExamplePage extends BaseClass {
      * Once the page has loaded, set up the event handlers and fetch the concert list.
      */
     async mount() {
-        document.getElementById('search-by-nutrients-form').addEventListener('submit', this.onGet);
+        document.getElementById('search-by-nutrients-form').addEventListener('submit', this.onSearchByNutrients);
         this.client = new RecipeClient();
 
         /*this.dataStore.addChangeListener(this.renderExample)*/
@@ -70,65 +70,63 @@ class ExamplePage extends BaseClass {
         let minCholesterol = document.getElementById("min-cholesterol-input").value;
         let maxCholesterol = document.getElementById("max-cholesterol-input").value;
 
-        let query = "{";
+        let query = "";
 
-        if (minCarbs !== "undefined" && minCarbs !== "") {
-            query += "'minCarbs': " + minCarbs + ",";
+        if (minCarbs !== "undefined" && minCarbs !== "" && minCarbs !== null) {
+            query += "minCarbs=" + minCarbs + "&";
         }
-        if (maxCarbs !== "undefined" && maxCarbs !== "") {
-            query += "'maxCarbs': " + maxCarbs + ",";;
+        if (maxCarbs !== "undefined" && maxCarbs !== "" && maxCarbs !== null) {
+            query += "maxCarbs=" + maxCarbs + "&";;
         }
-        if (minProtein !== "undefined" && minProtein !== "") {
-            query += "'minProtein': " + minProtein + ",";
+        if (minProtein !== "undefined" && minProtein !== "" && minProtein !== null) {
+            query += "minProtein=" + minProtein + "&";
         }
-        if (maxProtein !== "undefined" && maxProtein !== "") {
-            query += "'maxProtein': " + maxProtein + ",";
+        if (maxProtein !== "undefined" && maxProtein !== "" && maxProtein !== null) {
+            query += "maxProtein=" + maxProtein + "&";
         }
-        if (minCalories !== "undefined" && minCalories !== "") {
-            query += "'minCalories': " + minCalories + ",";
+        if (minCalories !== "undefined" && minCalories !== "" && minCalories !== null) {
+            query += "minCalories=" + minCalories + "&";
         }
-        if (maxCalories !== "undefined" && maxCalories !== "") {
-            query += "'maxCalories': " + maxCalories + ",";
+        if (maxCalories !== "undefined" && maxCalories !== "" && maxCalories !== null) {
+            query += "maxCalories=" + maxCalories + "&";
         }
-        if (minSodium !== "undefined" && minSodium !== "") {
-            query += "'minSodium': " + minSodium + ",";
+        if (minSodium !== "undefined" && minSodium !== "" && minSodium !== null) {
+            query += "minSodium=" + minSodium + "&";
         }
-        if (maxSodium !== "undefined" && maxSodium !== "") {
-            query += "'maxSodium': " + maxSodium + ",";
+        if (maxSodium !== "undefined" && maxSodium !== "" && maxSodium !== null) {
+            query += "maxSodium=" + maxSodium + "&";
         }
-        if (minSugar !== "undefined" && minSugar !== "") {
-            query += "'minSugar': " + minSugar + ",";
+        if (minSugar !== "undefined" && minSugar !== "" && minSugar !== null) {
+            query += "minSugar=" + minSugar + "&";
         }
-        if (maxSugar !== "undefined" && maxSugar !== "") {
-            query += "'maxSugar': " + maxSugar + ",";
+        if (maxSugar !== "undefined" && maxSugar !== "" && maxSugar !== null) {
+            query += "maxSugar=" + maxSugar + "&";
         }
-        if (minFiber !== "undefined" && minFiber !== "") {
-            query += "'minFiber': " + minFiber + ",";
+        if (minFiber !== "undefined" && minFiber !== "" && minFiber !== null) {
+            query += "minFiber=" + minFiber + "&";
         }
-        if (maxFiber !== "undefined" && maxFiber !== "") {
-            query += "'maxFiber': " + maxFiber + ",";
+        if (maxFiber !== "undefined" && maxFiber !== "" && maxFiber !== null) {
+            query += "maxFiber=" + maxFiber + "&";
         }
-        if (minIron !== "undefined" && minIron !== "") {
-            query += "'maxFiber': " + minIron + ",";
+        if (minIron !== "undefined" && minIron !== "" && minIron !== null) {
+            query += "maxFiber=" + minIron + "&";
         }
-        if (maxIron !== "undefined" && maxIron !== "") {
-            query += "'maxIron': " + maxIron + ",";
+        if (maxIron !== "undefined" && maxIron !== "" && maxIron !== null) {
+            query += "maxIron=" + maxIron + "&";
         }
-        if (minCholesterol !== "undefined" && minCholesterol !== "") {
-            query += "'minCholesterol': " + minCholesterol + ",";
+        if (minCholesterol !== "undefined" && minCholesterol !== "" && minCholesterol !== null) {
+            query += "minCholesterol=" + minCholesterol + "&";
         }
         if (maxCholesterol !== "undefined" && maxCholesterol !== "") {
-            query += "'maxCholesterol': " + maxCholesterol + ",";
+            query += "maxCholesterol=" + maxCholesterol + "&";
         }
 
-        if (query.charAt(query.length - 1) == ",") {
+        if (query.charAt(query.length - 1) == "&") {
             query = query.slice(0, query.length - 1);
         }
 
-
-        query += "}";
-
-        let result = await this.client.searchByNutrients(query, this.errorHandler);
+        // needs userId data to pass in
+        let result = await this.client.searchByNutrients(userId, query, this.errorHandler);
         this.dataStore.set("searchByNutrients", result);
 
         let renderingSection = document.getElementById("rendering-recipes-section");

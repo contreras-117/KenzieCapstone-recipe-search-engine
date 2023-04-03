@@ -2,12 +2,14 @@ package com.kenzie.appserver.controller;
 
 
 import com.kenzie.appserver.Service.ChefMateUserService;
+import com.kenzie.appserver.Service.RecipeService;
 import com.kenzie.appserver.controller.model.ChefMateUserResponse;
 import com.kenzie.appserver.controller.model.CreateChefMateUserRequest;
 import com.kenzie.appserver.controller.model.UpdateRecipesTriedRequest;
 import com.kenzie.appserver.controller.model.UpdateUserPreferencesRequest;
 import com.kenzie.capstone.service.model.ReviewServiceLambdaModel.ReviewCreateRequest;
 import com.kenzie.capstone.service.model.ReviewServiceLambdaModel.ReviewResponse;
+import com.kenzie.capstone.service.model.RecipeServiceLambdaModel.RecipeResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -24,8 +26,11 @@ public class ChefMateUserController {
 
     private ChefMateUserService chefMateUserService;
 
-    ChefMateUserController(ChefMateUserService chefMateUserService) {
+    private RecipeService recipeService;
+
+    ChefMateUserController(ChefMateUserService chefMateUserService, RecipeService recipeService) {
         this.chefMateUserService = chefMateUserService;
+        this.recipeService = recipeService;
     }
 //
 //    @GetMapping("/userProfile")
@@ -87,6 +92,19 @@ public class ChefMateUserController {
         ReviewResponse reviewResponse = chefMateUserService.addReview(reviewCreateRequest);
         return ResponseEntity.created(URI.create("/review/createReview" + reviewResponse.getReviewerId() + reviewResponse.getRecipeId())).body(reviewResponse);
     }
+    @GetMapping("/{userId}/recipes/food/search/nutrients/{query}")
+    public ResponseEntity<List<RecipeResponse>> searchByNutrients(@PathVariable("query") String query,
+                                                                  @PathVariable("userId") String userId) {
+
+        ChefMateUserResponse chefMateUserResponse = chefMateUserService.getUserById(userId);
+
+        if (chefMateUserResponse == null || chefMateUserResponse.getUserId() == null || chefMateUserResponse.getUserId().isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
+
+        return ResponseEntity.ok(recipeService.searchByNutrients(query));
+    }
+
 
        /* -----------------------------------------------------------------------------------------------------------
         Private Methods
