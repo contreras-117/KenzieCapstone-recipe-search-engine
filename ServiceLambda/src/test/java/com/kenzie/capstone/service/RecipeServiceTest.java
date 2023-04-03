@@ -2,6 +2,7 @@ package com.kenzie.capstone.service;
 
 import com.kenzie.capstone.service.RecipeServiceLambda.RecipeService;
 import com.kenzie.capstone.service.RecipeServiceLambda.dao.RecipeDao;
+import com.kenzie.capstone.service.model.RecipeServiceLambdaModel.Recipe;
 import com.kenzie.capstone.service.model.RecipeServiceLambdaModel.RecipeResponse;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
@@ -43,7 +44,7 @@ public class RecipeServiceTest {
     void getRandomRecipe_Success(){
         when(recipeDao.getRandomRecipe()).thenReturn("Random recipe");
 
-        String result = recipeService.getRandomRecipe();
+        List<Recipe> result = recipeService.getRandomRecipe();
 
         verify(recipeDao, times(1)).getRandomRecipe();
         assertNotNull(result);

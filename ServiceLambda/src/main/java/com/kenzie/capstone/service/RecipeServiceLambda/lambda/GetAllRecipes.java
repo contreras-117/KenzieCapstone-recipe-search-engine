@@ -9,10 +9,13 @@ import com.google.gson.GsonBuilder;
 import com.kenzie.capstone.service.RecipeServiceLambda.RecipeService;
 import com.kenzie.capstone.service.RecipeServiceLambda.dependency.ServiceComponent;
 import com.kenzie.capstone.service.RecipeServiceLambda.dependency.DaggerServiceComponent;
+import com.kenzie.capstone.service.model.RecipeServiceLambdaModel.Recipe;
+import com.kenzie.capstone.service.model.RecipeServiceLambdaModel.RecipeResponse;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class GetAllRecipes implements RequestHandler<APIGatewayProxyRequestEvent, APIGatewayProxyResponseEvent> {
@@ -33,18 +36,17 @@ public class GetAllRecipes implements RequestHandler<APIGatewayProxyRequestEvent
         APIGatewayProxyResponseEvent response = new APIGatewayProxyResponseEvent()
                 .withHeaders(headers);
 
-//        users need to enter a query, should "id" be changed to "query"?
-        String id = input.getPathParameters().get("query");
-        // spoonacular......./search?query={chumpChange}
+        String query = input.getPathParameters().get("query");
 
-        if (id == null || id.length() == 0) {
-            return response
-                    .withStatusCode(400)
-                    .withBody("Id is invalid");
-        }
+//        if (query == null || query.length() == 0) {
+//            return response
+//                    .withStatusCode(400)
+//                    .withBody("Id is invalid");
+//        }
 
         try {
-            String output = lambdaService.getAllRecipes(id);
+            List<RecipeResponse> recipes = lambdaService.getAllRecipes(query);
+            String output = gson.toJson(recipes);
 
             return response
                     .withStatusCode(200)

@@ -1,6 +1,5 @@
 package com.kenzie.appserver.service;
 
-import com.kenzie.appserver.Service.RecipeService;
 import com.kenzie.capstone.service.client.RecipeServiceLambdaJavaClient.RecipeLambdaServiceClient;
 import com.kenzie.capstone.service.model.RecipeServiceLambdaModel.RecipeResponse;
 import org.junit.jupiter.api.Assertions;

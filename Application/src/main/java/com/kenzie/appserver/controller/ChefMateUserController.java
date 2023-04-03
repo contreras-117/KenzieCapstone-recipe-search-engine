@@ -2,11 +2,11 @@ package com.kenzie.appserver.controller;
 
 
 import com.kenzie.appserver.Service.ChefMateUserService;
-import com.kenzie.appserver.Service.RecipeService;
 import com.kenzie.appserver.controller.model.ChefMateUserResponse;
 import com.kenzie.appserver.controller.model.CreateChefMateUserRequest;
 import com.kenzie.appserver.controller.model.UpdateRecipesTriedRequest;
 import com.kenzie.appserver.controller.model.UpdateUserPreferencesRequest;
+import com.kenzie.appserver.service.RecipeService;
 import com.kenzie.capstone.service.model.ReviewServiceLambdaModel.ReviewCreateRequest;
 import com.kenzie.capstone.service.model.ReviewServiceLambdaModel.ReviewResponse;
 import com.kenzie.capstone.service.model.RecipeServiceLambdaModel.RecipeResponse;

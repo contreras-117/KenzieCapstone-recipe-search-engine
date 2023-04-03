@@ -1,4 +1,4 @@
-package com.kenzie.appserver.Service;
+package com.kenzie.appserver.service;
 
 import com.kenzie.capstone.service.client.RecipeServiceLambdaJavaClient.RecipeLambdaServiceClient;
 import com.kenzie.capstone.service.model.RecipeServiceLambdaModel.Recipe;
@@ -16,11 +16,11 @@ public class RecipeService {
         this.recipeLambdaServiceClient = recipeLambdaServiceClient;
     }
 
-    public String getAllRecipes(String query){
+    public RecipeResponse getAllRecipes(String query){
         return recipeLambdaServiceClient.getAllRecipes(query);
     }
 
-    public String getRandomRecipe(){
+    public RecipeResponse getRandomRecipe(){
         return recipeLambdaServiceClient.getRandomRecipe();
     }
 

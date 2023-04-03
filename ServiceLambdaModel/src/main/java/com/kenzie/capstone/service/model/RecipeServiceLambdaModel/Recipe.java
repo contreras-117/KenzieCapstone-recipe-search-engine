@@ -1,14 +1,24 @@
 package com.kenzie.capstone.service.model.RecipeServiceLambdaModel;
 
+import com.google.gson.annotations.SerializedName;
+
+import java.io.Serializable;
 import java.util.Objects;
 
-public class Recipe {
+public class Recipe implements Serializable {
+    @SerializedName("id")
     private String recipeId;
+    @SerializedName("title")
     private String name;
+    @SerializedName("image")
     private String image;
+    @SerializedName("instructions")
     private String instructions;
+    @SerializedName("readyInMinutes")
     private int readyInMinutes;
+    @SerializedName("sourceUrl")
     private String sourceUrl;
+    @SerializedName("servings")
     private int servings;
 
 

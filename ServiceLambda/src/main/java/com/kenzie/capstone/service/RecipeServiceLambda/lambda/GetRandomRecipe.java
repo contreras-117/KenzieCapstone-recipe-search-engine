@@ -9,10 +9,13 @@ import com.google.gson.GsonBuilder;
 import com.kenzie.capstone.service.RecipeServiceLambda.RecipeService;
 import com.kenzie.capstone.service.RecipeServiceLambda.dependency.DaggerServiceComponent;
 import com.kenzie.capstone.service.RecipeServiceLambda.dependency.ServiceComponent;
+import com.kenzie.capstone.service.model.RecipeServiceLambdaModel.Recipe;
+import com.kenzie.capstone.service.model.RecipeServiceLambdaModel.RecipeResponse;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class GetRandomRecipe implements RequestHandler<APIGatewayProxyRequestEvent, APIGatewayProxyResponseEvent> {
@@ -34,7 +37,8 @@ public class GetRandomRecipe implements RequestHandler<APIGatewayProxyRequestEve
                     .withHeaders(headers);
 
             try {
-                String output = lambdaService.getRandomRecipe();
+                List<Recipe> recipes = lambdaService.getRandomRecipe();
+                String output = gson.toJson(recipes);
 
                 return response
                         .withStatusCode(200)

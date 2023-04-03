@@ -39,7 +39,7 @@ public class RecipeDao {
         HttpClient httpClient = HttpClient.newHttpClient();
 
         HttpRequest request = HttpRequest.newBuilder()
-                .uri(URI.create(SPOONACULAR_API_URL + "/random" + API_KEY))
+                .uri(URI.create(SPOONACULAR_API_URL + "/recipes/random"))
                 .header("Accept", "application/json")
                 .header("X-RapidAPI-Key", API_KEY)
                 .header("X-RapidAPI-Host", API_HEADER)

@@ -15,7 +15,7 @@ import java.util.Map;
 public class RecipeLambdaServiceClient {
 
     private static final String GET_ALL_FOOD_ENDPOINT = "/food/search?query=";
-    private static final String GET_RANDOM_RECIPE_ENDPOINT = "/random";
+    private static final String GET_RANDOM_RECIPE_ENDPOINT = "recipes/random";
 
     private static final String GET_SEARCH_BY_NUTRIENTS_ENDPOINT = "recipes/food/search/nutrients/{query}";
 
@@ -25,18 +25,34 @@ public class RecipeLambdaServiceClient {
         this.mapper = new ObjectMapper();
     }
 
-    public String getAllRecipes(String query){
+    public RecipeResponse getAllRecipes(String query){
         EndpointUtility endpointUtility = new EndpointUtility();
-        String response = endpointUtility.getEndpoint(GET_ALL_FOOD_ENDPOINT)  + query;
+        String response = endpointUtility.getEndpoint(GET_ALL_FOOD_ENDPOINT) + query;
 
-        return response;
+//        List<RecipeResponse> recipes;
+        RecipeResponse recipe;
+
+        try {
+            recipe = mapper.readValue(response, new TypeReference<>(){});
+        } catch (Exception e) {
+            throw new ApiGatewayException("Unable to map deserialize JSON: " + e);
+        }
+
+        return recipe;
     }
 
-    public String getRandomRecipe(){
+    public RecipeResponse getRandomRecipe(){
         EndpointUtility endpointUtility = new EndpointUtility();
         String response = endpointUtility.getEndpoint(GET_RANDOM_RECIPE_ENDPOINT);
 
-        return response;
+        RecipeResponse recipe;
+        try {
+            recipe = mapper.readValue(response, new TypeReference<>(){});
+        } catch (Exception e) {
+            throw new ApiGatewayException("Unable to map deserialize JSON: " + e);
+        }
+
+        return recipe;
     }
 
     public List<RecipeResponse> getSearchByNutrients(String query) {
