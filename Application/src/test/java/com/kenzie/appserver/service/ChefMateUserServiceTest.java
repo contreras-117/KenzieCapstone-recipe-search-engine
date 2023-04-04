@@ -2,6 +2,7 @@ package com.kenzie.appserver.service;
 
 import com.kenzie.appserver.Service.ChefMateUserService;
 import com.kenzie.appserver.controller.model.ChefMateUserResponse;
+import com.kenzie.appserver.controller.model.CreateChefMateUserRequest;
 import com.kenzie.appserver.repositories.ChefMateUserRepository;
 import com.kenzie.appserver.repositories.model.ChefMateUserRecord;
 import com.kenzie.capstone.service.client.ReviewServiceLambdaJavaClient.ReviewLambdaServiceClient;
@@ -16,8 +17,7 @@ import org.springframework.web.server.ResponseStatusException;
 import java.util.Optional;
 
 import static java.util.UUID.randomUUID;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 public class ChefMateUserServiceTest {
 
@@ -30,6 +30,36 @@ public class ChefMateUserServiceTest {
         chefMateUserRepository = mock(ChefMateUserRepository.class);
         reviewLambdaServiceClient = mock(ReviewLambdaServiceClient.class);
         chefMateUserService = new ChefMateUserService(chefMateUserRepository, reviewLambdaServiceClient);
+    }
+
+    /** ------------------------------------------------------------------------
+     *  chefMateUserService.addNewUser
+     *  ------------------------------------------------------------------------ **/
+    @Test
+    void addNewUser() {
+        // GIVEN
+        String userId = randomUUID().toString();
+
+        CreateChefMateUserRequest request = new CreateChefMateUserRequest();
+        request.setUserId(userId);
+        request.setUserPreferences(Optional.empty());
+        request.setRecipesTried(Optional.empty());
+        request.setIngredients(Optional.empty());
+
+        ArgumentCaptor<ChefMateUserRecord> userRecordCaptor = ArgumentCaptor.forClass(ChefMateUserRecord.class);
+
+        // WHEN
+        ChefMateUserResponse returnedUser = chefMateUserService.addNewUser(request);
+
+        // THEN
+        Assertions.assertNotNull(returnedUser);
+
+        verify(chefMateUserRepository).save(userRecordCaptor.capture());
+
+        ChefMateUserRecord record = userRecordCaptor.getValue();
+
+        Assertions.assertNotNull(record, "The user record is returned");
+        Assertions.assertNotNull(record.getUserId(), "The user id exists");
     }
 
     /** ------------------------------------------------------------------------
