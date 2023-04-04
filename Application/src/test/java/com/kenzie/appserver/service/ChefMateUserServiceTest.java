@@ -14,6 +14,8 @@ import org.mockito.Matchers;
 import org.mockito.exceptions.base.MockitoAssertionError;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.util.Arrays;
+import java.util.List;
 import java.util.Optional;
 
 import static java.util.UUID.randomUUID;
@@ -94,6 +96,55 @@ public class ChefMateUserServiceTest {
 
         // THEN
         Assertions.assertNull(user, "The user is null when not found");
+    }
+
+    /** ------------------------------------------------------------------------
+     *  chefMateUserService.updateUserPreferences
+     *  ------------------------------------------------------------------------ **/
+
+    @Test
+    void updateUserPreferences_valid_user() {
+        // GIVEN
+        String userId = randomUUID().toString();
+
+        ChefMateUserRecord oldUserRecord = new ChefMateUserRecord();
+        oldUserRecord.setUserId(userId);
+        List<String> newUserPreferences = Arrays.asList("Gluten Free", "Vegetarian", "Dairy Free");
+
+        when(chefMateUserRepository.findById(userId)).thenReturn(Optional.of(oldUserRecord));
+
+        ArgumentCaptor<ChefMateUserRecord> customerRecordCaptor = ArgumentCaptor.forClass(ChefMateUserRecord.class);
+
+        // WHEN
+        chefMateUserService.updateUserPreferences(userId, newUserPreferences);
+
+        // THEN
+        verify(chefMateUserRepository).save(customerRecordCaptor.capture());
+
+        ChefMateUserRecord record = customerRecordCaptor.getValue();
+
+        Assertions.assertNotNull(record, "The user record is returned");
+        Assertions.assertEquals(record.getUserId(), userId, "The user id matches");
+    }
+
+    @Test
+    void updateUserPreferences_invalid_user() {
+        // GIVEN
+        String customerId = randomUUID().toString();
+        List<String> newUserPreferences = Arrays.asList("Gluten Free", "Vegetarian", "Dairy Free");
+
+
+        when(chefMateUserRepository.findById(customerId)).thenReturn(Optional.empty());
+
+        // WHEN
+        Assertions.assertThrows(ResponseStatusException.class, () -> chefMateUserService.updateUserPreferences(customerId, newUserPreferences));
+
+        // THEN
+        try {
+            verify(chefMateUserRepository, never()).save(Matchers.any());
+        } catch(MockitoAssertionError error) {
+            throw new MockitoAssertionError("There should not be a call to .save() if the customer is not found in the database. - " + error);
+        }
     }
 
 }
