@@ -50,6 +50,7 @@
                         </ul>
                     </div>
                     <button onclick="window.open('http://google.com','_blank')" class="instructions-button">Instructions</button>
+                    <a href="#" id="chef-mate-instructions-anchor"><button onclick="http://google.com" class='chef-mate-instructions-button'>ChefMate Instructions</button></a>
                 </div>
             </div>
         </section>
@@ -129,11 +130,22 @@
                         </li>
                     </ul>
                 </section>
-                <button id="search-by-nutrients-submit" type="submit" class="btn">Search</button>
+                <button id="search-by-nutrients-submit" type="submit" class="btn" onclick="closeForm()">Search</button>
             </form>
             <div id="close-search-by-nutrients-window">
                 <button id="close-button" type="button" class="btn cancel" onclick="closeForm()">Close</button>
             </div>
+        </div>
+
+        <div id="loading-spinner">
+            <div class='text-center' id='spinner'>
+                <i class='fa fa-spinner fa-spin fa-3x'></i>
+            </div>
+        </div>
+
+        <!--currently display set to none-->
+        <div id="chefmate-instructions-innerHTML">
+            lorem
         </div>
 
         <section class="split-view">
@@ -210,7 +222,7 @@
             <div class="content">
                 <img class="recipe-image" src='https://www.chansmiles.com/wp-content/uploads/2021/11/thanksgiving-meal.jpg'>
                 <div class="recipe-title">
-                    <h5>Crispy Swiss Chard Cakes with Mascarpone-Creamed Spinach</h5>
+                    <p>Crispy Swiss Chard Cakes with Mascarpone-Creamed Spinach</p>
                 </div>
                 <div class="recipe-content">
                     <ul>
@@ -219,7 +231,10 @@
                         <li>Servings:</li>
                     </ul>
                 </div>
-                <button class="instructions-button">Instructions</button>
+                <div>
+
+                <a href="" rel="noopener noreferrer" target="_blank"><button class="instructions-button">Instructions</button></a>
+                </div>
             </div>
         </div>
     </div>
@@ -234,16 +249,6 @@
             document.getElementById("search-by-nutrients-window").style.display = "none";
         }
     </script>
-
-    <script>
-function openForm() {
-  document.getElementById("search-by-nutrients-window").style.display = "block";
-}
-
-function closeForm() {
-  document.getElementById("search-by-nutrients-window").style.display = "none";
-}
-</script>
 
 </body>
 </html>

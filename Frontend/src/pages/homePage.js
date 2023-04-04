@@ -46,6 +46,10 @@ class HomePage extends BaseClass {
         // Prevent the page from refreshing on form submit
         event.preventDefault();
 
+        let loadingSpinner = document.getElementById("spinner");
+
+        loadingSpinner.style.display = "block";
+
         let minCarbs = document.getElementById("min-carbs-input").value;
         let maxCarbs = document.getElementById("max-carbs-input").value;
 
@@ -125,6 +129,8 @@ class HomePage extends BaseClass {
             query = query.slice(0, query.length - 1);
         }
 
+        query += "&number=30";
+
         // needs userId data to pass in
         let result = await this.client.searchByNutrients(userId, query, this.errorHandler);
         this.dataStore.set("searchByNutrients", result);
@@ -136,12 +142,14 @@ class HomePage extends BaseClass {
         let html = "";
 
         for (let recipe of recipesReturned) {
+            let instructions = document.getElementById("chefmate-instructions-innerHTML").innerHTML = recipe.instructions;
+
 
             html += "<div class='recipes'>";
             html += "<div class='content'>";
             html += `<img class="recipe-image" src=${recipe.image}>`;
             html += "<div class='recipe-title'>";
-            html += `<h5>${recipe.title}</h5>`;
+            html += `<p><strong>${recipe.title}</strong></p>`;
             html += "</div>";
             html += "<div class='recipe-content'>";
             html += "<ul>";
@@ -150,14 +158,16 @@ class HomePage extends BaseClass {
             html += `<li>Servings: ${recipe.servings}</li>`;
             html += "</ul>";
             html += "</div>";
-            html += `<button onclick="window.open("${recipe.sourceUrl}",'_blank')" class="instructions-button">Instructions</button>`;
+            html += `<a href=${recipe.sourceUrl} rel="noopener noreferrer" target="_blank"><button class='instructions-button'>Instructions</button></a>`;
+            html += `<button id="chef-mate-instructions-anchor" onclick="location.href='https://www.google.com'" rel="noopener noreferrer" target="_blank" class='chef-mate-instructions-button'>ChefMate Instructions</button>`;
             html += "</div>";
             html += "</div>";
 
         }
 
         if (result) {
-            renderingSection.innerHTML = html;
+           loadingSpinner.style.display = "none";
+           renderingSection.innerHTML = html;
         } else {
             this.errorHandler("Error doing searchByNutrients!  Try again...");
         }

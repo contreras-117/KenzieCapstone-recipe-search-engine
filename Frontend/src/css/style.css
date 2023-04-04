@@ -271,6 +271,19 @@ input#rate-5:checked ~ label {
     border-radius: 10px;
 }
 
+#chefmate-instructions-innerHTML {
+    display: none;
+    text-align: center;
+    padding: 10px;
+    background: rgb(220, 220, 220);
+    border-radius: 10px;
+    margin: auto;
+}
+
+#spinner {
+    display:none;
+}
+
 #search-by-nutrients-form {
     display: flex;
     margin-top: 20px;
@@ -327,11 +340,10 @@ ul {
     float: left;
     border-radius: 5% 5% 5px 5px;
     cursor: pointer;
-    padding-top: 10px;
+    position: relative;
     /*box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);*/
     box-shadow: 0 3px 6px rgba(0,0,0,0.16);
     transition: .4s;
-    margin-left: 22px;
 }
 
 .recipe-content {
@@ -340,7 +352,7 @@ ul {
 }
 
 .recipe-title {
-    padding: 10px;
+    padding: 10px 10px 0 10px;
     text-align: center;
 }
 
@@ -381,6 +393,10 @@ ul {
 
 .instructions-button {
     width: 100%;
+    height: 70px;
+    position: absolute;
+    bottom: 0;
+    z-index: 1;
     /*display: none;*/
     background: #87CEFA;
     border-radius: 0 0 5px 5px;
@@ -389,7 +405,25 @@ ul {
     border-left: none;
     border-right: none;*/
     border: none;
-    height: 63px;
+    border-top: solid 1px black;
+   /* height: 63px;*/
+}
+
+.chef-mate-instructions-button {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    background: #87CEFA;
+    position: right;
+    margin-bottom: 70px;
+    border: solid 1px black;
+    border-radius: 5px 5px 0 0;
+    border-bottom: none;
+    padding: 5px;
+}
+
+.chef-mate-instructions-button:hover {
+    background: #00BFFF;
 }
 
 .instructions-button:hover {
@@ -447,7 +481,7 @@ ul {
     color: var(--primary-color);
     background-color: var(--secondary-color);
     /*margin: 20px;*/
-    padding: 10px 20px;
+    padding: 10px 20px 20px;
     width: 100%;
     height: 30em;
     overflow-x: auto;
@@ -456,12 +490,12 @@ ul {
 
 #reviews-header {
     color: var(--primary-color);
-        background-color: var(--secondary-color);
-        text-align: center;
-        padding-top: 20px;
-        padding-bottom: 5px;
-        margin-bottom: -10px;
-            border-top: 1px solid black;
+    background-color: var(--secondary-color);
+    text-align: center;
+    padding-top: 20px;
+    padding-bottom: 5px;
+    margin-bottom: -10px;
+    border-top: 1px solid black;
 
 }
 
@@ -479,4 +513,8 @@ ul {
   border-radius: 25px;
   background-color: rgba(0, 0, 0, .5);
   -webkit-box-shadow: 0 0 1px rgba(255, 255, 255, .5);
+}
+
+#loading-spinner {
+    margin: auto;
 }
