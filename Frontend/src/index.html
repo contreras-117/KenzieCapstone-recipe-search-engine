@@ -15,27 +15,78 @@
     />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <!--    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">-->
+
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
     <!--    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>-->
+    <link
+            rel="stylesheet"
+            href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+    />
+
+    <link
+            rel="stylesheet"
+            href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/styles/monokai-sublime.min.css"
+    />
+    <link
+            rel="stylesheet"
+            href="https://use.fontawesome.com/releases/v5.7.2/css/solid.css"
+            integrity="sha384-r/k8YTFqmlOaqRkZuSiE9trsrDXkh07mRaoGBMoDcmA58OHILZPsk29i2BsFng1B"
+            crossorigin="anonymous"
+    />
+    <link
+            rel="stylesheet"
+            href="https://use.fontawesome.com/releases/v5.7.2/css/fontawesome.css"
+            integrity="sha384-4aon80D8rXCGx9ayDt85LbyUHeMWd3UiBaWliBlJ53yzm9hqN21A+o1pqoyK04h+"
+            crossorigin="anonymous"
+    />
+
+    <link
+            rel="stylesheet"
+            href="https://cdn.auth0.com/js/auth0-samples-theme/1.0/css/auth0-theme.min.css"
+    />
 </head>
 <body class="background">
 
-<nav id="mainNavbar" class="navbar navbar-dark bg-dark  py-4">
-    <a href="index.html" id="chefmate-header" class="navbar-brand ms-4">ChefMate</a>
-    <div id="navLinks">
-        <ul class="navbar-nav">
-            <li class="nav-item">
-                <a href=".html" class="nav-link">Sign In</a>
-            </li>
-            <li class="nav-item">
-                <a href=".html" class="nav-link">Manage Your Account</a>
-            </li>
-        </ul>
-    </div>
-</nav>
+    <nav id="mainNavbar" class="navbar navbar-dark bg-dark  py-4">
+        <a href="index.html" id="chefmate-header" class="navbar-brand ms-4">ChefMate</a>
+        <div id="navLinks">
+            <ul class="navbar-nav d-none d-md-block">
+                <!-- Login link: show if NOT authenticated -->
+                <li class="nav-item auth-invisible">
+                    <a href="#" id="login" onclick="login()" class="nav-link auth-invisible hidden">Login</a>
+                </li>
+                <!-- / Login link -->
 
-<div id = "homepage">
+                <!-- Dropdown: show if authenticated -->
+                <li class="nav-item dropdown auth-visible hidden">
+                    <a href="#" class="nav-link dropdown-toggle" id="profileDropDown" data-toggle="dropdown">Manage Your Account</a>
+                    <div class="dropdown-menu">
+                        <!-- Show the user's full name from the id token here -->
+                        <div class="dropdown-header nav-user-name user-name"></div>
+                        <a
+                                href="/profile"
+                                class="dropdown-item dropdown-profile route-link"
+                        >
+                            <i class="fas fa-user mr-3"></i> Profile
+                        </a>
+                        <a
+                                href="#"
+                                class="dropdown-item"
+                                id="logout"
+                                onclick="logout()"
+                        >
+                            <i class="fas fa-power-off mr-3"></i> Log out
+                        </a>
+                    </div>
+                </li>
+                <!-- /Dropdown -->
+            </ul>
+        </div>
+    </nav>
+
+
+    <div id = "homepage">
 
     <!--        <section class ="split-view" id="rendering-recipes-section">
                 <img id="img-placeholder" src="https://www.chansmiles.com/wp-content/uploads/2021/11/thanksgiving-meal.jpg">
