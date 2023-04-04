@@ -72,52 +72,52 @@ class HomePage extends BaseClass {
 
         let query = "";
 
-        if (minCarbs !== "undefined" && minCarbs !== "" && minCarbs !== null) {
+        if (minCarbs !== "undefined" && minCarbs !== "" && minCarbs !== null && minCarbs !== 0) {
             query += "minCarbs=" + minCarbs + "&";
         }
-        if (maxCarbs !== "undefined" && maxCarbs !== "" && maxCarbs !== null) {
+        if (maxCarbs !== "undefined" && maxCarbs !== "" && maxCarbs !== null && maxCarbs !== 0) {
             query += "maxCarbs=" + maxCarbs + "&";;
         }
-        if (minProtein !== "undefined" && minProtein !== "" && minProtein !== null) {
+        if (minProtein !== "undefined" && minProtein !== "" && minProtein !== null && minProtein !== 0) {
             query += "minProtein=" + minProtein + "&";
         }
-        if (maxProtein !== "undefined" && maxProtein !== "" && maxProtein !== null) {
+        if (maxProtein !== "undefined" && maxProtein !== "" && maxProtein !== null && maxProtein !== 0) {
             query += "maxProtein=" + maxProtein + "&";
         }
-        if (minCalories !== "undefined" && minCalories !== "" && minCalories !== null) {
+        if (minCalories !== "undefined" && minCalories !== "" && minCalories !== null && minCalories !== 0) {
             query += "minCalories=" + minCalories + "&";
         }
-        if (maxCalories !== "undefined" && maxCalories !== "" && maxCalories !== null) {
+        if (maxCalories !== "undefined" && maxCalories !== "" && maxCalories !== null && maxCalories !== 0) {
             query += "maxCalories=" + maxCalories + "&";
         }
-        if (minSodium !== "undefined" && minSodium !== "" && minSodium !== null) {
+        if (minSodium !== "undefined" && minSodium !== "" && minSodium !== null && minSodium !== 0) {
             query += "minSodium=" + minSodium + "&";
         }
-        if (maxSodium !== "undefined" && maxSodium !== "" && maxSodium !== null) {
+        if (maxSodium !== "undefined" && maxSodium !== "" && maxSodium !== null && maxSodium !== 0) {
             query += "maxSodium=" + maxSodium + "&";
         }
-        if (minSugar !== "undefined" && minSugar !== "" && minSugar !== null) {
+        if (minSugar !== "undefined" && minSugar !== "" && minSugar !== null && minSugar !== 0) {
             query += "minSugar=" + minSugar + "&";
         }
-        if (maxSugar !== "undefined" && maxSugar !== "" && maxSugar !== null) {
+        if (maxSugar !== "undefined" && maxSugar !== "" && maxSugar !== null && maxSugar !== 0) {
             query += "maxSugar=" + maxSugar + "&";
         }
-        if (minFiber !== "undefined" && minFiber !== "" && minFiber !== null) {
+        if (minFiber !== "undefined" && minFiber !== "" && minFiber !== null && minFiber !== 0) {
             query += "minFiber=" + minFiber + "&";
         }
-        if (maxFiber !== "undefined" && maxFiber !== "" && maxFiber !== null) {
+        if (maxFiber !== "undefined" && maxFiber !== "" && maxFiber !== null && maxFiber !== 0) {
             query += "maxFiber=" + maxFiber + "&";
         }
-        if (minIron !== "undefined" && minIron !== "" && minIron !== null) {
+        if (minIron !== "undefined" && minIron !== "" && minIron !== null && minIron !== 0) {
             query += "maxFiber=" + minIron + "&";
         }
-        if (maxIron !== "undefined" && maxIron !== "" && maxIron !== null) {
+        if (maxIron !== "undefined" && maxIron !== "" && maxIron !== null && maxIron !== 0) {
             query += "maxIron=" + maxIron + "&";
         }
-        if (minCholesterol !== "undefined" && minCholesterol !== "" && minCholesterol !== null) {
+        if (minCholesterol !== "undefined" && minCholesterol !== "" && minCholesterol !== null && minCholesterol !== 0) {
             query += "minCholesterol=" + minCholesterol + "&";
         }
-        if (maxCholesterol !== "undefined" && maxCholesterol !== "") {
+        if (maxCholesterol !== "undefined" && maxCholesterol !== "" && maxCholesterol !== null && maxCholesterol !== 0) {
             query += "maxCholesterol=" + maxCholesterol + "&";
         }
 
