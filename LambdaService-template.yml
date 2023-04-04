@@ -16,6 +16,27 @@ Resources:
       Tags:
         - Key: Name
           Value: EnvironmentName
+  InternetGateway:
+    Type: AWS::EC2::InternetGateway
+  AttachGateway:
+    Type: AWS::EC2::VPCGatewayAttachment
+    Properties:
+      VpcId: !Ref VPC
+      InternetGatewayId: !Ref InternetGateway
+  PublicRouteTable:
+    Type: AWS::EC2::RouteTable
+    Properties:
+      VpcId: !Ref VPC
+      Tags:
+        - Key: Name
+          Value: Public
+  PublicRoute1:
+    Type: AWS::EC2::Route
+    DependsOn: AttachGateway
+    Properties:
+      RouteTableId: !Ref PublicRouteTable
+      DestinationCidrBlock: 0.0.0.0/0
+      GatewayId: !Ref InternetGateway
   SecurityGroup:
     Type: AWS::EC2::SecurityGroup
     Properties:
@@ -45,6 +66,11 @@ Resources:
         - Key: Name
           Value:
             Fn::Sub: ${EnvironmentName} Public Subnet (AZ1)
+  PublicSubnetARouteTableAssociation:
+    Type: AWS::EC2::SubnetRouteTableAssociation
+    Properties:
+      SubnetId: !Ref PublicSubnet
+      RouteTableId: !Ref PublicRouteTable
   GetRecipeReviewsFunction:
     Type: AWS::Serverless::Function
     Properties:
@@ -67,7 +93,7 @@ Resources:
         UpdateResource:
           Type: Api
           Properties:
-            Path: /review/list/{recipeId}
+            Path: /reviews/recipeId
             Method: get
   AddReviewFunction:
     Type: AWS::Serverless::Function
@@ -111,13 +137,6 @@ Resources:
         - AmazonS3FullAccess
         - AmazonDynamoDBFullAccess
       Tracing: Active
-      VpcConfig:
-        SecurityGroupIds:
-          - Fn::GetAtt:
-              - SecurityGroup
-              - GroupId
-        SubnetIds:
-          - Ref: PublicSubnet
       Events:
         UpdateResource:
           Type: Api
