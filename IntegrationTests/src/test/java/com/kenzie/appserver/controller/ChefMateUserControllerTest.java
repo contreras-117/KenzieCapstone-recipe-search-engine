@@ -146,4 +146,32 @@ public class ChefMateUserControllerTest {
         assertThat(response.getIngredients()).isNullOrEmpty();
     }
 
+    /** ------------------------------------------------------------------------
+     *  Get User by ID
+     *  ------------------------------------------------------------------------ **/
+    @Test
+    public void getUserById() throws Exception {
+
+        // GIVEN
+        CreateChefMateUserRequest userRequest = new CreateChefMateUserRequest();
+        userRequest.setUserId(UUID.randomUUID().toString());
+        userRequest.setUserPreferences(Optional.empty());
+        userRequest.setRecipesTried(Optional.empty());
+        userRequest.setIngredients(Optional.empty());
+
+        ChefMateUserResponse userResponse = chefMateUserService.addNewUser(userRequest);
+
+        // WHEN
+        ResultActions actions = mvc.perform(get("/user/getUserById/{userId}", userResponse.getUserId())
+                        .accept(MediaType.APPLICATION_JSON)
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk());
+
+        // THEN
+        String responseBody = actions.andReturn().getResponse().getContentAsString();
+        ChefMateUserResponse response = mapper.readValue(responseBody, ChefMateUserResponse.class);
+
+        assertThat(response.getUserId()).isNotEmpty().as("The ID is populated");
+    }
+
 }
