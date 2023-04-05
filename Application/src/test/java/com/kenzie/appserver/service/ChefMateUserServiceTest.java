@@ -5,6 +5,7 @@ import com.kenzie.appserver.controller.model.ChefMateUserResponse;
 import com.kenzie.appserver.controller.model.CreateChefMateUserRequest;
 import com.kenzie.appserver.repositories.ChefMateUserRepository;
 import com.kenzie.appserver.repositories.model.ChefMateUserRecord;
+import com.kenzie.capstone.service.client.RecipeServiceLambdaJavaClient.RecipeLambdaServiceClient;
 import com.kenzie.capstone.service.client.ReviewServiceLambdaJavaClient.ReviewLambdaServiceClient;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -28,7 +29,8 @@ public class ChefMateUserServiceTest {
     void setup() {
         chefMateUserRepository = mock(ChefMateUserRepository.class);
         ReviewLambdaServiceClient reviewLambdaServiceClient = mock(ReviewLambdaServiceClient.class);
-        chefMateUserService = new ChefMateUserService(chefMateUserRepository, reviewLambdaServiceClient);
+        RecipeLambdaServiceClient recipeLambdaServiceClient = mock(RecipeLambdaServiceClient.class);
+        chefMateUserService = new ChefMateUserService(chefMateUserRepository, reviewLambdaServiceClient, recipeLambdaServiceClient);
     }
 
     /** ------------------------------------------------------------------------
