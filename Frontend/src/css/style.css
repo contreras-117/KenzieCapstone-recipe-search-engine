@@ -262,7 +262,7 @@ input#rate-5:checked ~ label {
 .form-popup {
     display: none;
     position: fixed;
-    z-index: 10;
+    z-index: 1;
     text-align: center;
     top: 50%;
     left: 50%;
@@ -271,17 +271,17 @@ input#rate-5:checked ~ label {
     border-radius: 10px;
 }
 
-#chefmate-instructions-innerHTML {
+.chefmate-instructions-innerHTML {
+    z-index: 1;
+    position: fixed;
     display: none;
     text-align: center;
     padding: 10px;
     background: rgb(220, 220, 220);
     border-radius: 10px;
-    margin: auto;
-}
-
-#spinner {
-    display:none;
+    top: 25%;
+    left: 25%;
+    right: 25%;
 }
 
 #search-by-nutrients-form {
@@ -335,7 +335,8 @@ ul {
 .content {
     width: 20em;
     margin: 15px;
-    height: 25em;
+    margin-top: 25px;
+    height: 26em;
     box-sizing: border-box;
     float: left;
     border-radius: 5% 5% 5px 5px;
@@ -415,15 +416,18 @@ ul {
     bottom: 0;
     background: #87CEFA;
     position: right;
-    margin-bottom: 70px;
+    margin-bottom: 59px;
     border: solid 1px black;
     border-radius: 5px 5px 0 0;
     border-bottom: none;
     padding: 5px;
+    padding-bottom: 15px;
+    transition: .4s;
 }
 
 .chef-mate-instructions-button:hover {
     background: #00BFFF;
+    transform: translate(0px, -8px);
 }
 
 .instructions-button:hover {
@@ -517,4 +521,33 @@ ul {
 
 #loading-spinner {
     margin: auto;
+}
+
+#spinner {
+    display:none;
+    z-index: 1;
+    position: fixed;
+}
+
+/*
+.pagination {
+    display: inline-block;
+    z-index: 1;
+    position: fixed;
+}
+
+.pagination a {
+
+  margin-top: 20px;
+  color: black;
+  float: left;
+  padding: 8px 16px;
+  text-decoration: none;
+  transition: background-color .3s;
+  border: 1px solid black;
+  top: 25%;
+}*/
+
+#chefmate-header {
+    font-size: 40px;
 }
