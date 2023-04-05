@@ -109,4 +109,41 @@ public class ChefMateUserControllerTest {
         assertThat(response.getIngredients()).isNullOrEmpty();
     }
 
+    @Test
+    public void updateRecipesTried() throws Exception {
+
+        // GIVEN
+        CreateChefMateUserRequest userRequest = new CreateChefMateUserRequest();
+        userRequest.setUserId(UUID.randomUUID().toString());
+        userRequest.setUserPreferences(Optional.empty());
+        userRequest.setRecipesTried(Optional.empty());
+        userRequest.setIngredients(Optional.empty());
+
+        ChefMateUserResponse userResponse = chefMateUserService.addNewUser(userRequest);
+        Set<String> newRecipesTried = new HashSet<>();
+        newRecipesTried.add("Italian Recipe");
+        newRecipesTried.add("Chinese Recipe");
+
+        UpdateUserPreferencesRequest updateRequest = new UpdateUserPreferencesRequest();
+        updateRequest.setUserId(userResponse.getUserId());
+        updateRequest.setUserPreferences(Optional.empty());
+        updateRequest.setRecipesTried(Optional.of(newRecipesTried));
+        updateRequest.setIngredients(Optional.empty());
+
+        // WHEN
+        ResultActions actions = mvc.perform(put("/user/recipesTried/{recipesTried}", newRecipesTried)
+                        .content(mapper.writeValueAsString(updateRequest))
+                        .accept(MediaType.APPLICATION_JSON)
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().is2xxSuccessful());
+
+        // THEN
+        String responseBody = actions.andReturn().getResponse().getContentAsString();
+        ChefMateUserResponse response = mapper.readValue(responseBody, ChefMateUserResponse.class);
+        assertThat(response.getUserId()).isNotEmpty().as("The ID is populated");
+        assertThat(response.getUserPreferences()).isNullOrEmpty();
+        assertThat(response.getRecipesTried()).isNotEmpty().as("The recipes tried is populated");
+        assertThat(response.getIngredients()).isNullOrEmpty();
+    }
+
 }
