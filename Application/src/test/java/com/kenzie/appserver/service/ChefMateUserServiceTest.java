@@ -14,9 +14,7 @@ import org.mockito.Matchers;
 import org.mockito.exceptions.base.MockitoAssertionError;
 import org.springframework.web.server.ResponseStatusException;
 
-import java.util.Arrays;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 import static java.util.UUID.randomUUID;
 import static org.mockito.Mockito.*;
@@ -25,12 +23,11 @@ public class ChefMateUserServiceTest {
 
     private ChefMateUserRepository chefMateUserRepository;
     private ChefMateUserService chefMateUserService;
-    private ReviewLambdaServiceClient reviewLambdaServiceClient;
 
     @BeforeEach
     void setup() {
         chefMateUserRepository = mock(ChefMateUserRepository.class);
-        reviewLambdaServiceClient = mock(ReviewLambdaServiceClient.class);
+        ReviewLambdaServiceClient reviewLambdaServiceClient = mock(ReviewLambdaServiceClient.class);
         chefMateUserService = new ChefMateUserService(chefMateUserRepository, reviewLambdaServiceClient);
     }
 
@@ -148,6 +145,59 @@ public class ChefMateUserServiceTest {
     }
 
     /** ------------------------------------------------------------------------
+     *  chefMateUserService.updateUserPreferences
+     *  ------------------------------------------------------------------------ **/
+
+    @Test
+    void updateRecipesTried_valid_user() {
+        // GIVEN
+        String userId = randomUUID().toString();
+
+        ChefMateUserRecord oldUserRecord = new ChefMateUserRecord();
+        oldUserRecord.setUserId(userId);
+        Set<String> newRecipesTried = new HashSet<>();
+        newRecipesTried.add("Italian Recipe");
+        newRecipesTried.add("Chinese Recipe");
+
+        when(chefMateUserRepository.findById(userId)).thenReturn(Optional.of(oldUserRecord));
+
+        ArgumentCaptor<ChefMateUserRecord> userRecordCaptor = ArgumentCaptor.forClass(ChefMateUserRecord.class);
+
+        // WHEN
+        chefMateUserService.updateRecipesTried(userId, newRecipesTried);
+
+        // THEN
+        verify(chefMateUserRepository).save(userRecordCaptor.capture());
+
+        ChefMateUserRecord record = userRecordCaptor.getValue();
+
+        Assertions.assertNotNull(record, "The user record is returned");
+        Assertions.assertEquals(record.getUserId(), userId, "The user id matches");
+    }
+
+    @Test
+    void updateRecipesTried_invalid_user() {
+        // GIVEN
+        String userId = randomUUID().toString();
+        Set<String> newRecipesTried = new HashSet<>();
+        newRecipesTried.add("Italian Recipe");
+        newRecipesTried.add("Chinese Recipe");
+
+        when(chefMateUserRepository.findById(userId)).thenReturn(Optional.empty());
+
+        // WHEN
+        Assertions.assertThrows(ResponseStatusException.class, () -> chefMateUserService.updateRecipesTried(userId, newRecipesTried));
+
+        // THEN
+        try {
+            verify(chefMateUserRepository, never()).save(Matchers.any());
+        } catch(MockitoAssertionError error) {
+            throw new MockitoAssertionError("There should not be a call to .save() if the user is not found in the database. - " + error);
+        }
+    }
+
+
+    /** ------------------------------------------------------------------------
      *  chefMateUserService.deleteUser
      *  ------------------------------------------------------------------------ **/
     @Test
@@ -172,6 +222,8 @@ public class ChefMateUserServiceTest {
 
         // GIVEN
         String userId = randomUUID().toString();
+
+        when(chefMateUserRepository.findById(userId)).thenReturn(Optional.empty());
 
         // WHEN
         Assertions.assertThrows(ResponseStatusException.class, () -> chefMateUserService.deleteUser(userId));
