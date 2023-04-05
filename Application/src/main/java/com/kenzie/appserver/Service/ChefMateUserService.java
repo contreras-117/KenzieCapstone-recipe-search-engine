@@ -4,7 +4,9 @@ import com.kenzie.appserver.controller.model.ChefMateUserResponse;
 import com.kenzie.appserver.controller.model.CreateChefMateUserRequest;
 import com.kenzie.appserver.repositories.ChefMateUserRepository;
 import com.kenzie.appserver.repositories.model.ChefMateUserRecord;
+import com.kenzie.capstone.service.client.RecipeServiceLambdaJavaClient.RecipeLambdaServiceClient;
 import com.kenzie.capstone.service.client.ReviewServiceLambdaJavaClient.ReviewLambdaServiceClient;
+import com.kenzie.capstone.service.model.RecipeServiceLambdaModel.RecipeResponse;
 import com.kenzie.capstone.service.model.ReviewServiceLambdaModel.Review;
 import com.kenzie.capstone.service.model.ReviewServiceLambdaModel.ReviewCreateRequest;
 import com.kenzie.capstone.service.model.ReviewServiceLambdaModel.ReviewResponse;
@@ -23,11 +25,14 @@ public class ChefMateUserService {
 
     private ChefMateUserRepository chefMateUserRepository;
     private ReviewLambdaServiceClient reviewLambdaServiceClient;
+    private RecipeLambdaServiceClient recipeLambdaServiceClient;
 
     public ChefMateUserService(ChefMateUserRepository chefMateUserRepository,
-                               ReviewLambdaServiceClient reviewLambdaServiceClient) {
+                               ReviewLambdaServiceClient reviewLambdaServiceClient,
+                               RecipeLambdaServiceClient recipeLambdaServiceClient) {
         this.chefMateUserRepository = chefMateUserRepository;
         this.reviewLambdaServiceClient = reviewLambdaServiceClient;
+        this.recipeLambdaServiceClient = recipeLambdaServiceClient;
     }
 
     /**
@@ -134,6 +139,18 @@ public class ChefMateUserService {
                 .stream()
                 .map(this::reviewToResponseConverter)
                 .collect(Collectors.toList());
+    }
+
+    public RecipeResponse getAllRecipes(String query){
+        return recipeLambdaServiceClient.getAllRecipes(query);
+    }
+
+    public RecipeResponse getRandomRecipe(){
+        return recipeLambdaServiceClient.getRandomRecipe();
+    }
+
+    public List<RecipeResponse> searchByNutrients(String query) {
+        return recipeLambdaServiceClient.getSearchByNutrients(query);
     }
 
 

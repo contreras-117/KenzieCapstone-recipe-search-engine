@@ -6,7 +6,6 @@ import com.kenzie.appserver.controller.model.ChefMateUserResponse;
 import com.kenzie.appserver.controller.model.CreateChefMateUserRequest;
 import com.kenzie.appserver.controller.model.UpdateRecipesTriedRequest;
 import com.kenzie.appserver.controller.model.UpdateUserPreferencesRequest;
-import com.kenzie.appserver.service.RecipeService;
 import com.kenzie.capstone.service.model.ReviewServiceLambdaModel.ReviewCreateRequest;
 import com.kenzie.capstone.service.model.ReviewServiceLambdaModel.ReviewResponse;
 import com.kenzie.capstone.service.model.RecipeServiceLambdaModel.RecipeResponse;
@@ -26,11 +25,8 @@ public class ChefMateUserController {
 
     private ChefMateUserService chefMateUserService;
 
-    private RecipeService recipeService;
-
-    ChefMateUserController(ChefMateUserService chefMateUserService, RecipeService recipeService) {
+    ChefMateUserController(ChefMateUserService chefMateUserService) {
         this.chefMateUserService = chefMateUserService;
-        this.recipeService = recipeService;
     }
 //
 //    @GetMapping("/userProfile")
@@ -102,7 +98,7 @@ public class ChefMateUserController {
             return ResponseEntity.notFound().build();
         }
 
-        return ResponseEntity.ok(recipeService.searchByNutrients(query));
+        return ResponseEntity.ok(chefMateUserService.searchByNutrients(query));
     }
 
 
