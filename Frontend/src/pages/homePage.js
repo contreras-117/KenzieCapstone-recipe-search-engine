@@ -129,7 +129,7 @@ class HomePage extends BaseClass {
             query = query.slice(0, query.length - 1);
         }
 
-        query += "&number=30";
+        query += "&number=10";
 
         // needs userId data to pass in
         let result = await this.client.searchByNutrients(userId, query, this.errorHandler);
@@ -142,8 +142,14 @@ class HomePage extends BaseClass {
         let html = "";
 
         for (let recipe of recipesReturned) {
-            let instructions = document.getElementById("chefmate-instructions-innerHTML").innerHTML = recipe.instructions;
+            let instructionsString = recipe.instructions;
 
+
+            if (instructionsString === "undefined" || instructionsString == null) {
+                instructionsString = "Oops! It seems like we have encountered a recipe without instructions. Please refer to the link instead!"
+            } else {
+                instructionsString = instructionsString.split("'").join('');
+            }
 
             html += "<div class='recipes'>";
             html += "<div class='content'>";
@@ -154,12 +160,12 @@ class HomePage extends BaseClass {
             html += "<div class='recipe-content'>";
             html += "<ul>";
             html += `<li>Recipe ID: ${recipe.id}</li>`;
-            html += `<li>ETA: ${recipe.readyInMinutes}</li>`;
+            html += `<li>Ready In: ${recipe.readyInMinutes} minutes</li>`;
             html += `<li>Servings: ${recipe.servings}</li>`;
             html += "</ul>";
             html += "</div>";
             html += `<a href=${recipe.sourceUrl} rel="noopener noreferrer" target="_blank"><button class='instructions-button'>Instructions</button></a>`;
-            html += `<button id="chef-mate-instructions-anchor" onclick="location.href='https://www.google.com'" rel="noopener noreferrer" target="_blank" class='chef-mate-instructions-button'>ChefMate Instructions</button>`;
+            html += `<button id="chef-mate-instructions-anchor" onclick="openInstructions('${instructionsString}')" class='chef-mate-instructions-button'>ChefMate Instructions</button>`;
             html += "</div>";
             html += "</div>";
 
