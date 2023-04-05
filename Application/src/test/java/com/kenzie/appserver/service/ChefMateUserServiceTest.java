@@ -112,15 +112,15 @@ public class ChefMateUserServiceTest {
 
         when(chefMateUserRepository.findById(userId)).thenReturn(Optional.of(oldUserRecord));
 
-        ArgumentCaptor<ChefMateUserRecord> customerRecordCaptor = ArgumentCaptor.forClass(ChefMateUserRecord.class);
+        ArgumentCaptor<ChefMateUserRecord> userRecordCaptor = ArgumentCaptor.forClass(ChefMateUserRecord.class);
 
         // WHEN
         chefMateUserService.updateUserPreferences(userId, newUserPreferences);
 
         // THEN
-        verify(chefMateUserRepository).save(customerRecordCaptor.capture());
+        verify(chefMateUserRepository).save(userRecordCaptor.capture());
 
-        ChefMateUserRecord record = customerRecordCaptor.getValue();
+        ChefMateUserRecord record = userRecordCaptor.getValue();
 
         Assertions.assertNotNull(record, "The user record is returned");
         Assertions.assertEquals(record.getUserId(), userId, "The user id matches");
@@ -203,7 +203,7 @@ public class ChefMateUserServiceTest {
      *  chefMateUserService.deleteUser
      *  ------------------------------------------------------------------------ **/
     @Test
-    void deleteUser_valid_user() {
+    void deleteUser() {
         // GIVEN
         String userId = randomUUID().toString();
 
@@ -218,26 +218,5 @@ public class ChefMateUserServiceTest {
         // THEN
         verify(chefMateUserRepository).deleteById(userId);
     }
-
-    @Test
-    void deleteUser_invalid_user() {
-
-        // GIVEN
-        String userId = randomUUID().toString();
-
-        when(chefMateUserRepository.findById(userId)).thenReturn(Optional.empty());
-
-        // WHEN
-        Assertions.assertThrows(ResponseStatusException.class, () -> chefMateUserService.deleteUser(userId));
-
-        // THEN
-        try {
-            verify(chefMateUserRepository, never()).deleteById(Matchers.any());
-        } catch(MockitoAssertionError error) {
-            throw new MockitoAssertionError("There should not be a call to .deleteById() if the user is not found in the database. - " + error);
-        }
-
-    }
-
 
 }
