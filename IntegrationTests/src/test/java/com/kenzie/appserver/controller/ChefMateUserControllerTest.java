@@ -47,7 +47,7 @@ public class ChefMateUserControllerTest {
      *  ------------------------------------------------------------------------ **/
 
     @Test
-    public void addUser() throws Exception {
+    public void addUser_successful() throws Exception {
 
         CreateChefMateUserRequest userRequest = new CreateChefMateUserRequest();
         userRequest.setUserId(UUID.randomUUID().toString());
@@ -68,4 +68,45 @@ public class ChefMateUserControllerTest {
         assertThat(response.getRecipesTried()).isNullOrEmpty();
         assertThat(response.getIngredients()).isNullOrEmpty();
     }
+
+    /** ------------------------------------------------------------------------
+     *  Update User
+     *  ------------------------------------------------------------------------ **/
+
+    @Test
+    public void updateUserPreferences() throws Exception {
+
+        // GIVEN
+        CreateChefMateUserRequest userRequest = new CreateChefMateUserRequest();
+        userRequest.setUserId(UUID.randomUUID().toString());
+        userRequest.setUserPreferences(Optional.empty());
+        userRequest.setRecipesTried(Optional.empty());
+        userRequest.setIngredients(Optional.empty());
+
+        ChefMateUserResponse userResponse = chefMateUserService.addNewUser(userRequest);
+        List<String> newUserPreferences = Arrays.asList("Gluten Free", "Vegetarian", "Dairy Free");
+
+
+        UpdateUserPreferencesRequest updateRequest = new UpdateUserPreferencesRequest();
+        updateRequest.setUserId(userResponse.getUserId());
+        updateRequest.setUserPreferences(Optional.of(newUserPreferences));
+        updateRequest.setRecipesTried(Optional.empty());
+        updateRequest.setIngredients(Optional.empty());
+
+        // WHEN
+        ResultActions actions = mvc.perform(put("/user/userPreferences/{userPreferences}", newUserPreferences)
+                        .content(mapper.writeValueAsString(updateRequest))
+                        .accept(MediaType.APPLICATION_JSON)
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().is2xxSuccessful());
+
+        // THEN
+        String responseBody = actions.andReturn().getResponse().getContentAsString();
+        ChefMateUserResponse response = mapper.readValue(responseBody, ChefMateUserResponse.class);
+        assertThat(response.getUserId()).isNotEmpty().as("The ID is populated");
+        assertThat(response.getUserPreferences()).isNotEmpty().as("The user preference is populated");
+        assertThat(response.getRecipesTried()).isNullOrEmpty();
+        assertThat(response.getIngredients()).isNullOrEmpty();
+    }
+
 }
