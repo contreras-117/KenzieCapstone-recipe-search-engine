@@ -174,4 +174,32 @@ public class ChefMateUserControllerTest {
         assertThat(response.getUserId()).isNotEmpty().as("The ID is populated");
     }
 
+    /** ------------------------------------------------------------------------
+     *  Delete User
+     *  ------------------------------------------------------------------------ **/
+
+    @Test
+    public void deleteUser_successful() throws Exception {
+
+        // GIVEN
+        CreateChefMateUserRequest userRequest = new CreateChefMateUserRequest();
+        userRequest.setUserId(UUID.randomUUID().toString());
+        userRequest.setUserPreferences(Optional.empty());
+        userRequest.setRecipesTried(Optional.empty());
+        userRequest.setIngredients(Optional.empty());
+
+        ChefMateUserResponse userResponse = chefMateUserService.addNewUser(userRequest);
+
+        // WHEN
+        mvc.perform(delete("/user/deleteUser/{userId}", userResponse.getUserId())
+                        .accept(MediaType.APPLICATION_JSON)
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().is2xxSuccessful());
+
+        // THEN
+        mvc.perform(get("/user/getUserById/{userId}", userResponse.getUserId())
+                        .accept(MediaType.APPLICATION_JSON)
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isNotFound());
+    }
 }
