@@ -130,21 +130,60 @@ public class ChefMateUserServiceTest {
     @Test
     void updateUserPreferences_invalid_user() {
         // GIVEN
-        String customerId = randomUUID().toString();
+        String userId = randomUUID().toString();
         List<String> newUserPreferences = Arrays.asList("Gluten Free", "Vegetarian", "Dairy Free");
 
 
-        when(chefMateUserRepository.findById(customerId)).thenReturn(Optional.empty());
+        when(chefMateUserRepository.findById(userId)).thenReturn(Optional.empty());
 
         // WHEN
-        Assertions.assertThrows(ResponseStatusException.class, () -> chefMateUserService.updateUserPreferences(customerId, newUserPreferences));
+        Assertions.assertThrows(ResponseStatusException.class, () -> chefMateUserService.updateUserPreferences(userId, newUserPreferences));
 
         // THEN
         try {
             verify(chefMateUserRepository, never()).save(Matchers.any());
         } catch(MockitoAssertionError error) {
-            throw new MockitoAssertionError("There should not be a call to .save() if the customer is not found in the database. - " + error);
+            throw new MockitoAssertionError("There should not be a call to .save() if the user is not found in the database. - " + error);
         }
     }
+
+    /** ------------------------------------------------------------------------
+     *  chefMateUserService.deleteUser
+     *  ------------------------------------------------------------------------ **/
+    @Test
+    void deleteUser_valid_user() {
+        // GIVEN
+        String userId = randomUUID().toString();
+
+        ChefMateUserRecord oldCustomerRecord = new ChefMateUserRecord();
+        oldCustomerRecord.setUserId(userId);
+
+        doNothing().when(chefMateUserRepository).deleteById(userId);
+
+        // WHEN
+        chefMateUserService.deleteUser(userId);
+
+        // THEN
+        verify(chefMateUserRepository).deleteById(userId);
+    }
+
+    @Test
+    void deleteUser_invalid_user() {
+
+        // GIVEN
+        String userId = randomUUID().toString();
+
+        // WHEN
+        Assertions.assertThrows(ResponseStatusException.class, () -> chefMateUserService.deleteUser(userId));
+
+        // THEN
+        try {
+            verify(chefMateUserRepository, never()).deleteById(Matchers.any());
+        } catch(MockitoAssertionError error) {
+            throw new MockitoAssertionError("There should not be a call to .deleteById() if the user is not found in the database. - " + error);
+        }
+
+    }
+
 
 }
