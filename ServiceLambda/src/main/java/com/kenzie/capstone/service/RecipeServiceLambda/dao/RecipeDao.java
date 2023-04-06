@@ -105,4 +105,28 @@ public class RecipeDao {
         }
     }
 
+    public String searchByIngredients(String query) {
+        HttpClient httpClient = HttpClient.newHttpClient();
+
+        HttpRequest request = HttpRequest.newBuilder()
+                .uri(URI.create(SPOONACULAR_API_URL + "/recipes/findByIngredients?ingredients=" + query))
+                .header("Accept", "application/json")
+                .header("X-RapidAPI-Key", API_KEY)
+                .header("X-RapidAPI-Host", API_HEADER)
+                .GET()
+                .build();
+
+        try {
+            HttpResponse<String> httpResponse = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
+            int statusCode = httpResponse.statusCode();
+            if (statusCode == 200) {
+                return httpResponse.body();
+            } else {
+                return String.format("GET by ingredients failed: %d status code received", statusCode);
+            }
+        } catch (IOException | InterruptedException e) {
+            return e.getMessage();
+        }
+    }
+
 }

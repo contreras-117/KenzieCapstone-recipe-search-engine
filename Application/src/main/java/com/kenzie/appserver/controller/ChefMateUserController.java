@@ -111,6 +111,19 @@ public class ChefMateUserController {
         return ResponseEntity.ok(reviewResponses);
     }
 
+    @GetMapping("/{userId}/recipes/food/search/ingredients/{query}")
+    public ResponseEntity<List<RecipeResponse>> searchByIngredients(@PathVariable("query") String query,
+                                                                    @PathVariable("userId") String userId) {
+
+        ChefMateUserResponse chefMateUserResponse = chefMateUserService.getUserById(userId);
+
+        if (chefMateUserResponse == null || chefMateUserResponse.getUserId() == null || chefMateUserResponse.getUserId().isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
+
+        return ResponseEntity.ok(chefMateUserService.searchByIngredients(query));
+    }
+
        /* -----------------------------------------------------------------------------------------------------------
         Private Methods
        ----------------------------------------------------------------------------------------------------------- */

@@ -191,3 +191,27 @@ Resources:
           Properties:
             Path: /random
             Method: get
+  SearchByIngredientsFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: ServiceLambda/build/distributions/ServiceLambda.zip
+      Handler: com.kenzie.capstone.service.RecipeServiceLambda.lambda.SearchByIngredients
+      Runtime: java11
+      Description: Retrieves recipes with given ingredients
+      MemorySize: 512
+      Timeout: 240
+      # Function's execution role
+      Policies:
+        - AWSLambdaBasicExecutionRole
+        - AWSLambda_ReadOnlyAccess
+        - AWSXrayWriteOnlyAccess
+        - AWSLambdaVPCAccessExecutionRole
+        - AmazonS3FullAccess
+        - AmazonDynamoDBFullAccess
+      Tracing: Active
+      Events:
+        UpdateResource:
+          Type: Api
+          Properties:
+            Path: /recipes/food/search/ingredients/{query}
+            Method: get
