@@ -134,6 +134,28 @@ public class ChefMateUserController {
         return ResponseEntity.ok(chefMateUserService.getRandomRecipe());
     }
 
+    @GetMapping("/{userId}/recipes/food/search/{query}")
+    public ResponseEntity<List<RecipeResponse>> getAllRecipes(@PathVariable("query") String query,
+                                                              @PathVariable("userId") String userId){
+        ChefMateUserResponse chefMateUserResponse = chefMateUserService.getUserById(userId);
+
+        if (chefMateUserResponse == null || chefMateUserResponse.getUserId() == null || chefMateUserResponse.getUserId().isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
+
+        return ResponseEntity.ok(chefMateUserService.getAllRecipes(query));
+    }
+
+    @GetMapping("/{userId}/recipes/food/search")
+    public ResponseEntity<List<Recipe>> getRandomRecipe(@PathVariable("userId") String userId){
+        ChefMateUserResponse chefMateUserResponse = chefMateUserService.getUserById(userId);
+
+        if (chefMateUserResponse == null || chefMateUserResponse.getUserId() == null || chefMateUserResponse.getUserId().isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
+
+        return ResponseEntity.ok(chefMateUserService.getRandomRecipe());
+    }
        /* -----------------------------------------------------------------------------------------------------------
         Private Methods
        ----------------------------------------------------------------------------------------------------------- */

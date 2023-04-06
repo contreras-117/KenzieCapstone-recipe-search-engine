@@ -6,6 +6,7 @@ import com.kenzie.appserver.repositories.ChefMateUserRepository;
 import com.kenzie.appserver.repositories.model.ChefMateUserRecord;
 import com.kenzie.capstone.service.client.RecipeServiceLambdaJavaClient.RecipeLambdaServiceClient;
 import com.kenzie.capstone.service.client.ReviewServiceLambdaJavaClient.ReviewLambdaServiceClient;
+import com.kenzie.capstone.service.model.RecipeServiceLambdaModel.Recipe;
 import com.kenzie.capstone.service.model.RecipeServiceLambdaModel.RecipeResponse;
 import com.kenzie.capstone.service.model.ReviewServiceLambdaModel.Review;
 import com.kenzie.capstone.service.model.ReviewServiceLambdaModel.ReviewCreateRequest;
@@ -141,11 +142,11 @@ public class ChefMateUserService {
                 .collect(Collectors.toList());
     }
 
-    public RecipeResponse getAllRecipes(String query){
+    public List<RecipeResponse> getAllRecipes(String query){
         return recipeLambdaServiceClient.getAllRecipes(query);
     }
 
-    public RecipeResponse getRandomRecipe(){
+    public List<Recipe> getRandomRecipe(){
         return recipeLambdaServiceClient.getRandomRecipe();
     }
 
