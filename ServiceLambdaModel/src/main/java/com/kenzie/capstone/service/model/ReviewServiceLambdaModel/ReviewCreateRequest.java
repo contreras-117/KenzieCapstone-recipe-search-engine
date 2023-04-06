@@ -18,11 +18,15 @@ public class ReviewCreateRequest {
     @JsonProperty("comment")
     private String comment;
 
-    ReviewCreateRequest(String recipeId, String reviewerId, Double rating, String comment) {
+    public ReviewCreateRequest(String recipeId, String reviewerId, Double rating, String comment) {
         this.comment = comment;
         this.rating = rating;
         this.reviewerId = reviewerId;
         this.recipeId = recipeId;
+    }
+
+    public ReviewCreateRequest() {
+
     }
 
     public String getRecipeId() {
