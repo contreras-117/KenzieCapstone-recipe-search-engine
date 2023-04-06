@@ -177,7 +177,7 @@
     height: 500px
 }
 
-.review-form {
+#review-form {
   padding-top: 50px;
     text-align: center;
     justify-content: center;
@@ -499,7 +499,9 @@ ul {
     padding-bottom: 5px;
     margin-bottom: -10px;
     border-top: 1px solid black;
-
+    display: flex;
+    flex-flow: column nowrap;
+    align-items: center;
 }
 
 #rendering-recipes-section::-webkit-scrollbar {
@@ -553,4 +555,101 @@ ul {
 
 #search-render-change {
     width: 100%;
+}
+
+#recipeId-review-input-container {
+    margin-right: 25%;
+    margin-left: 25%;
+}
+
+.review-content {
+    width: 30em;
+    margin: 15px;
+    margin-top: 25px;
+    height: 26em;
+    box-sizing: border-box;
+    float: left;
+    border-radius: 5% 5% 5px 5px;
+    cursor: pointer;
+    position: relative;
+    /*box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);*/
+    box-shadow: 0 3px 6px rgba(0,0,0,0.16);
+    transition: .4s;
+    text-align: center;
+
+}
+
+
+.star-container-reviews {
+    padding-bottom: 10px;
+    margin-left: 25px;
+    justify-content: center;
+    display:flex;
+    margin-left: 25%;
+    margin-right: 25%;
+    background: white;
+}
+
+.star-rating-reviews {
+    position: absolute;
+    bottom: 0;
+    padding-bottom: 20px;
+    background: white;
+    display: flex;
+    justify-content: center;
+    width: 100%;
+}
+
+.star-container-reviews .star-rating-reviews input {
+    display: none;
+}
+
+.star-rating-reviews label {
+    font-size: 20px;
+    padding: 10px;
+    align-items: center;
+    float: right;
+    transition: all 0.2s ease;
+    color: #fd4;
+    /* for a bright yellow star it is #fe7*/
+}
+
+.user-header {
+    padding-top: 30px;
+    padding-bottom: 15px;
+}
+
+.review-title {
+    margin-top: 5%;
+}
+
+.review-returned {
+    margin-top: 5%;
+    margin-left: 5%;
+    margin-right: 5%;
+
+}
+
+#review-text-container {
+   max-height: 200px;
+   overflow-x: auto;
+
+
+}
+
+#get-review-form {
+
+    display: flex;
+
+       /* justify-content: center;*/
+
+}
+
+#get-reviews-button {
+    width: 150px;
+    margin-left: 10px;
+}
+
+#recipe-id-input {
+      width: 45%;
 }
