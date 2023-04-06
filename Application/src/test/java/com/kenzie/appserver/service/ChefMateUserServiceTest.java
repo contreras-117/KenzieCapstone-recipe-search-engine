@@ -7,6 +7,9 @@ import com.kenzie.appserver.repositories.ChefMateUserRepository;
 import com.kenzie.appserver.repositories.model.ChefMateUserRecord;
 import com.kenzie.capstone.service.client.RecipeServiceLambdaJavaClient.RecipeLambdaServiceClient;
 import com.kenzie.capstone.service.client.ReviewServiceLambdaJavaClient.ReviewLambdaServiceClient;
+import com.kenzie.capstone.service.model.ReviewServiceLambdaModel.Review;
+import com.kenzie.capstone.service.model.ReviewServiceLambdaModel.ReviewCreateRequest;
+import com.kenzie.capstone.service.model.ReviewServiceLambdaModel.ReviewResponse;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -24,11 +27,12 @@ public class ChefMateUserServiceTest {
 
     private ChefMateUserRepository chefMateUserRepository;
     private ChefMateUserService chefMateUserService;
+    private ReviewLambdaServiceClient reviewLambdaServiceClient;
 
     @BeforeEach
     void setup() {
         chefMateUserRepository = mock(ChefMateUserRepository.class);
-        ReviewLambdaServiceClient reviewLambdaServiceClient = mock(ReviewLambdaServiceClient.class);
+        reviewLambdaServiceClient = mock(ReviewLambdaServiceClient.class);
         RecipeLambdaServiceClient recipeLambdaServiceClient = mock(RecipeLambdaServiceClient.class);
         chefMateUserService = new ChefMateUserService(chefMateUserRepository, reviewLambdaServiceClient, recipeLambdaServiceClient);
     }
@@ -219,4 +223,117 @@ public class ChefMateUserServiceTest {
         verify(chefMateUserRepository).deleteById(userId);
     }
 
+    @Test
+    void addReview_properUser_addsReview() {
+        ReviewCreateRequest request = new ReviewCreateRequest();
+        ReviewResponse response = new ReviewResponse();
+
+        String userId = randomUUID().toString();
+        String recipeId = randomUUID().toString();
+
+        request.setReviewerId(userId);
+        request.setRating(3.0);
+        request.setComment("test Comment");
+        request.setRecipeId(recipeId);
+
+        response.setRating(3.0);
+        response.setComment("test Comment");
+        response.setReviewerId(userId);
+        response.setRecipeId(recipeId);
+
+        Set<String> recipesTried = new HashSet<>();
+        recipesTried.add(recipeId);
+
+        ChefMateUserRecord userRecord = new ChefMateUserRecord();
+        userRecord.setUserId(userId);
+        userRecord.setRecipesTried(recipesTried);
+
+        when(chefMateUserRepository.findById(userId)).thenReturn(Optional.of(userRecord));
+        when(reviewLambdaServiceClient.addReview(request)).thenReturn(response);
+
+        ReviewResponse actualResponse = chefMateUserService.addReview(request);
+        Assertions.assertEquals(actualResponse.getComment(), request.getComment());
+        Assertions.assertEquals(actualResponse.getReviewerId(), request.getReviewerId());
+        Assertions.assertEquals(actualResponse.getRecipeId(), request.getRecipeId());
+        Assertions.assertEquals(actualResponse.getRating(), request.getRating());
+    }
+
+    @Test
+    public void addReview_userIsNotValid_throwsException() {
+        ReviewCreateRequest request = new ReviewCreateRequest();
+
+        String userId = randomUUID().toString();
+        String recipeId = randomUUID().toString();
+
+        request.setReviewerId(userId);
+        request.setRating(3.0);
+        request.setComment("test Comment");
+        request.setRecipeId(recipeId);
+
+        when(chefMateUserRepository.findById(userId)).thenReturn(Optional.ofNullable(null));
+
+        Assertions.assertThrows(ResponseStatusException.class, () -> chefMateUserService.addReview(request));
+    }
+
+    @Test
+    public void addReview_recipeIsNotTried_throwsException() {
+        ReviewCreateRequest request = new ReviewCreateRequest();
+        ReviewResponse response = new ReviewResponse();
+
+        String userId = randomUUID().toString();
+        String notTriedRecipeId = randomUUID().toString();
+
+        request.setReviewerId(userId);
+        request.setRating(3.0);
+        request.setComment("test Comment");
+        request.setRecipeId(notTriedRecipeId);
+
+
+        Set<String> recipesTried = new HashSet<>();
+        recipesTried.add(UUID.randomUUID().toString());
+
+        ChefMateUserRecord userRecord = new ChefMateUserRecord();
+        userRecord.setUserId(userId);
+        userRecord.setRecipesTried(recipesTried);
+
+        when(chefMateUserRepository.findById(userId)).thenReturn(Optional.of(userRecord));
+
+        Assertions.assertThrows(ResponseStatusException.class, () -> chefMateUserService.addReview(request));
+    }
+
+    @Test
+    public void getReviews_validId_returnsReviews() {
+        String recipeId = UUID.randomUUID().toString();
+        String reviewerId = UUID.randomUUID().toString();
+
+        Review review1 = new Review(recipeId, reviewerId, 5.0, "good recipe");
+        Review review2 = new Review(recipeId, reviewerId, 1.0, "bad recipe");
+
+        List<Review> reviewList = new ArrayList<>();
+        reviewList.add(review1);
+        reviewList.add(review2);
+
+        when(reviewLambdaServiceClient.getRecipeReviews(recipeId)).thenReturn(reviewList);
+        List<ReviewResponse> responseList = chefMateUserService.getRecipeReviews(recipeId);
+
+        Assertions.assertEquals(reviewList.size(), responseList.size());
+
+        Assertions.assertEquals(responseList.get(0).getRecipeId(), recipeId);
+        Assertions.assertEquals(responseList.get(1).getRecipeId(), recipeId);
+
+        Assertions.assertEquals(responseList.get(0).getReviewerId(), reviewerId);
+        Assertions.assertEquals(responseList.get(1).getReviewerId(), reviewerId);
+
+        Assertions.assertEquals(responseList.get(0).getComment(), review1.getComment());
+        Assertions.assertEquals(responseList.get(1).getComment(), review2.getComment());
+
+        Assertions.assertEquals(responseList.get(0).getRating(), review1.getRating());
+        Assertions.assertEquals(responseList.get(1).getRating(), review2.getRating());
+    }
+
+    @Test
+    public void getReviews_invalidReviewIds_throwExceptions() {
+        Assertions.assertThrows(IllegalArgumentException.class, () -> chefMateUserService.getRecipeReviews(null), "Null Id expected to throw exception");
+        Assertions.assertThrows(IllegalArgumentException.class, () -> chefMateUserService.getRecipeReviews(""), "Empty Id expected to throw exception");
+    }
 }

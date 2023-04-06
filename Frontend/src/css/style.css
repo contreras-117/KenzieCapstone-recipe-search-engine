@@ -93,7 +93,7 @@
 #homepage {
     display: flex;
     width: 100%;
-        background-color: var(--secondary-color);
+    background-color: var(--secondary-color);
 }
 
 /*#mainNavbar {
@@ -415,7 +415,6 @@ ul {
     right: 0;
     bottom: 0;
     background: #87CEFA;
-    position: right;
     margin-bottom: 59px;
     border: solid 1px black;
     border-radius: 5px 5px 0 0;
@@ -550,4 +549,8 @@ ul {
 
 #chefmate-header {
     font-size: 40px;
+}
+
+#search-render-change {
+    width: 100%;
 }

@@ -126,7 +126,6 @@ public class ChefMateUserService {
         if (!userRecord.getRecipesTried().contains(request.getRecipeId())) {
             throw new IllegalArgumentException("Cannot review recipe you havent tried");
         }
-
         return reviewLambdaServiceClient.addReview(request);
     }
 
@@ -152,6 +151,10 @@ public class ChefMateUserService {
 
     public List<RecipeResponse> searchByNutrients(String query) {
         return recipeLambdaServiceClient.getSearchByNutrients(query);
+    }
+
+    public List<RecipeResponse> searchByIngredients(String query) {
+        return recipeLambdaServiceClient.getSearchByIngredients(query);
     }
 
 

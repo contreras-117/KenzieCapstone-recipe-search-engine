@@ -25,10 +25,10 @@ public class ReviewService {
         return records.stream()
                 .map(reviewInstance -> {
                     Review review = new Review();
-                    review.setReviewerId(review.getReviewerId());
-                    review.setRecipeId(recipeId);
-                    review.setRating(review.getRating());
-                    review.setComment(review.getComment());
+                    review.setReviewerId(reviewInstance.getReviewerId());
+                    review.setRecipeId(reviewInstance.getRecipeId());
+                    review.setRating(reviewInstance.getRating());
+                    review.setComment(reviewInstance.getComment());
                     return review;
                 })
                 .collect(Collectors.toList());

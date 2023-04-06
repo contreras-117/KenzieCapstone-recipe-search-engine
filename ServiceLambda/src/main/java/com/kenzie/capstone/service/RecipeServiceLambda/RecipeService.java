@@ -76,9 +76,6 @@ public class RecipeService {
 
     public List<RecipeResponse> searchByNutrients(String query) {
 
-        GsonBuilder gsonBuilder = new GsonBuilder();
-        Gson gson = gsonBuilder.create();
-
         String recipesByNutrientsJson = recipeDao.searchByNutrients(query);
 
         List<RecipeResponse> recipes = gson.fromJson(recipesByNutrientsJson, new TypeToken<List<RecipeResponse>>() { }.getType());
@@ -96,12 +93,28 @@ public class RecipeService {
     }
 
     public RecipeResponse getRecipeInformation(String recipeId) {
-        GsonBuilder gsonBuilder = new GsonBuilder();
-        Gson gson = gsonBuilder.create();
 
         String jsonRecipeInformation = recipeDao.getRecipeInformation(recipeId);
 
         return gson.fromJson(jsonRecipeInformation, new TypeToken<RecipeResponse>(){}.getType());
+    }
+
+    public List<RecipeResponse> searchByIngredients(String query) {
+
+        String jsonRecipeResponse = recipeDao.searchByIngredients(query);
+
+        List<RecipeResponse> recipes = gson.fromJson(jsonRecipeResponse, new TypeToken<List<RecipeResponse>>() {}.getType());
+
+        for (RecipeResponse recipe : recipes) {
+            RecipeResponse recipeInformation = getRecipeInformation(recipe.getRecipeId());
+
+            recipe.setInstructions(recipeInformation.getInstructions());
+            recipe.setServings(recipeInformation.getServings());
+            recipe.setReadyInMinutes(recipeInformation.getReadyInMinutes());
+            recipe.setSourceUrl(recipeInformation.getSourceUrl());
+        }
+
+        return recipes;
     }
 
     public static void main(String[] args) {
@@ -110,21 +123,21 @@ public class RecipeService {
         RecipeResponse recipeResponse = recipeService.getRecipeInformation("20183");
 //       // System.out.println(recipeResponse.getRecipeId());
 //
-////        List<RecipeResponse> recipeResponses = recipeService.searchByNutrients("minCarbs=10");
-////
-////        int counter = 1;
-////
-////        for (RecipeResponse response : recipeResponses) {
-////            System.out.println("Recipe #" + counter++);
-////            System.out.println(response.getRecipeId());
-////            System.out.println(response.getName());
-////            System.out.println(response.getImage());
-////            System.out.println(response.getSourceUrl());
-////            System.out.println(response.getServings());
-////            System.out.println(response.getInstructions());
-////            System.out.println(response.getReadyInMinutes());
-////            System.out.println();
-////        }
+/*        List<RecipeResponse> recipeResponses = recipeService.searchByIngredients("bannans,flour,sugar&number=2");
+
+        int counter = 1;
+
+        for (RecipeResponse response : recipeResponses) {
+            System.out.println("Recipe #" + counter++);
+            System.out.println(response.getRecipeId());
+            System.out.println(response.getName());
+            System.out.println(response.getImage());
+            System.out.println(response.getSourceUrl());
+            System.out.println(response.getServings());
+            System.out.println(response.getInstructions());
+            System.out.println(response.getReadyInMinutes());
+            System.out.println();
+        }*/
 //
 //        List<RecipeResponse> recipeResponse1 = recipeService.getAllRecipes("Chicken");
         int counter = 1;

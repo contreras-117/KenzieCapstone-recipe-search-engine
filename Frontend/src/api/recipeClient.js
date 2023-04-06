@@ -2,7 +2,7 @@ import BaseClass from "../util/baseClass";
 import axios from 'axios'
 
 /**
- * Client to call the MusicPlaylistService.
+ * Client to call the ChefMateUserService.
  *
  * This could be a great place to explore Mixins. Currently the client is being loaded multiple times on each page,
  * which we could avoid using inheritance or Mixins.
@@ -13,7 +13,7 @@ export default class RecipeClient extends BaseClass {
 
     constructor(props = {}){
         super();
-        const methodsToBind = ['clientLoaded', 'searchByNutrients', 'getAllRecipes'];
+        const methodsToBind = ['clientLoaded', 'searchByNutrients', 'searchByIngredients'];
         this.bindClassMethods(methodsToBind, this);
         this.props = props;
         this.clientLoaded(axios);
@@ -31,28 +31,35 @@ export default class RecipeClient extends BaseClass {
     }
 
     /**
-     * Gets the concert for the given ID.
-     * @param id Unique identifier for a concert
+     * Gets recipes for the given query string of nutrients.
+     * @param query Spoonacular API queries
      * @param errorCallback (Optional) A function to execute if the call fails.
-     * @returns The concert
+     * @returns List of recipes
      */
     async searchByNutrients(userId, query, errorCallback) {
         try {
             const response = await this.client.get(`/user/${userId}/recipes/food/search/nutrients/${query}`);
             return response.data;
         } catch (error) {
+            document.getElementById("spinner").style.display = "none";
             this.handleError("searchByNutrients", error, errorCallback);
         }
     }
-
-    async getAllRecipes(query, errorCallback) {
-        try{
-            const response = await this.client.get(`/recipes/food/search/${query}`);
-            return response.data;
-        } catch (error) {
-            this.handleError("getAllRecipes", error, errorCallback);
-        }
-    }
+    /**
+     * Gets recipes for the given query string of ingredients.
+     * @param query Spoonacular API queries
+     * @param errorCallback (Optional) A function to execute if the call fails.
+     * @returns List of recipes
+     */
+     async searchByIngredients(userId, query, errorCallback) {
+         try {
+             const response = await this.client.get(`/user/${userId}/recipes/food/search/ingredients/${query}`);
+             return response.data;
+         } catch (error) {
+             document.getElementById("spinner").style.display = "none";
+             this.handleError("searchByIngredients", error, errorCallback);
+         }
+     }
 
     /**
      * Helper method to log the error and run any error functions.

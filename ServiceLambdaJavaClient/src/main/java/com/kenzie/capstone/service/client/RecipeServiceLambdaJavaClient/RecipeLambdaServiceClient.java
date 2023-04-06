@@ -18,6 +18,7 @@ public class RecipeLambdaServiceClient {
     private static final String GET_RANDOM_RECIPE_ENDPOINT = "recipes/random";
 
     private static final String GET_SEARCH_BY_NUTRIENTS_ENDPOINT = "recipes/food/search/nutrients/{query}";
+    private static final String GET_SEARCH_BY_INGREDIENTS_ENDPOINT = "recipes/food/search/ingredients/{query}";
 
     private ObjectMapper mapper;
 
@@ -70,26 +71,10 @@ public class RecipeLambdaServiceClient {
         return recipes;
     }
 
-    // Old implementation
-    /*public List<RecipeResponse> getSearchByNutrients(Map<String, Object> parameters) {
+    public List<RecipeResponse> getSearchByIngredients(String query) {
         EndpointUtility endpointUtility = new EndpointUtility();
 
-        StringBuilder query = new StringBuilder();
-
-        int counter = 0;
-
-        for (Map.Entry<String, Object> parameter: parameters.entrySet()) {
-
-            if (counter != parameters.entrySet().size()) {
-                query.append(parameter.getKey()).append("=").append(parameter.getValue()).append("&");
-            } else {
-                query.append(parameter.getKey()).append("=").append(parameter.getValue());
-            }
-
-            counter++;
-        }
-
-        String response = endpointUtility.getEndpoint(GET_SEARCH_BY_NUTRIENTS_ENDPOINT.replace("{query}", query));
+        String response = endpointUtility.getEndpoint(GET_SEARCH_BY_INGREDIENTS_ENDPOINT.replace("{query}", query));
 
         List<RecipeResponse> recipes;
 
@@ -100,5 +85,5 @@ public class RecipeLambdaServiceClient {
         }
 
         return recipes;
-    }*/
+    }
 }

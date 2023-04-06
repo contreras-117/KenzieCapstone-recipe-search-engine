@@ -24,8 +24,8 @@ public class ReviewDao {
     public ReviewRecord addReview(ReviewRecord record) {
         try {
             mapper.save(record, new DynamoDBSaveExpression().withExpected(ImmutableMap.of(
-                    "recipeId", new ExpectedAttributeValue(),
-                    "reviewerId", new ExpectedAttributeValue())
+                    "recipeId", new ExpectedAttributeValue().withExists(false),
+                    "reviewerId", new ExpectedAttributeValue().withExists(false))
             ));
         } catch (ConditionalCheckFailedException e) {
             throw new IllegalArgumentException("id has already been used");
