@@ -7,6 +7,8 @@ import com.kenzie.appserver.Service.ChefMateUserService;
 import com.kenzie.appserver.controller.model.ChefMateUserResponse;
 import com.kenzie.appserver.controller.model.CreateChefMateUserRequest;
 import com.kenzie.appserver.controller.model.UpdateUserPreferencesRequest;
+import com.kenzie.capstone.service.model.ReviewServiceLambdaModel.ReviewCreateRequest;
+import com.kenzie.capstone.service.model.ReviewServiceLambdaModel.ReviewResponse;
 import net.andreinc.mockneat.MockNeat;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -201,5 +203,51 @@ public class ChefMateUserControllerTest {
                         .accept(MediaType.APPLICATION_JSON)
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isNotFound());
+    }
+
+    @Test
+    public void addReview_successful() throws Exception {
+
+        CreateChefMateUserRequest userRequest1 = new CreateChefMateUserRequest();
+        CreateChefMateUserRequest userRequest2 = new CreateChefMateUserRequest();
+
+        String recipeId = UUID.randomUUID().toString();
+        String recipeId2 = UUID.randomUUID().toString();
+        Set<String> recipesTried = new HashSet<>();
+        recipesTried.add(recipeId);
+        recipesTried.add(recipeId2);
+
+        userRequest1.setUserId(UUID.randomUUID().toString());
+        userRequest1.setUserPreferences(Optional.empty());
+        userRequest1.setRecipesTried(Optional.of(recipesTried));
+        userRequest1.setIngredients(Optional.empty());
+
+        userRequest2.setUserId(UUID.randomUUID().toString());
+        userRequest2.setUserPreferences(Optional.empty());
+        userRequest2.setRecipesTried(Optional.of(recipesTried));
+        userRequest2.setIngredients(Optional.empty());
+
+        ChefMateUserResponse userResponse1 = chefMateUserService.addNewUser(userRequest1);
+        ChefMateUserResponse userResponse2 = chefMateUserService.addNewUser(userRequest2);
+
+        ReviewCreateRequest createRequest1 = new ReviewCreateRequest();
+        createRequest1.setReviewerId(userRequest1.getUserId());
+        createRequest1.setRecipeId(recipeId);
+        createRequest1.setComment("Test recipe");
+        createRequest1.setRating(5.0);
+
+        ReviewCreateRequest createRequest2 = new ReviewCreateRequest();
+        createRequest2.setReviewerId(userRequest2.getUserId());
+        createRequest2.setRecipeId(recipeId2);
+        createRequest2.setComment("Test recipe");
+        createRequest2.setRating(5.0);
+
+        ReviewResponse reviewResponse = chefMateUserService.addReview(createRequest1);
+        ReviewResponse reviewResponse2 = chefMateUserService.addReview(createRequest2);
+
+        mvc.perform(get("/user/review/list/{recipeId}", createRequest1.getRecipeId())
+                .accept(MediaType.APPLICATION_JSON)
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().is2xxSuccessful());
     }
 }

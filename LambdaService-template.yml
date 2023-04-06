@@ -93,7 +93,7 @@ Resources:
         UpdateResource:
           Type: Api
           Properties:
-            Path: /reviews/recipeId
+            Path: /review/list/{recipeId}
             Method: get
   AddReviewFunction:
     Type: AWS::Serverless::Function
