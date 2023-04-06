@@ -1,12 +1,13 @@
 auth0.createAuth0Client({
   domain: "dev-fj42itvjlehoyi5w.us.auth0.com",
-  clientId: "1ijivkudpr7TPjhun60g3SHHAXupOdBf",
+  clientId: "JJkHXPg0fwgPSaOmo1V555VNnqOv7VN9",
   authorizationParams: {
     redirect_uri: window.location.origin
   }
 }).then(async (auth0Client) => {
   // Use the login link with id "login" in the DOM
   const loginLink = document.getElementById("login");
+  console.log(loginLink)
 
   loginLink.addEventListener("click", (e) => {
     e.preventDefault();

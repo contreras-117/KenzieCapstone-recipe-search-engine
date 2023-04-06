@@ -1,6 +1,9 @@
 <!DOCTYPE html>
 <html>
 <head>
+    <script src="https://cdn.auth0.com/js/auth0-spa-js/2.0/auth0-spa-js.production.js"></script>
+    <script type="text/javascript" src="ui.js"></script>
+    <script type="text/javascript" src="app.js"></script>
     <script type="text/javascript" src="homePage.js"></script>
     <!--
         <meta charset="utf-8">
@@ -54,7 +57,7 @@
             <ul class="navbar-nav d-none d-md-block">
                 <!-- Login link: show if NOT authenticated -->
                 <li class="nav-item auth-invisible">
-                    <a href="#" id="login" onclick="login()" class="nav-link auth-invisible hidden">Login</a>
+                    <a href="#" id="login" class="nav-link auth-invisible hidden" onclick="login()">Login</a>
                 </li>
                 <!-- / Login link -->
 
@@ -92,7 +95,7 @@
                                 id="delete-user"
                                 onclick="deleteUser()"
                         >
-                            <i class="fas fa-user-slash mr-3"></i> Recipes Tried
+                            <i class="fas fa-user-slash mr-3"></i> Delete User
                         </a>
                         <a
                                 href="#"
@@ -463,5 +466,9 @@
         }
     </script>
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> a2c3639 (HTML fixes for app.js)
 </body>
 </html>

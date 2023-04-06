@@ -1,4 +1,5 @@
 // URL mapping, from hash to a function that responds to that URL action
+console.log("ui.js")
 const router = {
   "/": () => showContent("content-home"),
   "/profile": () =>

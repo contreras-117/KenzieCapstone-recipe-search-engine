@@ -9,6 +9,8 @@ module.exports = {
   },
   entry: {
     homePage: path.resolve(__dirname, 'src', 'pages', 'homePage.js'),
+    ui: path.resolve(__dirname, 'src', 'auth', 'ui.js'),
+    app: path.resolve(__dirname, 'src', 'auth', 'app.js'),
   },
   output: {
     path: path.resolve(__dirname, 'dist'),
