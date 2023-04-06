@@ -9,7 +9,7 @@ class HomePage extends BaseClass {
 
     constructor() {
         super();
-        this.bindClassMethods(['onSearchByNutrients'], this);
+        this.bindClassMethods(['onSearchByNutrients', 'onSearchByIngredients'], this);
         this.dataStore = new DataStore();
     }
 
@@ -18,6 +18,7 @@ class HomePage extends BaseClass {
      */
     async mount() {
         document.getElementById('search-by-nutrients-form').addEventListener('submit', this.onSearchByNutrients);
+        document.getElementById('get-by-id-form').addEventListener('submit', this.onSearchByIngredients);
         this.client = new RecipeClient();
 
         /*this.dataStore.addChangeListener(this.renderExample)*/
@@ -175,8 +176,70 @@ class HomePage extends BaseClass {
            loadingSpinner.style.display = "none";
            renderingSection.innerHTML = html;
         } else {
+            loadingSpinner.style.display = "none";
             this.errorHandler("Error doing searchByNutrients!  Try again...");
         }
+    }
+
+    async onSearchByIngredients(event) {
+        event.preventDefault();
+
+        let loadingSpinner = document.getElementById("spinner");
+
+        loadingSpinner.style.display = "block";
+
+        let renderingSection = document.getElementById("rendering-recipes-section");
+
+        let ingredientsQuery = document.getElementById("search-ingredients-field").value;
+
+        // needs userId data
+        let result = await this.client.searchByIngredients(userId, ingredientsQuery, this.errorHandler);
+        this.dataStore.set("searchByIngredients", result);
+
+        let recipesReturned = this.dataStore.get("searchByIngredients");
+
+        let html = "";
+
+        for (let recipe of recipesReturned) {
+            let instructionsString = recipe.instructions;
+
+
+            if (instructionsString === "undefined" || instructionsString == null) {
+                instructionsString = "Oops! It seems like we have encountered a recipe without instructions. Please refer to the link instead!"
+            } else {
+                instructionsString = instructionsString.split("'").join('');
+            }
+
+            html += "<div class='recipes'>";
+            html += "<div class='content'>";
+            html += `<img class="recipe-image" src=${recipe.image}>`;
+            html += "<div class='recipe-title'>";
+            html += `<p><strong>${recipe.title}</strong></p>`;
+            html += "</div>";
+            html += "<div class='recipe-content'>";
+            html += "<ul>";
+            html += `<li>Recipe ID: ${recipe.id}</li>`;
+            html += `<li>Ready In: ${recipe.readyInMinutes} minutes</li>`;
+            html += `<li>Servings: ${recipe.servings}</li>`;
+            html += "</ul>";
+            html += "</div>";
+            html += `<a href=${recipe.sourceUrl} rel="noopener noreferrer" target="_blank"><button class='instructions-button'>Instructions</button></a>`;
+            html += `<button id="chef-mate-instructions-anchor" onclick="openInstructions('${instructionsString}')" class='chef-mate-instructions-button'>ChefMate Instructions</button>`;
+            html += "</div>";
+            html += "</div>";
+
+        }
+
+
+        if (result) {
+           loadingSpinner.style.display = "none";
+           renderingSection.innerHTML = html;
+        } else {
+            loadingSpinner.style.display = "none";
+            this.errorHandler("Error doing searchByIngredients!  Try again...");
+        }
+
+
     }
 }
 
