@@ -32,6 +32,9 @@ public class Recipe implements Serializable {
         this.servings = servings;
     }
 
+    public Recipe() {
+    }
+
     public String getRecipeId() {
         return recipeId;
     }

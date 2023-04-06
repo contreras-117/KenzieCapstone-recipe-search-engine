@@ -27,6 +27,11 @@ public class RecipeService {
         this.recipeDao = recipeDao;
     }
 
+    public RecipeService(RecipeDao recipeDao, Gson gson) {
+        this.recipeDao = recipeDao;
+        this.gson = gson;
+    }
+
     public List<RecipeResponse> getAllRecipes(String query) {
         String recipeInfo = recipeDao.getAllRecipes(query);
         System.out.println(recipeInfo);
@@ -36,10 +41,12 @@ public class RecipeService {
 
         for (RecipeResponse recipe : recipeResponse.getRecipes().get(0).getRecipes()) {
             RecipeResponse recipeInformation = getRecipeInformation(recipe.getRecipeId());
+            recipe.setName(recipeInformation.getName());
             recipe.setInstructions(recipeInformation.getInstructions());
             recipe.setServings(recipeInformation.getServings());
             recipe.setReadyInMinutes(recipeInformation.getReadyInMinutes());
             recipe.setSourceUrl(recipeInformation.getSourceUrl());
+            recipe.setImage(recipeInformation.getImage());
             recipes.add(recipe);
         }
 
@@ -48,11 +55,13 @@ public class RecipeService {
 
     public List<Recipe> getRandomRecipe(){
         String recipeInfo = recipeDao.getRandomRecipe();
-
+        System.out.println(recipeInfo);
         RandomRecipeResponse randomRecipesResponse = gson.fromJson(recipeInfo, new TypeToken<RandomRecipeResponse>(){}.getType());
 
         List<Recipe> recipes = new ArrayList<>();
+        int counter = 0;
         for (Recipe recipe : randomRecipesResponse.getRecipes()){
+            System.out.printf("At recipe index %d%n", counter++);
             RecipeResponse recipeInformation = getRecipeInformation(recipe.getRecipeId());
             recipe.setInstructions(recipeInformation.getInstructions());
             recipe.setImage(recipeInformation.getImage());
@@ -118,20 +127,21 @@ public class RecipeService {
 ////        }
 //
 //        List<RecipeResponse> recipeResponse1 = recipeService.getAllRecipes("Chicken");
-//        int counter = 1;
+        int counter = 1;
 //        for(RecipeResponse recipe : recipeResponse1) {
 //            System.out.println("Recipe #" + counter++);
 //            System.out.println(recipe.getName());
 //            System.out.println(recipe.getInstructions());
+//            System.out.println(recipe.getServings());
 //        }
 
-//        List<Recipe> recipes = recipeService.getRandomRecipe();
-//        for (Recipe recipe : recipes) {
-//            System.out.println("Recipe #" + counter++);
-//            System.out.println(recipe.getName());
-//            System.out.println(recipe.getServings());
-//            System.out.println(recipe.getInstructions());
-//        }
+        List<Recipe> recipes = recipeService.getRandomRecipe();
+        for (Recipe recipe : recipes) {
+            System.out.println("Recipe #" + counter++);
+            System.out.println(recipe.getName());
+            System.out.println(recipe.getServings());
+            System.out.println(recipe.getInstructions());
+        }
     }
 
 }

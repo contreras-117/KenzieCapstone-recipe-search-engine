@@ -13,7 +13,7 @@ export default class RecipeClient extends BaseClass {
 
     constructor(props = {}){
         super();
-        const methodsToBind = ['clientLoaded', 'searchByNutrients'];
+        const methodsToBind = ['clientLoaded', 'searchByNutrients', 'getAllRecipes'];
         this.bindClassMethods(methodsToBind, this);
         this.props = props;
         this.clientLoaded(axios);
@@ -42,6 +42,15 @@ export default class RecipeClient extends BaseClass {
             return response.data;
         } catch (error) {
             this.handleError("searchByNutrients", error, errorCallback);
+        }
+    }
+
+    async getAllRecipes(query, errorCallback) {
+        try{
+            const response = await this.client.get(`/recipes/food/search/${query}`);
+            return response.data;
+        } catch (error) {
+            this.handleError("getAllRecipes", error, errorCallback);
         }
     }
 

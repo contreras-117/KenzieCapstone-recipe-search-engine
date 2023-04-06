@@ -6,6 +6,7 @@ import com.kenzie.appserver.controller.model.ChefMateUserResponse;
 import com.kenzie.appserver.controller.model.CreateChefMateUserRequest;
 import com.kenzie.appserver.controller.model.UpdateRecipesTriedRequest;
 import com.kenzie.appserver.controller.model.UpdateUserPreferencesRequest;
+import com.kenzie.capstone.service.model.RecipeServiceLambdaModel.Recipe;
 import com.kenzie.capstone.service.model.ReviewServiceLambdaModel.ReviewCreateRequest;
 import com.kenzie.capstone.service.model.ReviewServiceLambdaModel.ReviewResponse;
 import com.kenzie.capstone.service.model.RecipeServiceLambdaModel.RecipeResponse;
@@ -109,6 +110,28 @@ public class ChefMateUserController {
         }
         List<ReviewResponse> reviewResponses = chefMateUserService.getRecipeReviews(recipeId);
         return ResponseEntity.ok(reviewResponses);
+    }
+
+    @GetMapping("/recipes/food/search/{query}")
+    public ResponseEntity<List<RecipeResponse>> getAllRecipes(@PathVariable("query") String query){
+//        ChefMateUserResponse chefMateUserResponse = chefMateUserService.getUserById(userId);
+
+//        if (chefMateUserResponse == null || chefMateUserResponse.getUserId() == null || chefMateUserResponse.getUserId().isEmpty()) {
+//            return ResponseEntity.notFound().build();
+//        }
+
+        return ResponseEntity.ok(chefMateUserService.getAllRecipes(query));
+    }
+
+    @GetMapping("/{userId}/recipes/food/search")
+    public ResponseEntity<List<Recipe>> getRandomRecipe(@PathVariable("userId") String userId){
+        ChefMateUserResponse chefMateUserResponse = chefMateUserService.getUserById(userId);
+
+        if (chefMateUserResponse == null || chefMateUserResponse.getUserId() == null || chefMateUserResponse.getUserId().isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
+
+        return ResponseEntity.ok(chefMateUserService.getRandomRecipe());
     }
 
        /* -----------------------------------------------------------------------------------------------------------

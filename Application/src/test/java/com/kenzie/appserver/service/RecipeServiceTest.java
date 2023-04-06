@@ -4,6 +4,7 @@ import com.kenzie.appserver.Service.ChefMateUserService;
 import com.kenzie.appserver.repositories.ChefMateUserRepository;
 import com.kenzie.capstone.service.client.RecipeServiceLambdaJavaClient.RecipeLambdaServiceClient;
 import com.kenzie.capstone.service.client.ReviewServiceLambdaJavaClient.ReviewLambdaServiceClient;
+import com.kenzie.capstone.service.model.RecipeServiceLambdaModel.Recipe;
 import com.kenzie.capstone.service.model.RecipeServiceLambdaModel.RecipeResponse;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -45,6 +46,35 @@ public class RecipeServiceTest  {
 
         Assertions.assertNotNull(results, "The results are not null");
         Assertions.assertEquals(recipeResponses.size(), results.size());
+    }
+
+    @Test
+    void getAllRecipes(){
+        String query = "Chicken";
+        List<RecipeResponse> expected = new ArrayList<>();
+        expected.add(new RecipeResponse());
+        expected.add(new RecipeResponse());
+
+        when(recipeLambdaServiceClient.getAllRecipes(query)).thenReturn(expected);
+
+        List<RecipeResponse> actual = chefMateUserService.getAllRecipes(query);
+
+        Assertions.assertNotNull(actual, "The recipes should not be null!");
+        Assertions.assertEquals(expected.size(), actual.size());
+    }
+
+    @Test
+    void getRandomRecipe() {
+        List<Recipe> expected = new ArrayList<>();
+        expected.add(new Recipe());
+        expected.add(new Recipe());
+
+        when(recipeLambdaServiceClient.getRandomRecipe()).thenReturn(expected);
+
+        List<Recipe> actual = chefMateUserService.getRandomRecipe();
+
+        Assertions.assertNotNull(actual, "The list of recipes should not be null!");
+        Assertions.assertEquals(actual.size(), expected.size());
     }
 
 }

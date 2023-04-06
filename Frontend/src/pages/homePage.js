@@ -178,6 +178,16 @@ class HomePage extends BaseClass {
             this.errorHandler("Error doing searchByNutrients!  Try again...");
         }
     }
+
+    async onGetAllRecipes(event) {
+        event.preventDefault();
+
+        let loadingSpinner = document.getElementById("spinner");
+
+        loadingSpinner.style.display = "block";
+
+        //finish implementing
+    }
 }
 
 /**

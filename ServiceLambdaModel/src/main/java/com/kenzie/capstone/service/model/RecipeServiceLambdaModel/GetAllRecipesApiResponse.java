@@ -13,6 +13,10 @@ public class GetAllRecipesApiResponse implements Serializable {
         return recipes;
     }
 
+    public void setRecipes(List<RecipeSearchApiResponse> recipes) {
+        this.recipes = recipes;
+    }
+
     @Override
     public String toString() {
         return "GetAllRecipesApiResponse{" +

@@ -9,6 +9,10 @@ public class RecipeSearchApiResponse implements Serializable {
     @SerializedName("results")
     List<RecipeResponse> recipes;
 
+    public RecipeSearchApiResponse(List<RecipeResponse> recipes) {
+        this.recipes = recipes;
+    }
+
     public List<RecipeResponse> getRecipes() {
         return recipes;
     }

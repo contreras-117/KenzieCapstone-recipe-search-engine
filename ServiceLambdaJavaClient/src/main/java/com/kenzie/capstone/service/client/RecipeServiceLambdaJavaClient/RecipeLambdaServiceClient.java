@@ -25,34 +25,33 @@ public class RecipeLambdaServiceClient {
         this.mapper = new ObjectMapper();
     }
 
-    public RecipeResponse getAllRecipes(String query){
+    public List<RecipeResponse> getAllRecipes(String query){
         EndpointUtility endpointUtility = new EndpointUtility();
         String response = endpointUtility.getEndpoint(GET_ALL_FOOD_ENDPOINT) + query;
 
-//        List<RecipeResponse> recipes;
-        RecipeResponse recipe;
+        List<RecipeResponse> recipes;
 
         try {
-            recipe = mapper.readValue(response, new TypeReference<>(){});
+            recipes = mapper.readValue(response, new TypeReference<>(){});
         } catch (Exception e) {
             throw new ApiGatewayException("Unable to map deserialize JSON: " + e);
         }
 
-        return recipe;
+        return recipes;
     }
 
-    public RecipeResponse getRandomRecipe(){
+    public List<Recipe> getRandomRecipe(){
         EndpointUtility endpointUtility = new EndpointUtility();
         String response = endpointUtility.getEndpoint(GET_RANDOM_RECIPE_ENDPOINT);
 
-        RecipeResponse recipe;
+        List<Recipe> recipes;
         try {
-            recipe = mapper.readValue(response, new TypeReference<>(){});
+            recipes = mapper.readValue(response, new TypeReference<>(){});
         } catch (Exception e) {
             throw new ApiGatewayException("Unable to map deserialize JSON: " + e);
         }
 
-        return recipe;
+        return recipes;
     }
 
     public List<RecipeResponse> getSearchByNutrients(String query) {
