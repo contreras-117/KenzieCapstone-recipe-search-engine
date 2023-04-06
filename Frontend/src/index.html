@@ -16,216 +16,31 @@
 </head>
 <body class="background">
 
-    <nav id="mainNavbar" class="navbar navbar-dark bg-dark  py-4">
-        <a href="index.html" id="chefmate-header" class="navbar-brand ms-4">ChefMate</a>
-        <div id="navLinks">
-            <ul class="navbar-nav">
-                <li class="nav-item">
-                    <a href=".html" class="nav-link">Sign In</a>
-                </li>
-                <li class="nav-item">
-                    <a href=".html" class="nav-link">Manage Your Account</a>
-                </li>
-            </ul>
-        </div>
-    </nav>
-
-    <div id = "homepage">
-
-<!--        <section class ="split-view" id="rendering-recipes-section">
-            <img id="img-placeholder" src="https://www.chansmiles.com/wp-content/uploads/2021/11/thanksgiving-meal.jpg">
-        </section>-->
-        <section class ="split-view" id="rendering-recipes-section">
-            <div class="recipes">
-                <div class="content">
-                    <img class="recipe-image" src='https://www.chansmiles.com/wp-content/uploads/2021/11/thanksgiving-meal.jpg'>
-                    <div class="recipe-title">
-                        <h5>Crispy Swiss Chard Cakes with Mascarpone-Creamed Spinach</h5>
-                    </div>
-                    <div class="recipe-content">
-                        <ul>
-                            <li>Recipe ID:</li>
-                            <li>ETA: 120 min</li>
-                            <li>Servings:</li>
-                        </ul>
-                    </div>
-                    <button onclick="window.open('http://google.com','_blank')" class="instructions-button">Instructions</button>
-                    <button onclick="openInstructions('${instructionsString}')" class='chef-mate-instructions-button'>ChefMate Instructions</button>
-                </div>
-            </div>
-        </section>
-
-        <div class="form-popup" id="search-by-nutrients-window" style="display: none;">
-            <form id="search-by-nutrients-form">
-                <!--                <h1>Search By Nutrients</h1>-->
-                <section id="first-section-search-by-nutrients">
-                    <ul>
-                        <label>Min Carbs</label>
-                        <li class="nutrients-listings">
-                            <input type="number" id="min-carbs-input">
-                        </li>
-                        <label>Max Carbs</label>
-                        <li class="nutrients-listings">
-                            <input type="number" id="max-carbs-input">
-                        </li>
-                        <label>Min Protein</label>
-                        <li class="nutrients-listings">
-                            <input type="number" id="min-protein-input">
-                        </li>
-                        <label>Max Protein</label>
-                        <li class="nutrients-listings">
-                            <input type="number" id="max-protein-input">
-                        </li>
-                        <label>Min Calories</label>
-                        <li class="nutrients-listings">
-                            <input type="number" id="min-calories-input">
-                        </li>
-                        <label>Max Calories</label>
-                        <li class="nutrients-listings">
-                            <input type="number" id="max-calories-input">
-                        </li>
-                        <label>Min Sodium</label>
-                        <li class="nutrients-listings">
-                            <input type="number" id="min-sodium-input">
-                        </li>
-                        <label>Max Sodium</label>
-                        <li class="nutrients-listings">
-                            <input type="number" id="max-sodium-input">
-                        </li>
-                    </ul>
-                </section>
-                <section id="second-section-search-by-nutrients">
-                    <ul>
-                        <label>Min Sugar</label>
-                        <li class="nutrients-listings">
-                            <input type="number" id="min-sugar-input">
-                        </li>
-                        <label>Max Sugar</label>
-                        <li class="nutrients-listings">
-                            <input type="number" id="max-sugar-input">
-                        </li>
-                        <label>Min Fiber</label>
-                        <li class="nutrients-listings" id="min-fiber-input">
-                            <input type="number">
-                        </li>
-                        <label>Max Fiber</label>
-                        <li class="nutrients-listings" id="max-fiber-input">
-                            <input type="number">
-                        </li>
-                        <label>Min Iron</label>
-                        <li class="nutrients-listings" id="min-iron-input">
-                            <input type="number">
-                        </li>
-                        <label>Max Iron</label>
-                        <li class="nutrients-listings" id="max-iron-input">
-                            <input type="number">
-                        </li>
-                        <label>Min Cholesterol</label>
-                        <li class="nutrients-listings" id="min-cholesterol-input">
-                            <input type="number">
-                        </li>
-                        <label>Max Cholesterol</label>
-                        <li class="nutrients-listings" id="max-cholesterol-input">
-                            <input type="number">
-                        </li>
-                    </ul>
-                </section>
-                <button id="search-by-nutrients-submit" type="submit" class="btn" onclick="closeSearchByNutrientsForm()">Search</button>
-            </form>
-            <div id="close-search-by-nutrients-window">
-                <button id="close-button" type="button" class="btn cancel" onclick="closeSearchByNutrientsForm()">Close</button>
-            </div>
-        </div>
-
-        <div id="loading-spinner">
-            <div class='text-center' id='spinner'>
-                <i class='fa fa-spinner fa-spin fa-3x'></i>
-            </div>
-        </div>
-
-        <div class="chefmate-instructions-innerHTML">
-            <button type="button" class="btn cancel" onclick="closeInstructions()">Close</button>
-        </div>
-
-        <section class="split-view">
-<!--            <div class="pagination">
-                <a href="#">❮</a>
-                <a href="#">❯</a>
-            </div>-->
-
-            <div id="intro-header-container">
-                <div id="intro-header">
-                    <h2>Recipes. Made Easy.</h2>
-                    <h5 id="introducing-chefMate">Introducing ChefMate</h5>
-                    <h5 id="recipe-generator">recipe generator</h5>
-                </div>
-            </div>
-
-            <div id="intro-description">
-                <h6><strong>Don't know what to cook?</strong></h6>
-                <h6><strong>ideas have never been easier!</strong> ChefMate recipe</h6>
-                <h6>generator saves you time. We bundle your</h6>
-                <h6>ingredient list and give you lots of inspirations!</h6>
-            </div>
-
-            <div id="search-container">
-                <label id="search-label">Numerous ways to search. Just pick your search option!</label>
-                <form class="search-form" id="get-by-id-form">
-                    <div class="dropdown">
-                        <button id="options-button" class="btn btn-outline-primary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                            Options
-                        </button>
-                        <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" href="https://www.google.com">Google</a></li>
-                            <li><a class="dropdown-item" href="https://www.youtube.com">YouTube</a></li>
-                            <li><a class="dropdown-item" href="#" onclick="openSearchByNutrientsForm()">Search By Nutrients</a></li>
-                        </ul>
-                    </div>
-                    <input class="form-control mr-sm-2" type="search" placeholder="Search" required class="validated-field" id="search-field">
-                    <button class="btn btn-outline-primary my-2 my-sm-0" type="submit" id="search-button">Search</button>
-                </form>
-            </div>
-
-            <div>
-                <form class="review-form">
-                    <label><em>Tried it? Review & Rate it!</em></label>
-                    <textarea id="review-text-area" class="form-control mr-sm-2" type="text" required class="validated-field" placeholder="Some text..."></textarea>
-                    <div class="star-container">
-                        <div class="star-rating">
-                            <button class="btn btn-md btn-primary" type="submit" id="submit-review-button">Submit</button>
-                            <input type="radio" name="rate" id="rate-5">
-                            <label for="rate-5" class="fa fa-star"></label>
-                            <input type="radio" name="rate" id="rate-4">
-                            <label for="rate-4" class="fa fa-star"></label>
-                            <input type="radio" name="rate" id="rate-3">
-                            <label for="rate-3" class="fa fa-star"></label>
-                            <input type="radio" name="rate" id="rate-2">
-                            <label for="rate-2" class="fa fa-star"></label>
-                            <input type="radio" name="rate" id="rate-1">
-                            <label for="rate-1" class="fa fa-star"></label>
-                        </div>
-                    </div>
-                </form>
-            </div>
-
-        </section>
+<nav id="mainNavbar" class="navbar navbar-dark bg-dark  py-4">
+    <a href="index.html" id="chefmate-header" class="navbar-brand ms-4">ChefMate</a>
+    <div id="navLinks">
+        <ul class="navbar-nav">
+            <li class="nav-item">
+                <a href=".html" class="nav-link">Sign In</a>
+            </li>
+            <li class="nav-item">
+                <a href=".html" class="nav-link">Manage Your Account</a>
+            </li>
+        </ul>
     </div>
+</nav>
 
-<!--    <div class="card" id="result">
-        <h2>Reviews:</h2>
-        <p id="result-info"></p>
-    </div>-->
+<div id = "homepage">
 
-    <div id="reviews-header">
-        <h2>Reviews</h2>
-    </div>
-
-    <div id="review-section">
-        <div class="recipes" id="result-area">
+    <!--        <section class ="split-view" id="rendering-recipes-section">
+                <img id="img-placeholder" src="https://www.chansmiles.com/wp-content/uploads/2021/11/thanksgiving-meal.jpg">
+            </section>-->
+    <section class ="split-view" id="rendering-recipes-section">
+        <div class="recipes">
             <div class="content">
                 <img class="recipe-image" src='https://www.chansmiles.com/wp-content/uploads/2021/11/thanksgiving-meal.jpg'>
                 <div class="recipe-title">
-                    <p>Crispy Swiss Chard Cakes with Mascarpone-Creamed Spinach</p>
+                    <h5>Crispy Swiss Chard Cakes with Mascarpone-Creamed Spinach</h5>
                 </div>
                 <div class="recipe-content">
                     <ul>
@@ -234,22 +49,233 @@
                         <li>Servings:</li>
                     </ul>
                 </div>
-                <div>
+                <button onclick="window.open('http://google.com','_blank')" class="instructions-button">Instructions</button>
+                <button onclick="openInstructions('${instructionsString}')" class='chef-mate-instructions-button'>ChefMate Instructions</button>
+            </div>
+        </div>
+    </section>
+
+    <div class="form-popup" id="search-by-nutrients-window" style="display: none;">
+        <form id="search-by-nutrients-form">
+            <!--                <h1>Search By Nutrients</h1>-->
+            <section id="first-section-search-by-nutrients">
+                <ul>
+                    <label>Min Carbs</label>
+                    <li class="nutrients-listings">
+                        <input type="number" id="min-carbs-input">
+                    </li>
+                    <label>Max Carbs</label>
+                    <li class="nutrients-listings">
+                        <input type="number" id="max-carbs-input">
+                    </li>
+                    <label>Min Protein</label>
+                    <li class="nutrients-listings">
+                        <input type="number" id="min-protein-input">
+                    </li>
+                    <label>Max Protein</label>
+                    <li class="nutrients-listings">
+                        <input type="number" id="max-protein-input">
+                    </li>
+                    <label>Min Calories</label>
+                    <li class="nutrients-listings">
+                        <input type="number" id="min-calories-input">
+                    </li>
+                    <label>Max Calories</label>
+                    <li class="nutrients-listings">
+                        <input type="number" id="max-calories-input">
+                    </li>
+                    <label>Min Sodium</label>
+                    <li class="nutrients-listings">
+                        <input type="number" id="min-sodium-input">
+                    </li>
+                    <label>Max Sodium</label>
+                    <li class="nutrients-listings">
+                        <input type="number" id="max-sodium-input">
+                    </li>
+                </ul>
+            </section>
+            <section id="second-section-search-by-nutrients">
+                <ul>
+                    <label>Min Sugar</label>
+                    <li class="nutrients-listings">
+                        <input type="number" id="min-sugar-input">
+                    </li>
+                    <label>Max Sugar</label>
+                    <li class="nutrients-listings">
+                        <input type="number" id="max-sugar-input">
+                    </li>
+                    <label>Min Fiber</label>
+                    <li class="nutrients-listings" id="min-fiber-input">
+                        <input type="number">
+                    </li>
+                    <label>Max Fiber</label>
+                    <li class="nutrients-listings" id="max-fiber-input">
+                        <input type="number">
+                    </li>
+                    <label>Min Iron</label>
+                    <li class="nutrients-listings" id="min-iron-input">
+                        <input type="number">
+                    </li>
+                    <label>Max Iron</label>
+                    <li class="nutrients-listings" id="max-iron-input">
+                        <input type="number">
+                    </li>
+                    <label>Min Cholesterol</label>
+                    <li class="nutrients-listings" id="min-cholesterol-input">
+                        <input type="number">
+                    </li>
+                    <label>Max Cholesterol</label>
+                    <li class="nutrients-listings" id="max-cholesterol-input">
+                        <input type="number">
+                    </li>
+                </ul>
+            </section>
+            <button id="search-by-nutrients-submit" type="submit" class="btn" onclick="closeSearchByNutrientsForm()">Search</button>
+        </form>
+        <div id="close-search-by-nutrients-window">
+            <button id="close-button" type="button" class="btn cancel" onclick="closeSearchByNutrientsForm()">Close</button>
+        </div>
+    </div>
+
+    <div id="loading-spinner">
+        <div class='text-center' id='spinner'>
+            <i class='fa fa-spinner fa-spin fa-3x'></i>
+        </div>
+    </div>
+
+    <div class="chefmate-instructions-innerHTML">
+        <button type="button" class="btn cancel" onclick="closeInstructions()">Close</button>
+    </div>
+
+    <section class="split-view">
+        <!--            <div class="pagination">
+                        <a href="#">❮</a>
+                        <a href="#">❯</a>
+                    </div>-->
+
+        <div id="intro-header-container">
+            <div id="intro-header">
+                <h2>Recipes. Made Easy.</h2>
+                <h5 id="introducing-chefMate">Introducing ChefMate</h5>
+                <h5 id="recipe-generator">recipe generator</h5>
+            </div>
+        </div>
+
+        <div id="intro-description">
+            <h6><strong>Don't know what to cook?</strong></h6>
+            <h6><strong>ideas have never been easier!</strong> ChefMate recipe</h6>
+            <h6>generator saves you time. We bundle your</h6>
+            <h6>ingredient list and give you lots of inspirations!</h6>
+        </div>
+
+        <div id="search-container">
+            <label id="search-label">Numerous ways to search. Just pick your search option!</label>
+            <form class="search-form" id="get-by-id-form">
+                <div class="dropdown">
+                    <button id="options-button" class="btn btn-outline-primary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        Options
+                    </button>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" href="#" onclick="renderSearchByIngredientsInput()">Search By Ingredients</a></li>
+                        <li><a class="dropdown-item" href="#" onclick="openSearchByNutrientsForm()">Search By Nutrients</a></li>
+                        <li><a class="dropdown-item" href="https://www.google.com">Google</a></li>
+                        <li><a class="dropdown-item" href="https://www.youtube.com">YouTube</a></li>
+                    </ul>
+                </div>
+                <div id="search-render-change">
+                    <input class="form-control mr-sm-2" type="search" placeholder="Search" required class="validated-field" id="search-field">
+                </div>
+                <button class="btn btn-outline-primary my-2 my-sm-0" type="submit" id="search-button">Search</button>
+            </form>
+        </div>
+
+        <div>
+            <form class="review-form">
+                <label><em>Tried it? Review & Rate it!</em></label>
+                <textarea id="review-text-area" class="form-control mr-sm-2" type="text" required class="validated-field" placeholder="Some text..."></textarea>
+                <div class="star-container">
+                    <div class="star-rating">
+                        <button class="btn btn-md btn-primary" type="submit" id="submit-review-button">Submit</button>
+                        <input type="radio" name="rate" id="rate-5">
+                        <label for="rate-5" class="fa fa-star"></label>
+                        <input type="radio" name="rate" id="rate-4">
+                        <label for="rate-4" class="fa fa-star"></label>
+                        <input type="radio" name="rate" id="rate-3">
+                        <label for="rate-3" class="fa fa-star"></label>
+                        <input type="radio" name="rate" id="rate-2">
+                        <label for="rate-2" class="fa fa-star"></label>
+                        <input type="radio" name="rate" id="rate-1">
+                        <label for="rate-1" class="fa fa-star"></label>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+    </section>
+</div>
+
+<!--    <div class="card" id="result">
+        <h2>Reviews:</h2>
+        <p id="result-info"></p>
+    </div>-->
+
+<div id="reviews-header">
+    <h2>Reviews</h2>
+</div>
+
+<div id="review-section">
+    <div class="recipes" id="result-area">
+        <div class="content">
+            <img class="recipe-image" src='https://www.chansmiles.com/wp-content/uploads/2021/11/thanksgiving-meal.jpg'>
+            <div class="recipe-title">
+                <p>Crispy Swiss Chard Cakes with Mascarpone-Creamed Spinach</p>
+            </div>
+            <div class="recipe-content">
+                <ul>
+                    <li>Recipe ID:</li>
+                    <li>ETA: 120 min</li>
+                    <li>Servings:</li>
+                </ul>
+            </div>
+            <div>
 
                 <a href="" rel="noopener noreferrer" target="_blank"><button class="instructions-button">Instructions</button></a>
-                </div>
             </div>
         </div>
     </div>
-    <br>
+</div>
+<br>
 
-    <script>
+<script>
+        function renderSearchByIngredientsInput() {
+            let render = document.getElementById("search-render-change");
+            render.innerHTML = `<input class="form-control mr-sm-2" type="search" placeholder="apples,flour,sugar" required class="validated-field" id="search-ingredients-field">`;
+
+            let optionsNameChange = document.getElementById("options-button");
+            optionsNameChange.innerHTML = "Search By Ingredients";
+
+            let label = document.getElementById("search-label")
+            label.innerHTML = `<label id="search-label">Cannot use spaces! Bad example: apple, flour, sugar</label>`;
+        }
+
         function openSearchByNutrientsForm() {
             document.getElementById("search-by-nutrients-window").style.display = "block";
+
+            let optionsNameChange = document.getElementById("options-button");
+            optionsNameChange.innerHTML = "Search By Nutrients";
+
+            let label = document.getElementById("search-label")
+            label.innerHTML = `<label id="search-label">Currently, searching by nutrients</label>`;
+
+            let render = document.getElementById("search-render-change");
+            render.innerHTML = `<input class="form-control mr-sm-2" type="search" placeholder="Search" required class="validated-field" id="search-field">`;
         }
 
         function closeSearchByNutrientsForm() {
             document.getElementById("search-by-nutrients-window").style.display = "none";
+
+            let label = document.getElementById("search-label")
+            label.innerHTML = `<label id="search-label">Numerous ways to search. Just pick your search option!</label>`;
         }
 
         function openInstructions(instructions) {
