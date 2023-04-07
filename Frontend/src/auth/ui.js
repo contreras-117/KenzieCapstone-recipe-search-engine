@@ -4,6 +4,12 @@ const router = {
   "/": () => showContent("content-home"),
   "/profile": () =>
     requireAuth(() => showContent("content-profile"), "/profile"),
+  "/userPreferences": () =>
+      requireAuth(() => showContent("update-preference"), "/userPreferences"),
+  "/recipesTried": () =>
+      requireAuth(() => showContent("update-recipes-tried"), "/updateRecipesTried"),
+  "/deleteUser": () =>
+      requireAuth(() => showContent("delete-user"), "/deleteUser"),
   "/login": () => login()
 };
 

@@ -38,7 +38,8 @@ export default class ChefMateClient extends BaseClass {
      */
     async addNewUser(userId, errorCallback) {
         try{
-            const response = await this.client.post(`/user/createUser`);
+            const response = await this.client.post(`/user/createUser`, {
+                userId: userId});
             return response.data;
         } catch (error) {
             this.handleError("addNewUser", error, errorCallback);
@@ -54,7 +55,9 @@ export default class ChefMateClient extends BaseClass {
      */
     async updateUserPreference(userId, userPreferences, errorCallback) {
         try{
-            const response = await this.client.put(`/user/userPreferences/${userPreferences}`);
+            const response = await this.client.put(`/user/userPreferences/${userPreferences}`, {
+                userId: userId,
+                userPreferences: userPreferences});
             return response.data;
         } catch (error) {
             this.handleError("updateUserPreference", error, errorCallback);
@@ -70,7 +73,9 @@ export default class ChefMateClient extends BaseClass {
      */
     async updateRecipesTried(userId, recipesTried, errorCallback) {
         try{
-            const response = await this.client.put(`/user/recipesTried/${recipesTried}`);
+            const response = await this.client.put(`/user/recipesTried/${recipesTried}`, {
+                userId: userId,
+                recipesTried: recipesTried});
             return response.data;
         } catch (error) {
             this.handleError("updateRecipesTried", error, errorCallback);

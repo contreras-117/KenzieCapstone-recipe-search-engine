@@ -57,7 +57,7 @@
             <ul class="navbar-nav d-none d-md-block">
                 <!-- Login link: show if NOT authenticated -->
                 <li class="nav-item auth-invisible">
-                    <a href="#" id="login" class="nav-link auth-invisible hidden" disabled="true" onclick="login()">Login</a>
+                    <a href="/login" id="login" class="nav-link auth-invisible hidden" disabled="true" onclick="login()">Login</a>
                 </li>
                 <!-- / Login link -->
 
@@ -69,12 +69,13 @@
                         <div class="dropdown-header nav-user-name user-name"></div>
                         <a
                                 href="/profile"
+                                id="content-profile"
                                 class="dropdown-item dropdown-profile route-link"
                         >
                             <i class="fas fa-user-lock mr-3"></i> Profile
                         </a>
                         <a
-                                href="#"
+                                href="/userPreferences"
                                 class="dropdown-item"
                                 id="update-preference"
                                 onclick="updateUserPreference()"
@@ -82,7 +83,7 @@
                             <i class="fas fa-wheat-slash mr-3"></i> Preferences
                         </a>
                         <a
-                                href="#"
+                                href="/recipesTried"
                                 class="dropdown-item"
                                 id="update-recipes-tried"
                                 onclick="updateRecipesTried()"
@@ -90,7 +91,7 @@
                             <i class="fas fa-pot-food mr-3"></i> Recipes Tried
                         </a>
                         <a
-                                href="#"
+                                href="/deleteUser"
                                 class="dropdown-item"
                                 id="delete-user"
                                 onclick="deleteUser()"
