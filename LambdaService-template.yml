@@ -147,7 +147,7 @@ Resources:
     Type: AWS::Serverless::Function
     Properties:
       CodeUri: ServiceLambda/build/distributions/ServiceLambda.zip
-      Handler: com.kenzie.capstone.service.lambda.GetAllRecipes
+      Handler: com.kenzie.capstone.service.RecipeServiceLambda.lambda.GetAllRecipes
       Runtime: java11
       Description: Get all recipe data for query
       MemorySize: 512
@@ -171,7 +171,7 @@ Resources:
     Type: AWS::Serverless::Function
     Properties:
       CodeUri: ServiceLambda/build/distributions/ServiceLambda.zip
-      Handler: com.kenzie.capstone.service.lambda.GetRandomRecipe
+      Handler: com.kenzie.capstone.service.RecipeServiceLambda.lambda.GetRandomRecipe
       Runtime: java11
       Description: Get random recipe
       MemorySize: 512
@@ -189,7 +189,7 @@ Resources:
         UpdateResource:
           Type: Api
           Properties:
-            Path: /random
+            Path: /recipes/random
             Method: get
   SearchByIngredientsFunction:
     Type: AWS::Serverless::Function

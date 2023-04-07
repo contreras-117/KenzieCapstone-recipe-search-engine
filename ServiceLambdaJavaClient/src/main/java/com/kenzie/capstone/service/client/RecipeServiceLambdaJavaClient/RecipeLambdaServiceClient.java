@@ -16,7 +16,6 @@ public class RecipeLambdaServiceClient {
 
     private static final String GET_ALL_FOOD_ENDPOINT = "food/search/{query}";
     private static final String GET_RANDOM_RECIPE_ENDPOINT = "recipes/random";
-
     private static final String GET_SEARCH_BY_NUTRIENTS_ENDPOINT = "recipes/food/search/nutrients/{query}";
     private static final String GET_SEARCH_BY_INGREDIENTS_ENDPOINT = "recipes/food/search/ingredients/{query}";
 
@@ -28,7 +27,7 @@ public class RecipeLambdaServiceClient {
 
     public List<RecipeResponse> getAllRecipes(String query){
         EndpointUtility endpointUtility = new EndpointUtility();
-        String response = endpointUtility.getEndpoint(GET_ALL_FOOD_ENDPOINT) + query;
+        String response = endpointUtility.getEndpoint(GET_ALL_FOOD_ENDPOINT.replace("{query}", query));
 
         List<RecipeResponse> recipes;
 
