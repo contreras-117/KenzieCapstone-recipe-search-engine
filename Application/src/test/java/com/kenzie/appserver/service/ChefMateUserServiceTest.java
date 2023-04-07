@@ -14,7 +14,6 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
-import org.mockito.Matchers;
 import org.mockito.exceptions.base.MockitoAssertionError;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -144,7 +143,7 @@ public class ChefMateUserServiceTest {
 
         // THEN
         try {
-            verify(chefMateUserRepository, never()).save(Matchers.any());
+            verify(chefMateUserRepository, never()).save(any());
         } catch(MockitoAssertionError error) {
             throw new MockitoAssertionError("There should not be a call to .save() if the user is not found in the database. - " + error);
         }
@@ -196,7 +195,7 @@ public class ChefMateUserServiceTest {
 
         // THEN
         try {
-            verify(chefMateUserRepository, never()).save(Matchers.any());
+            verify(chefMateUserRepository, never()).save(any());
         } catch(MockitoAssertionError error) {
             throw new MockitoAssertionError("There should not be a call to .save() if the user is not found in the database. - " + error);
         }
@@ -298,7 +297,7 @@ public class ChefMateUserServiceTest {
 
         when(chefMateUserRepository.findById(userId)).thenReturn(Optional.of(userRecord));
 
-        Assertions.assertThrows(ResponseStatusException.class, () -> chefMateUserService.addReview(request));
+        Assertions.assertThrows(IllegalArgumentException.class, () -> chefMateUserService.addReview(request));
     }
 
     @Test

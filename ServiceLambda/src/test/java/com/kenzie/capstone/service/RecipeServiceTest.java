@@ -1,27 +1,14 @@
 package com.kenzie.capstone.service;
 
 import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonParser;
-import com.google.gson.reflect.TypeToken;
 import com.kenzie.capstone.service.RecipeServiceLambda.RecipeService;
 import com.kenzie.capstone.service.RecipeServiceLambda.dao.RecipeDao;
-import com.kenzie.capstone.service.model.RecipeServiceLambdaModel.GetAllRecipesApiResponse;
-import com.kenzie.capstone.service.model.RecipeServiceLambdaModel.Recipe;
-import com.kenzie.capstone.service.model.RecipeServiceLambdaModel.RecipeResponse;
-import com.kenzie.capstone.service.model.RecipeServiceLambdaModel.RecipeSearchApiResponse;
-import net.bytebuddy.description.method.MethodDescription;
-import org.junit.jupiter.api.Assertions;
+import com.kenzie.capstone.service.RecipeServiceLambda.util.MapperWrapper;
+import com.kenzie.capstone.service.model.RecipeServiceLambdaModel.*;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
-import org.mockito.ArgumentCaptor;
 
-import java.io.IOException;
-import java.net.http.HttpClient;
-import java.net.http.HttpRequest;
-import java.net.http.HttpResponse;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -33,52 +20,54 @@ import static org.mockito.Mockito.*;
 public class RecipeServiceTest {
 
     private RecipeDao recipeDao;
-    private Gson gson;
     private RecipeService recipeService;
+    private MapperWrapper mapper;
 
     @BeforeAll
     void setup() {
         this.recipeDao = mock(RecipeDao.class);
-        this.gson = new GsonBuilder().create();
-        this.recipeService = new RecipeService(recipeDao, gson);
+        this.mapper = mock(MapperWrapper.class);
+        this.recipeService = new RecipeService(recipeDao, mapper);
     }
 
     @Test
     void getAllRecipes_success() {
-        String query = "Chicken";
-        String recipeInfo = "{\n" +
-                "  \"sorting\": \"\",\n" +
-                "  \"filterMapping\": {},\n" +
-                "  \"filterOptions\": [],\n" +
-                "  \"activeFilterOptions\": [],\n" +
-                "  \"query\": \"chicken\",\n" +
-                "  \"totalResults\": 23607,\n" +
-                "  \"limit\": 10,\n" +
-                "  \"offset\": 0,\n" +
-                "  \"searchResults\": [\n" +
-                "    {\n" +
-                "      \"name\": \"Recipes\",\n" +
-                "      \"totalResults\": 633,\n" +
-                "      \"totalResultsVariants\": 633,\n" +
-                "      \"type\": \"products\",\n" +
-                "      \"results\": [\n" +
-                "        {\n" +
-                "          \"image\": \"https://spoonacular.com/recipeImages/637876-312x231.jpg\",\n" +
-                "          \"name\": \"Chicken 65\",\n" +
-                "          \"link\": \"https://spoonacular.com/recipes/chicken-65-637876\",\n" +
-                "          \"dataPoints\": [],\n" +
-                "          \"id\": 637876,\n" +
-                "          \"type\": \"HTML\",\n" +
-                "          \"relevance\": 10000,\n" +
-                "          \"content\": \"Chicken 65 could be just the <b>gluten free</b> recipe you've been looking for. This hor d'oeuvre has <b>121 calories</b>, <b>19g of protein</b>, and <b>3g of fat</b> per serving. For <b>$1.15 per serving</b>, this recipe <b>covers 11%</b> of your daily requirements of vitamins and minerals. This recipe serves 6. Head to the store and pick up salt, chili powder, yogurt, and a few other things to make it today. 6 people have made this recipe and would make it again. It is brought to you by Foodista. From preparation to the plate, this recipe takes approximately <b>45 minutes</b>. Overall, this recipe earns a <b>not so spectacular spoonacular score of 39%</b>. Similar recipes are <a href=\\\"https://spoonacular.com/recipes/i-aint-chicken-chicken-crispy-roasted-chicken-breasts-with-orange-and-cardamom-1243251\\\">I Ain't Chicken Chicken: Crispy Roasted Chicken Breasts with Orange and Cardamom</a>, <a href=\\\"https://spoonacular.com/recipes/i-aint-chicken-chicken-crispy-roasted-chicken-breasts-with-orange-and-cardamom-1230059\\\">I Ain't Chicken Chicken: Crispy Roasted Chicken Breasts with Orange and Cardamom</a>, and <a href=\\\"https://spoonacular.com/recipes/i-aint-chicken-chicken-crispy-roasted-chicken-breasts-with-orange-and-cardamom-1224321\\\">I Ain't Chicken Chicken: Crispy Roasted Chicken Breasts with Orange and Cardamom</a>.\"\n" +
-                "        }\n" +
-                "      ]\n" +
-                "    }\n" +
-                "  ]\n" +
-                "}";
+        String query = "test";
+        String recipeInfo = "{testJson}";
+
+        RecipeResponse response1 = new RecipeResponse();
+        response1.setName("test");
+        response1.setRecipeId("test");
+        response1.setImage("test");
+        response1.setInstructions("test");
+        response1.setRecipeId("test");
+        response1.setServings(2);
+        response1.setReadyInMinutes(30);
+
+        RecipeResponse response2 = new RecipeResponse();
+        response2.setName("test");
+        response2.setRecipeId("test");
+        response2.setImage("test");
+        response2.setInstructions("test");
+        response2.setRecipeId("test");
+        response2.setServings(4);
+        response2.setReadyInMinutes(60);
+
+        List<RecipeResponse> recipeResponses = new ArrayList<>();
+        recipeResponses.add(response1);
+        recipeResponses.add(response2);
+
+        RecipeSearchApiResponse recipeSearchApiResponse = new RecipeSearchApiResponse(recipeResponses);
+
+        List<RecipeSearchApiResponse> recipeSearchApiResponsesList = new ArrayList<>();
+        recipeSearchApiResponsesList.add(recipeSearchApiResponse);
+
+        GetAllRecipesApiResponse allRecipesApiResponse = new GetAllRecipesApiResponse();
+        allRecipesApiResponse.setRecipes(recipeSearchApiResponsesList);
 
         when(recipeDao.getAllRecipes(query)).thenReturn(recipeInfo);
-        when(recipeDao.getRecipeInformation("637876")).thenReturn(recipeInfo);
+        when(mapper.recipeResponse(recipeInfo)).thenReturn(allRecipesApiResponse);
+        when(recipeService.getRecipeInformation("test")).thenReturn(response1);
 
         List<RecipeResponse> result = recipeService.getAllRecipes(query);
 
@@ -88,579 +77,44 @@ public class RecipeServiceTest {
 
     @Test
     void getRandomRecipe_Success(){
-        String recipeJson = "{\n" +
-                "    \"recipes\": [\n" +
-                "        {\n" +
-                "            \"vegetarian\": false,\n" +
-                "            \"vegan\": false,\n" +
-                "            \"glutenFree\": true,\n" +
-                "            \"dairyFree\": false,\n" +
-                "            \"veryHealthy\": false,\n" +
-                "            \"cheap\": false,\n" +
-                "            \"veryPopular\": false,\n" +
-                "            \"sustainable\": false,\n" +
-                "            \"lowFodmap\": false,\n" +
-                "            \"weightWatcherSmartPoints\": 31,\n" +
-                "            \"gaps\": \"no\",\n" +
-                "            \"preparationMinutes\": -1,\n" +
-                "            \"cookingMinutes\": -1,\n" +
-                "            \"aggregateLikes\": 23,\n" +
-                "            \"healthScore\": 11,\n" +
-                "            \"creditsText\": \"Foodista.com – The Cooking Encyclopedia Everyone Can Edit\",\n" +
-                "            \"license\": \"CC BY 3.0\",\n" +
-                "            \"sourceName\": \"Foodista\",\n" +
-                "            \"pricePerServing\": 238.82,\n" +
-                "            \"extendedIngredients\": [\n" +
-                "                {\n" +
-                "                    \"id\": 1011077,\n" +
-                "                    \"aisle\": \"Milk, Eggs, Other Dairy\",\n" +
-                "                    \"image\": \"milk.png\",\n" +
-                "                    \"consistency\": \"LIQUID\",\n" +
-                "                    \"name\": \"milk\",\n" +
-                "                    \"nameClean\": \"whole milk\",\n" +
-                "                    \"original\": \"2 cups whole milk\",\n" +
-                "                    \"originalName\": \"whole milk\",\n" +
-                "                    \"amount\": 2.0,\n" +
-                "                    \"unit\": \"cups\",\n" +
-                "                    \"meta\": [\n" +
-                "                        \"whole\"\n" +
-                "                    ],\n" +
-                "                    \"measures\": {\n" +
-                "                        \"us\": {\n" +
-                "                            \"amount\": 2.0,\n" +
-                "                            \"unitShort\": \"cups\",\n" +
-                "                            \"unitLong\": \"cups\"\n" +
-                "                        },\n" +
-                "                        \"metric\": {\n" +
-                "                            \"amount\": 473.176,\n" +
-                "                            \"unitShort\": \"ml\",\n" +
-                "                            \"unitLong\": \"milliliters\"\n" +
-                "                        }\n" +
-                "                    }\n" +
-                "                },\n" +
-                "                {\n" +
-                "                    \"id\": 19335,\n" +
-                "                    \"aisle\": \"Baking\",\n" +
-                "                    \"image\": \"sugar-in-bowl.png\",\n" +
-                "                    \"consistency\": \"SOLID\",\n" +
-                "                    \"name\": \"sugar\",\n" +
-                "                    \"nameClean\": \"sugar\",\n" +
-                "                    \"original\": \"3/4 cup sugar\",\n" +
-                "                    \"originalName\": \"sugar\",\n" +
-                "                    \"amount\": 0.75,\n" +
-                "                    \"unit\": \"cup\",\n" +
-                "                    \"meta\": [],\n" +
-                "                    \"measures\": {\n" +
-                "                        \"us\": {\n" +
-                "                            \"amount\": 0.75,\n" +
-                "                            \"unitShort\": \"cups\",\n" +
-                "                            \"unitLong\": \"cups\"\n" +
-                "                        },\n" +
-                "                        \"metric\": {\n" +
-                "                            \"amount\": 177.441,\n" +
-                "                            \"unitShort\": \"ml\",\n" +
-                "                            \"unitLong\": \"milliliters\"\n" +
-                "                        }\n" +
-                "                    }\n" +
-                "                },\n" +
-                "                {\n" +
-                "                    \"id\": 2050,\n" +
-                "                    \"aisle\": \"Baking\",\n" +
-                "                    \"image\": \"vanilla-extract.jpg\",\n" +
-                "                    \"consistency\": \"LIQUID\",\n" +
-                "                    \"name\": \"vanilla extract\",\n" +
-                "                    \"nameClean\": \"vanilla extract\",\n" +
-                "                    \"original\": \"1/2 teaspoon vanilla extract\",\n" +
-                "                    \"originalName\": \"vanilla extract\",\n" +
-                "                    \"amount\": 0.5,\n" +
-                "                    \"unit\": \"teaspoon\",\n" +
-                "                    \"meta\": [],\n" +
-                "                    \"measures\": {\n" +
-                "                        \"us\": {\n" +
-                "                            \"amount\": 0.5,\n" +
-                "                            \"unitShort\": \"tsps\",\n" +
-                "                            \"unitLong\": \"teaspoons\"\n" +
-                "                        },\n" +
-                "                        \"metric\": {\n" +
-                "                            \"amount\": 0.5,\n" +
-                "                            \"unitShort\": \"tsps\",\n" +
-                "                            \"unitLong\": \"teaspoons\"\n" +
-                "                        }\n" +
-                "                    }\n" +
-                "                },\n" +
-                "                {\n" +
-                "                    \"id\": 1125,\n" +
-                "                    \"aisle\": \"Milk, Eggs, Other Dairy\",\n" +
-                "                    \"image\": \"egg-yolk.jpg\",\n" +
-                "                    \"consistency\": \"SOLID\",\n" +
-                "                    \"name\": \"egg yolks\",\n" +
-                "                    \"nameClean\": \"egg yolk\",\n" +
-                "                    \"original\": \"4 large egg yolks\",\n" +
-                "                    \"originalName\": \"egg yolks\",\n" +
-                "                    \"amount\": 4.0,\n" +
-                "                    \"unit\": \"large\",\n" +
-                "                    \"meta\": [],\n" +
-                "                    \"measures\": {\n" +
-                "                        \"us\": {\n" +
-                "                            \"amount\": 4.0,\n" +
-                "                            \"unitShort\": \"large\",\n" +
-                "                            \"unitLong\": \"larges\"\n" +
-                "                        },\n" +
-                "                        \"metric\": {\n" +
-                "                            \"amount\": 4.0,\n" +
-                "                            \"unitShort\": \"large\",\n" +
-                "                            \"unitLong\": \"larges\"\n" +
-                "                        }\n" +
-                "                    }\n" +
-                "                },\n" +
-                "                {\n" +
-                "                    \"id\": 1118,\n" +
-                "                    \"aisle\": \"Milk, Eggs, Other Dairy\",\n" +
-                "                    \"image\": \"white-cream.png\",\n" +
-                "                    \"consistency\": \"LIQUID\",\n" +
-                "                    \"name\": \"whole-milk yogurt\",\n" +
-                "                    \"nameClean\": \"fat free yogurt\",\n" +
-                "                    \"original\": \"1 cup plain whole-milk yogurt\",\n" +
-                "                    \"originalName\": \"plain whole-milk yogurt\",\n" +
-                "                    \"amount\": 1.0,\n" +
-                "                    \"unit\": \"cup\",\n" +
-                "                    \"meta\": [\n" +
-                "                        \"plain\"\n" +
-                "                    ],\n" +
-                "                    \"measures\": {\n" +
-                "                        \"us\": {\n" +
-                "                            \"amount\": 1.0,\n" +
-                "                            \"unitShort\": \"cup\",\n" +
-                "                            \"unitLong\": \"cup\"\n" +
-                "                        },\n" +
-                "                        \"metric\": {\n" +
-                "                            \"amount\": 236.588,\n" +
-                "                            \"unitShort\": \"ml\",\n" +
-                "                            \"unitLong\": \"milliliters\"\n" +
-                "                        }\n" +
-                "                    }\n" +
-                "                },\n" +
-                "                {\n" +
-                "                    \"id\": 9037,\n" +
-                "                    \"aisle\": \"Produce\",\n" +
-                "                    \"image\": \"avocado.jpg\",\n" +
-                "                    \"consistency\": \"SOLID\",\n" +
-                "                    \"name\": \"firm-ripe avocados\",\n" +
-                "                    \"nameClean\": \"avocado\",\n" +
-                "                    \"original\": \"2 medium, firm-ripe avocados (6 to 7 oz. each), peeled, pitted\",\n" +
-                "                    \"originalName\": \"medium, firm-ripe avocados each), peeled, pitted\",\n" +
-                "                    \"amount\": 12.0,\n" +
-                "                    \"unit\": \"oz\",\n" +
-                "                    \"meta\": [\n" +
-                "                        \"pitted\",\n" +
-                "                        \"peeled\"\n" +
-                "                    ],\n" +
-                "                    \"measures\": {\n" +
-                "                        \"us\": {\n" +
-                "                            \"amount\": 12.0,\n" +
-                "                            \"unitShort\": \"oz\",\n" +
-                "                            \"unitLong\": \"ounces\"\n" +
-                "                        },\n" +
-                "                        \"metric\": {\n" +
-                "                            \"amount\": 340.194,\n" +
-                "                            \"unitShort\": \"g\",\n" +
-                "                            \"unitLong\": \"grams\"\n" +
-                "                        }\n" +
-                "                    }\n" +
-                "                },\n" +
-                "                {\n" +
-                "                    \"id\": 9152,\n" +
-                "                    \"aisle\": \"Produce\",\n" +
-                "                    \"image\": \"lemon-juice.jpg\",\n" +
-                "                    \"consistency\": \"LIQUID\",\n" +
-                "                    \"name\": \"lemon juice\",\n" +
-                "                    \"nameClean\": \"lemon juice\",\n" +
-                "                    \"original\": \"1/2 tablespoon lemon juice\",\n" +
-                "                    \"originalName\": \"lemon juice\",\n" +
-                "                    \"amount\": 0.5,\n" +
-                "                    \"unit\": \"tablespoon\",\n" +
-                "                    \"meta\": [],\n" +
-                "                    \"measures\": {\n" +
-                "                        \"us\": {\n" +
-                "                            \"amount\": 0.5,\n" +
-                "                            \"unitShort\": \"Tbsps\",\n" +
-                "                            \"unitLong\": \"Tbsps\"\n" +
-                "                        },\n" +
-                "                        \"metric\": {\n" +
-                "                            \"amount\": 0.5,\n" +
-                "                            \"unitShort\": \"Tbsps\",\n" +
-                "                            \"unitLong\": \"Tbsps\"\n" +
-                "                        }\n" +
-                "                    }\n" +
-                "                },\n" +
-                "                {\n" +
-                "                    \"id\": 19903,\n" +
-                "                    \"aisle\": \"Sweet Snacks\",\n" +
-                "                    \"image\": \"dark-chocolate-pieces.jpg\",\n" +
-                "                    \"consistency\": \"SOLID\",\n" +
-                "                    \"name\": \"bittersweet chocolate\",\n" +
-                "                    \"nameClean\": \"semisweet chocolate\",\n" +
-                "                    \"original\": \"cup chopped bittersweet chocolate (60- 70% cacao)\",\n" +
-                "                    \"originalName\": \"chopped bittersweet chocolate (60- 70% cacao)\",\n" +
-                "                    \"amount\": 1.0,\n" +
-                "                    \"unit\": \"cup\",\n" +
-                "                    \"meta\": [\n" +
-                "                        \"70%\",\n" +
-                "                        \"chopped\",\n" +
-                "                        \"(60- cacao)\"\n" +
-                "                    ],\n" +
-                "                    \"measures\": {\n" +
-                "                        \"us\": {\n" +
-                "                            \"amount\": 1.0,\n" +
-                "                            \"unitShort\": \"cup\",\n" +
-                "                            \"unitLong\": \"cup\"\n" +
-                "                        },\n" +
-                "                        \"metric\": {\n" +
-                "                            \"amount\": 236.588,\n" +
-                "                            \"unitShort\": \"ml\",\n" +
-                "                            \"unitLong\": \"milliliters\"\n" +
-                "                        }\n" +
-                "                    }\n" +
-                "                },\n" +
-                "                {\n" +
-                "                    \"id\": 1095,\n" +
-                "                    \"aisle\": \"Baking\",\n" +
-                "                    \"image\": \"evaporated-milk.png\",\n" +
-                "                    \"consistency\": \"SOLID\",\n" +
-                "                    \"name\": \"condensed milk\",\n" +
-                "                    \"nameClean\": \"sweetened condensed milk\",\n" +
-                "                    \"original\": \"Sweetened condensed milk for drizzling, optional\",\n" +
-                "                    \"originalName\": \"Sweetened condensed milk for drizzling, optional\",\n" +
-                "                    \"amount\": 4.0,\n" +
-                "                    \"unit\": \"servings\",\n" +
-                "                    \"meta\": [\n" +
-                "                        \"sweetened\",\n" +
-                "                        \"for drizzling, optional\"\n" +
-                "                    ],\n" +
-                "                    \"measures\": {\n" +
-                "                        \"us\": {\n" +
-                "                            \"amount\": 4.0,\n" +
-                "                            \"unitShort\": \"servings\",\n" +
-                "                            \"unitLong\": \"servings\"\n" +
-                "                        },\n" +
-                "                        \"metric\": {\n" +
-                "                            \"amount\": 4.0,\n" +
-                "                            \"unitShort\": \"servings\",\n" +
-                "                            \"unitLong\": \"servings\"\n" +
-                "                        }\n" +
-                "                    }\n" +
-                "                }\n" +
-                "            ],\n" +
-                "            \"id\": 633139,\n" +
-                "            \"title\": \"Avocado Chocolate Bits Frozen Yogurt\",\n" +
-                "            \"readyInMinutes\": 45,\n" +
-                "            \"servings\": 4,\n" +
-                "            \"sourceUrl\": \"https://www.foodista.com/recipe/4RLKWMW5/avocado-chocolate-bits-frozen-yogurt\",\n" +
-                "            \"image\": \"https://spoonacular.com/recipeImages/633139-556x370.jpg\",\n" +
-                "            \"imageType\": \"jpg\",\n" +
-                "            \"summary\": \"If you have around <b>45 minutes</b> to spend in the kitchen, Avocado Chocolate Bits Frozen Yogurt might be an awesome <b>gluten free</b> recipe to try. For <b>$2.39 per serving</b>, this recipe <b>covers 23%</b> of your daily requirements of vitamins and minerals. One serving contains <b>701 calories</b>, <b>15g of protein</b>, and <b>38g of fat</b>. This recipe serves 4. This recipe from Foodista requires whole-milk yogurt, lemon juice, vanillan extract, and egg yolks. It works well as a dessert. 23 people found this recipe to be flavorful and satisfying. Overall, this recipe earns a <b>pretty good spoonacular score of 61%</b>. If you like this recipe, take a look at these similar recipes: <a href=\\\"https://spoonacular.com/recipes/avocado-frozen-yogurt-21329\\\">Avocado Frozen Yogurt</a>, <a href=\\\"https://spoonacular.com/recipes/confession-i-am-a-frozen-yogurt-addict-greek-frozen-yogurt-542430\\\">Confession I am a Frozen Yogurt addict… Greek Frozen Yogurt</a>, and <a href=\\\"https://spoonacular.com/recipes/chocolate-frozen-yogurt-1739515\\\">Chocolate Frozen Yogurt</a>.\",\n" +
-                "            \"cuisines\": [],\n" +
-                "            \"dishTypes\": [\n" +
-                "                \"dessert\"\n" +
-                "            ],\n" +
-                "            \"diets\": [\n" +
-                "                \"gluten free\"\n" +
-                "            ],\n" +
-                "            \"occasions\": [],\n" +
-                "            \"instructions\": \"Heat milk and sugar over medium heat in a medium saucepan until just comes to a boil, stirring occasionally.  Stir in the vanilla.\\nHave ready a large bowl filled with ice and set a small metal bowl over the ice with a strainer set over it.\\nPlace egg yolks in a medium bowl, lightly beaten.  Ladle some of the milk into the egg yolk, whisk it to prevent curdling.  Pour this mixture back into the rest of the milk in the saucepan.  Cook over low-medium heat until mixture is thick and can cover the back of a wooden spoon, about 4 to 8 minutes.\\nPour the mixture over the strainer into the small bowl; stir in the yogurt.  Whisk the mixture over the ice bath until it cools completely.\\nScoop the avocado meat and puree in a blender or food processor along with the lemon juice and some of the cooled custard.  Pour this mixture back to the rest of the custard, blend them together until it is thick and creamy.\\nFreeze the custard in an ice cream maker according to the manufacturers instructions.  Halfway through the freezing process, fold in the chopped bittersweet chocolate.  Transfer the frozen yogurt into a freezer-safe container and freeze until solid, at least 4 hours.\",\n" +
-                "            \"analyzedInstructions\": [\n" +
-                "                {\n" +
-                "                    \"name\": \"\",\n" +
-                "                    \"steps\": [\n" +
-                "                        {\n" +
-                "                            \"number\": 1,\n" +
-                "                            \"step\": \"Heat milk and sugar over medium heat in a medium saucepan until just comes to a boil, stirring occasionally.  Stir in the vanilla.\",\n" +
-                "                            \"ingredients\": [\n" +
-                "                                {\n" +
-                "                                    \"id\": 1052050,\n" +
-                "                                    \"name\": \"vanilla\",\n" +
-                "                                    \"localizedName\": \"vanilla\",\n" +
-                "                                    \"image\": \"vanilla.jpg\"\n" +
-                "                                },\n" +
-                "                                {\n" +
-                "                                    \"id\": 19335,\n" +
-                "                                    \"name\": \"sugar\",\n" +
-                "                                    \"localizedName\": \"sugar\",\n" +
-                "                                    \"image\": \"sugar-in-bowl.png\"\n" +
-                "                                },\n" +
-                "                                {\n" +
-                "                                    \"id\": 1077,\n" +
-                "                                    \"name\": \"milk\",\n" +
-                "                                    \"localizedName\": \"milk\",\n" +
-                "                                    \"image\": \"milk.png\"\n" +
-                "                                }\n" +
-                "                            ],\n" +
-                "                            \"equipment\": [\n" +
-                "                                {\n" +
-                "                                    \"id\": 404669,\n" +
-                "                                    \"name\": \"sauce pan\",\n" +
-                "                                    \"localizedName\": \"sauce pan\",\n" +
-                "                                    \"image\": \"sauce-pan.jpg\"\n" +
-                "                                }\n" +
-                "                            ]\n" +
-                "                        },\n" +
-                "                        {\n" +
-                "                            \"number\": 2,\n" +
-                "                            \"step\": \"Have ready a large bowl filled with ice and set a small metal bowl over the ice with a strainer set over it.\",\n" +
-                "                            \"ingredients\": [\n" +
-                "                                {\n" +
-                "                                    \"id\": 10014412,\n" +
-                "                                    \"name\": \"ice\",\n" +
-                "                                    \"localizedName\": \"ice\",\n" +
-                "                                    \"image\": \"ice-cubes.png\"\n" +
-                "                                }\n" +
-                "                            ],\n" +
-                "                            \"equipment\": [\n" +
-                "                                {\n" +
-                "                                    \"id\": 405600,\n" +
-                "                                    \"name\": \"sieve\",\n" +
-                "                                    \"localizedName\": \"sieve\",\n" +
-                "                                    \"image\": \"strainer.png\"\n" +
-                "                                },\n" +
-                "                                {\n" +
-                "                                    \"id\": 404783,\n" +
-                "                                    \"name\": \"bowl\",\n" +
-                "                                    \"localizedName\": \"bowl\",\n" +
-                "                                    \"image\": \"bowl.jpg\"\n" +
-                "                                }\n" +
-                "                            ]\n" +
-                "                        },\n" +
-                "                        {\n" +
-                "                            \"number\": 3,\n" +
-                "                            \"step\": \"Place egg yolks in a medium bowl, lightly beaten.  Ladle some of the milk into the egg yolk, whisk it to prevent curdling.\",\n" +
-                "                            \"ingredients\": [\n" +
-                "                                {\n" +
-                "                                    \"id\": 1125,\n" +
-                "                                    \"name\": \"egg yolk\",\n" +
-                "                                    \"localizedName\": \"egg yolk\",\n" +
-                "                                    \"image\": \"egg-yolk.jpg\"\n" +
-                "                                },\n" +
-                "                                {\n" +
-                "                                    \"id\": 1077,\n" +
-                "                                    \"name\": \"milk\",\n" +
-                "                                    \"localizedName\": \"milk\",\n" +
-                "                                    \"image\": \"milk.png\"\n" +
-                "                                }\n" +
-                "                            ],\n" +
-                "                            \"equipment\": [\n" +
-                "                                {\n" +
-                "                                    \"id\": 404630,\n" +
-                "                                    \"name\": \"ladle\",\n" +
-                "                                    \"localizedName\": \"ladle\",\n" +
-                "                                    \"image\": \"ladle.jpg\"\n" +
-                "                                },\n" +
-                "                                {\n" +
-                "                                    \"id\": 404661,\n" +
-                "                                    \"name\": \"whisk\",\n" +
-                "                                    \"localizedName\": \"whisk\",\n" +
-                "                                    \"image\": \"whisk.png\"\n" +
-                "                                },\n" +
-                "                                {\n" +
-                "                                    \"id\": 404783,\n" +
-                "                                    \"name\": \"bowl\",\n" +
-                "                                    \"localizedName\": \"bowl\",\n" +
-                "                                    \"image\": \"bowl.jpg\"\n" +
-                "                                }\n" +
-                "                            ]\n" +
-                "                        },\n" +
-                "                        {\n" +
-                "                            \"number\": 4,\n" +
-                "                            \"step\": \"Pour this mixture back into the rest of the milk in the saucepan.  Cook over low-medium heat until mixture is thick and can cover the back of a wooden spoon, about 4 to 8 minutes.\",\n" +
-                "                            \"ingredients\": [\n" +
-                "                                {\n" +
-                "                                    \"id\": 1077,\n" +
-                "                                    \"name\": \"milk\",\n" +
-                "                                    \"localizedName\": \"milk\",\n" +
-                "                                    \"image\": \"milk.png\"\n" +
-                "                                }\n" +
-                "                            ],\n" +
-                "                            \"equipment\": [\n" +
-                "                                {\n" +
-                "                                    \"id\": 404732,\n" +
-                "                                    \"name\": \"wooden spoon\",\n" +
-                "                                    \"localizedName\": \"wooden spoon\",\n" +
-                "                                    \"image\": \"wooden-spoon.jpg\"\n" +
-                "                                },\n" +
-                "                                {\n" +
-                "                                    \"id\": 404669,\n" +
-                "                                    \"name\": \"sauce pan\",\n" +
-                "                                    \"localizedName\": \"sauce pan\",\n" +
-                "                                    \"image\": \"sauce-pan.jpg\"\n" +
-                "                                }\n" +
-                "                            ],\n" +
-                "                            \"length\": {\n" +
-                "                                \"number\": 4,\n" +
-                "                                \"unit\": \"minutes\"\n" +
-                "                            }\n" +
-                "                        },\n" +
-                "                        {\n" +
-                "                            \"number\": 5,\n" +
-                "                            \"step\": \"Pour the mixture over the strainer into the small bowl; stir in the yogurt.\",\n" +
-                "                            \"ingredients\": [\n" +
-                "                                {\n" +
-                "                                    \"id\": 1116,\n" +
-                "                                    \"name\": \"yogurt\",\n" +
-                "                                    \"localizedName\": \"yogurt\",\n" +
-                "                                    \"image\": \"plain-yogurt.jpg\"\n" +
-                "                                }\n" +
-                "                            ],\n" +
-                "                            \"equipment\": [\n" +
-                "                                {\n" +
-                "                                    \"id\": 405600,\n" +
-                "                                    \"name\": \"sieve\",\n" +
-                "                                    \"localizedName\": \"sieve\",\n" +
-                "                                    \"image\": \"strainer.png\"\n" +
-                "                                },\n" +
-                "                                {\n" +
-                "                                    \"id\": 404783,\n" +
-                "                                    \"name\": \"bowl\",\n" +
-                "                                    \"localizedName\": \"bowl\",\n" +
-                "                                    \"image\": \"bowl.jpg\"\n" +
-                "                                }\n" +
-                "                            ]\n" +
-                "                        },\n" +
-                "                        {\n" +
-                "                            \"number\": 6,\n" +
-                "                            \"step\": \"Whisk the mixture over the ice bath until it cools completely.\",\n" +
-                "                            \"ingredients\": [\n" +
-                "                                {\n" +
-                "                                    \"id\": 10014412,\n" +
-                "                                    \"name\": \"ice\",\n" +
-                "                                    \"localizedName\": \"ice\",\n" +
-                "                                    \"image\": \"ice-cubes.png\"\n" +
-                "                                }\n" +
-                "                            ],\n" +
-                "                            \"equipment\": [\n" +
-                "                                {\n" +
-                "                                    \"id\": 404661,\n" +
-                "                                    \"name\": \"whisk\",\n" +
-                "                                    \"localizedName\": \"whisk\",\n" +
-                "                                    \"image\": \"whisk.png\"\n" +
-                "                                }\n" +
-                "                            ]\n" +
-                "                        },\n" +
-                "                        {\n" +
-                "                            \"number\": 7,\n" +
-                "                            \"step\": \"Scoop the avocado meat and puree in a blender or food processor along with the lemon juice and some of the cooled custard.\",\n" +
-                "                            \"ingredients\": [\n" +
-                "                                {\n" +
-                "                                    \"id\": 9152,\n" +
-                "                                    \"name\": \"lemon juice\",\n" +
-                "                                    \"localizedName\": \"lemon juice\",\n" +
-                "                                    \"image\": \"lemon-juice.jpg\"\n" +
-                "                                },\n" +
-                "                                {\n" +
-                "                                    \"id\": 9037,\n" +
-                "                                    \"name\": \"avocado\",\n" +
-                "                                    \"localizedName\": \"avocado\",\n" +
-                "                                    \"image\": \"avocado.jpg\"\n" +
-                "                                },\n" +
-                "                                {\n" +
-                "                                    \"id\": 19170,\n" +
-                "                                    \"name\": \"custard\",\n" +
-                "                                    \"localizedName\": \"custard\",\n" +
-                "                                    \"image\": \"custard.png\"\n" +
-                "                                },\n" +
-                "                                {\n" +
-                "                                    \"id\": 1065062,\n" +
-                "                                    \"name\": \"meat\",\n" +
-                "                                    \"localizedName\": \"meat\",\n" +
-                "                                    \"image\": \"whole-chicken.jpg\"\n" +
-                "                                }\n" +
-                "                            ],\n" +
-                "                            \"equipment\": [\n" +
-                "                                {\n" +
-                "                                    \"id\": 404771,\n" +
-                "                                    \"name\": \"food processor\",\n" +
-                "                                    \"localizedName\": \"food processor\",\n" +
-                "                                    \"image\": \"food-processor.png\"\n" +
-                "                                },\n" +
-                "                                {\n" +
-                "                                    \"id\": 404726,\n" +
-                "                                    \"name\": \"blender\",\n" +
-                "                                    \"localizedName\": \"blender\",\n" +
-                "                                    \"image\": \"blender.png\"\n" +
-                "                                }\n" +
-                "                            ]\n" +
-                "                        },\n" +
-                "                        {\n" +
-                "                            \"number\": 8,\n" +
-                "                            \"step\": \"Pour this mixture back to the rest of the custard, blend them together until it is thick and creamy.\",\n" +
-                "                            \"ingredients\": [\n" +
-                "                                {\n" +
-                "                                    \"id\": 19170,\n" +
-                "                                    \"name\": \"custard\",\n" +
-                "                                    \"localizedName\": \"custard\",\n" +
-                "                                    \"image\": \"custard.png\"\n" +
-                "                                }\n" +
-                "                            ],\n" +
-                "                            \"equipment\": []\n" +
-                "                        },\n" +
-                "                        {\n" +
-                "                            \"number\": 9,\n" +
-                "                            \"step\": \"Freeze the custard in an ice cream maker according to the manufacturers instructions.  Halfway through the freezing process, fold in the chopped bittersweet chocolate.\",\n" +
-                "                            \"ingredients\": [\n" +
-                "                                {\n" +
-                "                                    \"id\": 19903,\n" +
-                "                                    \"name\": \"bittersweet chocolate\",\n" +
-                "                                    \"localizedName\": \"bittersweet chocolate\",\n" +
-                "                                    \"image\": \"dark-chocolate-pieces.jpg\"\n" +
-                "                                },\n" +
-                "                                {\n" +
-                "                                    \"id\": 19095,\n" +
-                "                                    \"name\": \"ice cream\",\n" +
-                "                                    \"localizedName\": \"ice cream\",\n" +
-                "                                    \"image\": \"vanilla-ice-cream.png\"\n" +
-                "                                },\n" +
-                "                                {\n" +
-                "                                    \"id\": 19170,\n" +
-                "                                    \"name\": \"custard\",\n" +
-                "                                    \"localizedName\": \"custard\",\n" +
-                "                                    \"image\": \"custard.png\"\n" +
-                "                                }\n" +
-                "                            ],\n" +
-                "                            \"equipment\": [\n" +
-                "                                {\n" +
-                "                                    \"id\": 404791,\n" +
-                "                                    \"name\": \"ice cream machine\",\n" +
-                "                                    \"localizedName\": \"ice cream machine\",\n" +
-                "                                    \"image\": \"ice-cream-machine.jpg\"\n" +
-                "                                }\n" +
-                "                            ]\n" +
-                "                        },\n" +
-                "                        {\n" +
-                "                            \"number\": 10,\n" +
-                "                            \"step\": \"Transfer the frozen yogurt into a freezer-safe container and freeze until solid, at least 4 hours.\",\n" +
-                "                            \"ingredients\": [\n" +
-                "                                {\n" +
-                "                                    \"id\": 93629,\n" +
-                "                                    \"name\": \"frozen yogurt\",\n" +
-                "                                    \"localizedName\": \"frozen yogurt\",\n" +
-                "                                    \"image\": \"frozen-yogurt.png\"\n" +
-                "                                }\n" +
-                "                            ],\n" +
-                "                            \"equipment\": [],\n" +
-                "                            \"length\": {\n" +
-                "                                \"number\": 240,\n" +
-                "                                \"unit\": \"minutes\"\n" +
-                "                            }\n" +
-                "                        }\n" +
-                "                    ]\n" +
-                "                }\n" +
-                "            ],\n" +
-                "            \"originalId\": null,\n" +
-                "            \"spoonacularSourceUrl\": \"https://spoonacular.com/avocado-chocolate-bits-frozen-yogurt-633139\"\n" +
-                "        }\n" +
-                "    ]\n" +
-                "}";
+        String recipeJson = "{testJson}";
+
+        Recipe recipe1 = new Recipe();
+        recipe1.setRecipeId("test");
+        recipe1.setName("test");
+        recipe1.setInstructions("test");
+        recipe1.setServings(6);
+        recipe1.setReadyInMinutes(45);
+        recipe1.setSourceUrl("test");
+        recipe1.setImage("test");
+
+        Recipe recipe2 = new Recipe();
+        recipe2.setRecipeId("test");
+        recipe2.setName("test");
+        recipe2.setInstructions("test");
+        recipe2.setServings(4);
+        recipe2.setReadyInMinutes(20);
+        recipe2.setSourceUrl("test");
+        recipe2.setImage("test");
+
+        RecipeResponse response = new RecipeResponse();
+        response.setRecipeId("test");
+        response.setServings(6);
+        response.setName("test");
+        response.setInstructions("test");
+        response.setImage("test");
+        response.setSourceUrl("test");
+
+        List<Recipe> recipes = new ArrayList<>();
+        recipes.add(recipe1);
+        recipes.add(recipe2);
+
+        RandomRecipeResponse randomRecipeResponse = new RandomRecipeResponse(recipes);
 
         when(recipeDao.getRandomRecipe()).thenReturn(recipeJson);
-        when(recipeDao.getRecipeInformation(any())).thenReturn(recipeJson);
+        when(recipeDao.getRecipeInformation("test")).thenReturn(recipeJson);
+        when(mapper.randomRecipeResponse(recipeJson)).thenReturn(randomRecipeResponse);
+        when(recipeService.getRecipeInformation("test")).thenReturn(response);
 
         List<Recipe> result = recipeService.getRandomRecipe();
 
