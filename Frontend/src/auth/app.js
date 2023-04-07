@@ -15,14 +15,17 @@ window.onload = async () => {
   await updateUI();
 
   // Check for the code and state parameters
-  if (location.search.includes("state=") &&
-      (location.search.includes("code=") ||
-          location.search.includes("error="))) {
+  const query = window.location.search;
+  if (query.includes("state=") &&
+      (query.includes("code=") ||
+          query.includes("error="))) {
 
     // Process the login state
     await auth0Client.handleRedirectCallback();
 
-    // Redirect the user and remove the querystring parameters
+    await updateUI();
+
+    // Use replaceState to redirect the user and remove the querystring parameters
     window.history.replaceState({}, document.title, "/");
   }
 };
