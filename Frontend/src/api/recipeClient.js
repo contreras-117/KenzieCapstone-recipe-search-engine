@@ -69,6 +69,15 @@ export default class RecipeClient extends BaseClass {
             this.handleError("getAllRecipes", error, errorCallback);
         }
     }
+
+    async getRandomRecipe(userId, errorCallback) {
+        try{
+            const response = await this.client.get(`/user/${userId}/recipes/random`);
+            return response.data;
+        } catch (error) {
+            this.handleError("getRandomRecipe", error, errorCallback);
+        }
+    }
     /**
      * Helper method to log the error and run any error functions.
      * @param error The error received from the server.

@@ -124,7 +124,7 @@ public class ChefMateUserController {
         return ResponseEntity.ok(chefMateUserService.getAllRecipes(query));
     }
 
-    @GetMapping("/{userId}/recipes/food/search")
+    @GetMapping("/recipes/random")
     public ResponseEntity<List<Recipe>> getRandomRecipe(@PathVariable("userId") String userId){
         ChefMateUserResponse chefMateUserResponse = chefMateUserService.getUserById(userId);
 
