@@ -13,7 +13,7 @@ export default class RecipeClient extends BaseClass {
 
     constructor(props = {}){
         super();
-        const methodsToBind = ['clientLoaded', 'searchByNutrients', 'searchByIngredients'];
+        const methodsToBind = ['clientLoaded', 'searchByNutrients', 'searchByIngredients', 'getAllRecipes'];
         this.bindClassMethods(methodsToBind, this);
         this.props = props;
         this.clientLoaded(axios);
@@ -61,6 +61,14 @@ export default class RecipeClient extends BaseClass {
          }
      }
 
+    async getAllRecipes(userId, query, errorCallback) {
+        try{
+            const response = await this.client.get(`/user/${userId}/recipes/food/search/${query}`);
+            return response.data;
+        } catch (error) {
+            this.handleError("getAllRecipes", error, errorCallback);
+        }
+    }
     /**
      * Helper method to log the error and run any error functions.
      * @param error The error received from the server.

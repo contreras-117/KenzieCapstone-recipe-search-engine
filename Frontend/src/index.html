@@ -218,6 +218,7 @@
                     <ul class="dropdown-menu">
                         <li><a class="dropdown-item" href="#" onclick="renderSearchByIngredientsInput()">Search By Ingredients</a></li>
                         <li><a class="dropdown-item" href="#" onclick="openSearchByNutrientsForm()">Search By Nutrients</a></li>
+                        <li><a class="dropdown-item" href="#" onclick="renderGetAllRecipesInput()">Get All Recipes</a></li>
                         <li><a class="dropdown-item" href="https://www.google.com">Google</a></li>
                         <li><a class="dropdown-item" href="https://www.youtube.com">YouTube</a></li>
                     </ul>
@@ -339,6 +340,17 @@
 
             let render = document.getElementById("search-render-change");
             render.innerHTML = `<input class="form-control mr-sm-2" type="search" placeholder="Search" required class="validated-field" id="search-field">`;
+        }
+
+        function renderGetAllRecipesInput() {
+            let render = document.getElementById("search-render-change");
+            render.innerHTML = `<input class="form-control mr-sm-2" type="search" placeholder="apples,flour,sugar" required class="validated-field" id="get-all-search-field">`;
+
+            let optionsNameChange = document.getElementById("options-button");
+            optionsNameChange.innerHTML = "Get All Recipes";
+
+            let label = document.getElementById("search-label")
+            label.innerHTML = `<label id="search-label">Currently searching with Get All Recipes!</label>`;
         }
 
         function closeSearchByNutrientsForm() {

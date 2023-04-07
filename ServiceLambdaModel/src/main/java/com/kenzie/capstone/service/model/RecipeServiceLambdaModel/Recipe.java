@@ -1,24 +1,34 @@
 package com.kenzie.capstone.service.model.RecipeServiceLambdaModel;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
 import java.util.Objects;
 
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class Recipe implements Serializable {
     @SerializedName("id")
+    @JsonProperty("id")
     private String recipeId;
     @SerializedName("title")
+    @JsonProperty("title")
     private String name;
     @SerializedName("image")
+    @JsonProperty("image")
     private String image;
     @SerializedName("instructions")
+    @JsonProperty("instructions")
     private String instructions;
     @SerializedName("readyInMinutes")
+    @JsonProperty("readyInMinutes")
     private int readyInMinutes;
     @SerializedName("sourceUrl")
+    @JsonProperty("sourceUrl")
     private String sourceUrl;
     @SerializedName("servings")
+    @JsonProperty("servings")
     private int servings;
 
 
