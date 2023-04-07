@@ -1,38 +1,38 @@
+import { createAuth0Client } from '@auth0/auth0-spa-js';
 
-auth0.createAuth0Client({
-  domain: "dev-fj42itvjlehoyi5w.us.auth0.com",
-  clientId: "JJkHXPg0fwgPSaOmo1V555VNnqOv7VN9",
-  authorizationParams: {
-    redirect_uri: window.location.origin
-  }
-}).then(async (auth0Client) => {
-  // Use the login link with id "login" in the DOM
-  const loginLink = document.getElementById("login");
-  console.log(loginLink)
+let auth0Client = null;
 
-  loginLink.addEventListener("click", (e) => {
-    e.preventDefault();
-    auth0Client.loginWithRedirect();
+const configureClient = async () => {
+  auth0Client = await createAuth0Client({
+    domain: process.env.CAPSTONE_DOMAIN,
+    clientId: process.env.CAPSTONE_CLIENT_ID,
   });
+};
 
-  if (location.search.includes("state=") && 
-      (location.search.includes("code=") || 
-      location.search.includes("error="))) {
+window.onload = async () => {
+  await configureClient();
+  // Update the UI state
+  await updateUI();
+
+  // Check for the code and state parameters
+  if (location.search.includes("state=") &&
+      (location.search.includes("code=") ||
+          location.search.includes("error="))) {
+
+    // Process the login state
     await auth0Client.handleRedirectCallback();
+
+    // Redirect the user and remove the querystring parameters
     window.history.replaceState({}, document.title, "/");
   }
+};
 
-  // Use the logout link with id "logout" in the DOM
-  const logoutLink = document.getElementById("logout");
-
-  logoutLink.addEventListener("click", (e) => {
-    e.preventDefault();
-    auth0Client.logout();
-  });
-
+const updateUI = async () => {
   const isAuthenticated = await auth0Client.isAuthenticated();
   const userProfile = await auth0Client.getUser();
 
+  document.getElementById("logout").disabled = !isAuthenticated;
+  document.getElementById("login").disabled = isAuthenticated
   // Use the element with id "profile" in the DOM
   const profileElement = document.getElementById("profile");
 
@@ -45,4 +45,21 @@ auth0.createAuth0Client({
   } else {
     profileElement.style.display = "none";
   }
-});
+};
+
+
+const login = async () => {
+  await auth0Client.loginWithRedirect({
+    authorizationParams: {
+      redirect_uri: window.location.origin
+    }
+  });
+};
+
+const logout = () => {
+  auth0Client.logout({
+    logoutParams: {
+      returnTo: window.location.origin
+    }
+  });
+};

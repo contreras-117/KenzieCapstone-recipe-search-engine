@@ -658,6 +658,11 @@ ul {
     display: none;
 }
 
+label {
+    margin-bottom: 10px;
+    display: block;
+}
+
 .navbar {
     min-height: 115px;
 }

@@ -57,7 +57,7 @@
             <ul class="navbar-nav d-none d-md-block">
                 <!-- Login link: show if NOT authenticated -->
                 <li class="nav-item auth-invisible">
-                    <a href="#" id="login" class="nav-link auth-invisible hidden" onclick="login()">Login</a>
+                    <a href="#" id="login" class="nav-link auth-invisible hidden" disabled="true" onclick="login()">Login</a>
                 </li>
                 <!-- / Login link -->
 
@@ -101,6 +101,7 @@
                                 href="#"
                                 class="dropdown-item"
                                 id="logout"
+                                disabled="true"
                                 onclick="logout()"
                         >
                             <i class="fas fa-power-off mr-3"></i> Log out

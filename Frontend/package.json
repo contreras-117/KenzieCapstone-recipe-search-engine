@@ -11,7 +11,9 @@
   "scripts": {
     "prepublishOnly": "npm run build",
     "build": "webpack -p --mode=production --devtool=source-map",
-    "start": "webpack-dev-server -d --mode=development --hot --inline"
+    "start": "webpack-dev-server -d --mode=development --hot --inline",
+    "dev": "",
+    "init-server": ""
   },
   "dependencies": {
     "@auth0/auth0-spa-js": "^2.0.1",
@@ -26,6 +28,7 @@
   },
   "devDependencies": {
     "copy-webpack-plugin": "^6.4.1",
-    "html-webpack-plugin": "4"
+    "html-webpack-plugin": "4",
+    "nodemon": "^2.0.22"
   }
 }
