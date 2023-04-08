@@ -1,6 +1,7 @@
 import BaseClass from "../util/baseClass";
 import DataStore from "../util/DataStore";
 import RecipeClient from "../api/recipeClient";
+import ChefMateClient from "../api/chefMateClient";
 
 /**
  * Logic needed for the view playlist page of the website.
@@ -9,7 +10,9 @@ class HomePage extends BaseClass {
 
     constructor() {
         super();
-        this.bindClassMethods(['onSearchByNutrients', 'onSearchByIngredients', 'onGetAllRecipes', 'onGetRandomRecipe'], this);
+        this.bindClassMethods([
+            'onSearchByNutrients', 'onSearchByIngredients', 'onGetAllRecipes', 'onGetRandomRecipe',
+            'onUpdateUserPreference', 'onUpdateRecipesTried', 'onDeleteUser', 'addNewUser'], this);
         this.dataStore = new DataStore();
     }
 
@@ -21,7 +24,9 @@ class HomePage extends BaseClass {
         document.getElementById('get-by-id-form').addEventListener('submit', this.onSearchByIngredients);
         document.getElementById('get-by-id-form').addEventListener('submit', this.onGetAllRecipes);
         document.getElementById('get-by-id-form').addEventListener('submit', this.onGetRandomRecipe);
+        document.getElementById('update-preference').addEventListener('click', this.onUpdateUserPreference);
         this.client = new RecipeClient();
+        this.client = new ChefMateClient();
 
         /*this.dataStore.addChangeListener(this.renderExample)*/
     }
@@ -360,6 +365,18 @@ class HomePage extends BaseClass {
             loadingSpinner.style.display = "none";
             this.errorHandler("Error doing getAllRecipes!  Try again...");
         }
+    }
+
+    async onUpdateUserPreference(event) {
+        event.preventDefault();
+    }
+
+    async onUpdateRecipesTried(event) {
+        event.preventDefault();
+    }
+
+    async onDeleteUser(event) {
+        event.preventDefault();
     }
 
 }

@@ -31,25 +31,74 @@ window.onload = async () => {
   }
 };
 
+// const updateUI = async () => {
+//   const isAuthenticated = await auth0Client.isAuthenticated();
+//   const userProfile = await auth0Client.getUser();
+//
+//   document.getElementById("logout").disabled = !isAuthenticated;
+//   document.getElementById("login").disabled = isAuthenticated
+//   // Use the element with id "profile" in the DOM
+//   const profileElement = document.getElementById("profile");
+//
+//   if (isAuthenticated) {
+//     profileElement.style.display = "block";
+//     profileElement.innerHTML = `
+//             <p>${userProfile.name}</p>
+//             <img src="${userProfile.picture}" />
+//           `;
+//   } else {
+//     profileElement.style.display = "none";
+//   }
+// };
+
+
 const updateUI = async () => {
-  const isAuthenticated = await auth0Client.isAuthenticated();
-  const userProfile = await auth0Client.getUser();
 
-  document.getElementById("logout").disabled = !isAuthenticated;
-  document.getElementById("login").disabled = isAuthenticated
-  // Use the element with id "profile" in the DOM
-  const profileElement = document.getElementById("profile");
+  try {
+    const isAuthenticated = await auth0Client.isAuthenticated();
+    const userProfile = await auth0Client.getUser();
 
-  if (isAuthenticated) {
-    profileElement.style.display = "block";
-    profileElement.innerHTML = `
+    document.getElementById("logout").disabled = !isAuthenticated;
+    document.getElementById("login").disabled = isAuthenticated
+    // Use the element with id "profile" in the DOM
+    const profileElement = document.getElementById("profile");
+
+    if (isAuthenticated) {
+      const user = await auth0Client.getUser();
+
+
+      profileElement.style.display = "block";
+      profileElement.innerHTML = `
             <p>${userProfile.name}</p>
             <img src="${userProfile.picture}" />
           `;
-  } else {
-    profileElement.style.display = "none";
+
+      document.getElementById("profile-data").innerText = JSON.stringify(
+          user,
+          null,
+          2
+      );
+
+      document.querySelectorAll("pre code").forEach(hljs.highlightBlock);
+
+      eachElement(".profile-image", (e) => (e.src = user.picture));
+      eachElement(".user-name", (e) => (e.innerText = user.name));
+      eachElement(".user-email", (e) => (e.innerText = user.email));
+      eachElement(".auth-invisible", (e) => e.classList.add("hidden"));
+      eachElement(".auth-visible", (e) => e.classList.remove("hidden"));
+    } else {
+      eachElement(".auth-invisible", (e) => e.classList.remove("hidden"));
+      eachElement(".auth-visible", (e) => e.classList.add("hidden"));
+      profileElement.style.display = "none";
+    }
+  } catch (err) {
+    console.log("Error updating UI!", err);
+    return;
   }
+
+  console.log("UI updated");
 };
+
 
 
 const login = async () => {

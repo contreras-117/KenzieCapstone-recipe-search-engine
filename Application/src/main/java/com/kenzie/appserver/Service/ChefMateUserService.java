@@ -55,7 +55,7 @@ public class ChefMateUserService {
      *
      * This creates a new user.
      * @param createChefMateUserRequest
-     * @return A CustomerResponse describing the customer
+     * @return A ChefMateUserResponse describing the user
      */
     public ChefMateUserResponse addNewUser(CreateChefMateUserRequest createChefMateUserRequest) {
 
@@ -124,7 +124,7 @@ public class ChefMateUserService {
         ChefMateUserRecord userRecord = userExists.get();
 
         if (!userRecord.getRecipesTried().contains(request.getRecipeId())) {
-            throw new IllegalArgumentException("Cannot review recipe you havent tried");
+            throw new IllegalArgumentException("Cannot review recipe you haven't tried");
         }
         return reviewLambdaServiceClient.addReview(request);
     }

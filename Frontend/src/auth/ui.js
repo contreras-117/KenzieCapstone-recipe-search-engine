@@ -63,7 +63,7 @@ const showContent = (id) => {
 /**
  * Updates the user interface
  */
-const updateUI = async () => {
+/*const updateUI = async () => {
   try {
     const isAuthenticated = await auth0Client.isAuthenticated();
 
@@ -93,7 +93,7 @@ const updateUI = async () => {
   }
 
   console.log("UI updated");
-};
+};*/
 
 window.onpopstate = (e) => {
   if (e.state && e.state.url && router[e.state.url]) {
