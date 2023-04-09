@@ -9,22 +9,22 @@
     "runTest": "never"
   },
   "scripts": {
-    "prepublishOnly": "npm run build",
-    "build": "webpack -p --mode=production --devtool=source-map",
     "start": "webpack-dev-server -d --mode=development --hot --inline",
     "dev": "",
-    "init-server": ""
+    "init-server": "",
+    "prepublishOnly": "npm run build",
+    "build": "webpack -p --mode=production --devtool=source-map"
   },
   "dependencies": {
-    "@auth0/auth0-spa-js": "^2.0.1",
-    "axios": "^0.21.1",
+    "@auth0/auth0-spa-js": "^2.0.4",
+    "axios": "^0.21.4",
     "clean-webpack-plugin": "^4.0.0",
     "dotenv-webpack": "^8.0.1",
     "express": "^4.18.2",
     "toastify-js": "^1.11.2",
     "webpack": "^4.41.2",
     "webpack-cli": "^3.3.10",
-    "webpack-dev-server": "^4.13.2"
+    "webpack-dev-server": "^3.2.1"
   },
   "devDependencies": {
     "copy-webpack-plugin": "^6.4.1",

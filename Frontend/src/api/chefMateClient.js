@@ -90,7 +90,8 @@ export default class ChefMateClient extends BaseClass {
      */
     async deleteUser(userId, errorCallback) {
         try{
-            const response = await this.client.delete(`/user/deleteUser/${userId}`);
+            const response = await this.client.delete(`/user/deleteUser/${userId}`, {
+                userId: userId});
             return response.data;
         } catch (error) {
             this.handleError("deleteUser", error, errorCallback);

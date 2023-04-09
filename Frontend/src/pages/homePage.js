@@ -8,11 +8,17 @@ import ChefMateClient from "../api/chefMateClient";
  */
 class HomePage extends BaseClass {
 
+    // constructor() {
+    //     super();
+    //     this.bindClassMethods(['onSearchByNutrients', 'onSearchByIngredients', 'onGetAllRecipes', 'onGetRandomRecipe',
+    //         'onUpdateUserPreference', 'onUpdateRecipesTried', 'onDeleteUser', 'addNewUser'], this);
+    //     this.dataStore = new DataStore();
+    // }
+
     constructor() {
         super();
-        this.bindClassMethods([
-            'onSearchByNutrients', 'onSearchByIngredients', 'onGetAllRecipes', 'onGetRandomRecipe',
-            'onUpdateUserPreference', 'onUpdateRecipesTried', 'onDeleteUser', 'addNewUser'], this);
+        this.bindClassMethods(['onSearchByNutrients', 'onSearchByIngredients', 'onGetAllRecipes', 'onGetRandomRecipe',
+            'onUpdateUserPreference'], this);
         this.dataStore = new DataStore();
     }
 

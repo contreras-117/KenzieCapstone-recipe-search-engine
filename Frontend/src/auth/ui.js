@@ -1,3 +1,5 @@
+
+
 // URL mapping, from hash to a function that responds to that URL action
 console.log("ui.js")
 const router = {
@@ -47,7 +49,7 @@ const showContentFromUrl = (url) => {
  * @param {*} element The element to check
  */
 const isRouteLink = (element) =>
-  element.tagName === "A" && element.classList.contains("route-link");
+    element.tagName === "A" && element.classList.contains("route-link");
 
 /**
  * Displays a content panel specified by the given element id.
@@ -63,7 +65,7 @@ const showContent = (id) => {
 /**
  * Updates the user interface
  */
-/*const updateUI = async () => {
+const updateUI = async () => {
   try {
     const isAuthenticated = await auth0Client.isAuthenticated();
 
@@ -71,9 +73,9 @@ const showContent = (id) => {
       const user = await auth0Client.getUser();
 
       document.getElementById("profile-data").innerText = JSON.stringify(
-        user,
-        null,
-        2
+          user,
+          null,
+          2
       );
 
       document.querySelectorAll("pre code").forEach(hljs.highlightBlock);
@@ -93,7 +95,7 @@ const showContent = (id) => {
   }
 
   console.log("UI updated");
-};*/
+};
 
 window.onpopstate = (e) => {
   if (e.state && e.state.url && router[e.state.url]) {

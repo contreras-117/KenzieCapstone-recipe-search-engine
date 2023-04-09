@@ -53,17 +53,53 @@
 
     <nav id="mainNavbar" class="navbar navbar-dark bg-dark  py-4">
         <a href="index.html" id="chefmate-header" class="navbar-brand ms-4">ChefMate</a>
+
+<!--        Debugging-->
+
+<!--        <div class="account-dropdown">-->
+<!--            <div class="account-dropbutton-container">-->
+<!--                <button class="account-dropbutton" id="account-dropbutton">-->
+<!--                    <span id="logged-in-welcome"></span>-->
+<!--                    <i class="fa-solid fa-user"></i>-->
+<!--                </button>-->
+<!--            </div>-->
+<!--            <div class="account-dropdown-content">-->
+<!--                <a class="dropdown-links" id="account-link">Account</a>-->
+<!--                <a id="login-logout" class="dropdown-links" onclick="login()">Login</a>-->
+<!--            </div>-->
+<!--        </div>-->
+
+<!--            End debugging-->
+
         <div id="navLinks">
             <ul class="navbar-nav d-none d-md-block">
                 <!-- Login link: show if NOT authenticated -->
                 <li class="nav-item auth-invisible">
-                    <a href="/login" id="login" class="nav-link auth-invisible hidden" disabled="true" onclick="login()">Login</a>
+                    <button
+                            id="login"
+                            class="nav-link auth-invisible hidden"
+                            onclick="login()"
+                    >Login
+                    </button>
                 </li>
                 <!-- / Login link -->
 
                 <!-- Dropdown: show if authenticated -->
                 <li class="nav-item dropdown auth-visible hidden">
-                    <a href="#" class="nav-link dropdown-toggle" id="profileDropDown" data-toggle="dropdown">Manage Your Account</a>
+<!--                    <a href="#" class="nav-link dropdown-toggle" id="profileDropDown" data-toggle="dropdown">Manage Your Account</a>-->
+                    <a
+                            class="nav-link dropdown-toggle"
+                            href="#"
+                            id="profileDropDown"
+                            data-toggle="dropdown"
+                    >
+                        <!-- Profile image should be set to the profile picture from the id token -->
+                        <img
+                                alt="Profile picture"
+                                class="nav-user-profile profile-image rounded-circle"
+                                width="50"
+                        />
+                    </a>
                     <div class="dropdown-menu">
                         <!-- Show the user's full name from the id token here -->
                         <div class="dropdown-header nav-user-name user-name"></div>
@@ -76,7 +112,7 @@
                         </a>
                         <a
                                 href="/userPreferences"
-                                class="dropdown-item"
+                                class="dropdown-item route-link"
                                 id="update-preference"
                                 onclick="updateUserPreference()"
                         >
@@ -84,7 +120,7 @@
                         </a>
                         <a
                                 href="/recipesTried"
-                                class="dropdown-item"
+                                class="dropdown-item route-link"
                                 id="update-recipes-tried"
                                 onclick="updateRecipesTried()"
                         >
@@ -92,7 +128,7 @@
                         </a>
                         <a
                                 href="/deleteUser"
-                                class="dropdown-item"
+                                class="dropdown-item route-link"
                                 id="delete-user"
                                 onclick="deleteUser()"
                         >
@@ -102,7 +138,6 @@
                                 href="#"
                                 class="dropdown-item"
                                 id="logout"
-                                disabled="true"
                                 onclick="logout()"
                         >
                             <i class="fas fa-power-off mr-3"></i> Log out
@@ -117,9 +152,6 @@
 
     <div id = "homepage">
 
-    <!--        <section class ="split-view" id="rendering-recipes-section">
-                <img id="img-placeholder" src="https://www.chansmiles.com/wp-content/uploads/2021/11/thanksgiving-meal.jpg">
-            </section>-->
     <section class ="split-view" id="rendering-recipes-section">
         <div class="recipes">
             <div class="content">
@@ -138,46 +170,12 @@
                 <button onclick="openInstructions('${instructionsString}')" class='chef-mate-instructions-button'>ChefMate Instructions</button>
             </div>
         </div>
-        <!--        <div class="container">
-                    <div id="myCarousel" class="carousel slide" data-ride="carousel">
-                        &lt;!&ndash; Indicators &ndash;&gt;
-                        <ol class="carousel-indicators">
-                            <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
-                            <li data-target="#myCarousel" data-slide-to="1"></li>
-                            <li data-target="#myCarousel" data-slide-to="2"></li>
-                        </ol>
 
-                        &lt;!&ndash; Wrapper for slides &ndash;&gt;
-                        <div class="carousel-inner">
-                            <div class="item active">
-                                <img src="https://a.cdn-hotels.com/gdcs/production190/d1709/1115d808-d4ff-4787-b024-32d7b0d3eefc.jpg?impolicy=fcrop&w=800&h=533&q=medium" alt="Los Angeles" style="height:100%">
-                            </div>
-
-                            <div class="item">
-                                <img src="https://www.sftravel.com/sites/default/files/styles/hero/public/2022-10/baker-beach.jpg?h=e5aec6c8&itok=ymCG5taL" alt="Chicago" style="height:100%">
-                            </div>
-
-                            <div class="item">
-                                <img src="https://cdn.britannica.com/84/93884-050-3CABD203/Alcatraz-Island-San-Francisco-Bay-California.jpg" alt="New york" style="height:100%">
-                            </div>
-                        </div>
-
-                        &lt;!&ndash; Left and right controls &ndash;&gt;
-                        <a class="left carousel-control" href="#myCarousel" data-slide="prev">
-                            <span class="glyphicon glyphicon-chevron-left"></span>
-                            <span class="sr-only">Previous</span>
-                        </a>
-                        <a class="right carousel-control" href="#myCarousel" data-slide="next">
-                            <span class="glyphicon glyphicon-chevron-right"></span>
-                            <span class="sr-only">Next</span>
-                        </a>
-                    </div>
-                </div>-->
     </section>
 
     <div class="form-popup" id="search-by-nutrients-window" style="display: none;">
         <form id="search-by-nutrients-form">
-            <!--                <h1>Search By Nutrients</h1>-->
+
             <section id="first-section-search-by-nutrients">
                 <ul>
                     <label>Min Carbs</label>
@@ -268,10 +266,6 @@
     </div>
 
     <section class="split-view">
-        <!--            <div class="pagination">
-                        <a href="#">❮</a>
-                        <a href="#">❯</a>
-                    </div>-->
 
         <div id="intro-header-container">
             <div id="intro-header">
