@@ -183,7 +183,7 @@ const updateUI = async () => {
     logout.innerHTML = "Logout";
     logout.onclick = logout;
     //display username if user is logged in
-    document.getElementById('logged-in-welcome').innerHTML = `${user.nickname}`;
+    document.getElementById('content-profile').innerHTML = `${user.nickname}`;
     const accountLink = document.getElementById("account-link")
     accountLink.addEventListener("click", account);
     accountLink.style.display = 'block';
