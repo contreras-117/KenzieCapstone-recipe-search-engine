@@ -1,4 +1,7 @@
 import { createAuth0Client } from '@auth0/auth0-spa-js';
+//import * as utils from 'ui.js';
+import './ui';
+
 
 
 let auth0Client = null;
@@ -7,11 +10,15 @@ const configureClient = async () => {
   auth0Client = await createAuth0Client({
     domain: process.env.CAPSTONE_DOMAIN,
     clientId: process.env.CAPSTONE_CLIENT_ID,
+    authorizationParams: {
+      redirect_uri: window.location.origin
+    }
   });
 };
 
 
 window.onload = async () => {
+  console.log("About to call configureClient");
   await configureClient();
   // Update the UI state
   await updateUI();
@@ -31,6 +38,19 @@ window.onload = async () => {
     window.history.replaceState({}, document.title, "/");
   }
 };
+
+//redirect to the Universal Login Page
+document.getElementById('login').addEventListener('click', async () => {
+  await auth0Client.loginWithRedirect();
+});
+
+//in your callback route (<MY_CALLBACK_URL>)
+window.addEventListener('load', async () => {
+  const redirectResult = await auth0Client.handleRedirectCallback();
+  //logged in. you can get the user profile like this:
+  const user = await auth0Client.getUser();
+  console.log(user);
+});
 
 
 // // Will run when page finishes loading
@@ -168,46 +188,55 @@ window.onload = async () => {
 // };
 
 
-const updateUI = async () => {
-  const isAuthenticated = await auth0Client.isAuthenticated();
-  const login = document.getElementById("login");
-  const logout = document.getElementById("logout");
+// const updateUI = async () => {
+//   const isAuthenticated = await auth0Client.isAuthenticated();
+//   const login = document.getElementById("login");
+//   const logout = document.getElementById("logout");
+//
+//   if (!isAuthenticated) {
+//     login.innerHTML = "Login";
+//     login.onclick = login;
+//   }
+//
+//   else if (isAuthenticated) {
+//     const user = await auth0Client.getUser();
+//     logout.innerHTML = "Logout";
+//     logout.onclick = logout;
+//     //display username if user is logged in
+//     document.getElementById('content-profile').innerHTML = `${user.nickname}`;
+//     const accountLink = document.getElementById("account-link")
+//     accountLink.addEventListener("click", account);
+//     accountLink.style.display = 'block';
+//   }
+//
+// };
 
-  if (!isAuthenticated) {
-    login.innerHTML = "Login";
-    login.onclick = login;
+
+document.getElementById('logout').addEventListener('click', () => {
+  auth0Client.logout();
+});
+
+auth0Client.logout({
+  logoutParams: {
+    returnTo: window.location.origin
   }
+});
 
-  else if (isAuthenticated) {
-    const user = await auth0Client.getUser();
-    logout.innerHTML = "Logout";
-    logout.onclick = logout;
-    //display username if user is logged in
-    document.getElementById('content-profile').innerHTML = `${user.nickname}`;
-    const accountLink = document.getElementById("account-link")
-    accountLink.addEventListener("click", account);
-    accountLink.style.display = 'block';
-  }
+// const login = async () => {
+//   await auth0Client.loginWithRedirect({
+//     authorizationParams: {
+//       redirect_uri: window.location.origin
+//     }
+//   });
+// };
 
-};
-
-
-
-const login = async () => {
-  await auth0Client.loginWithRedirect({
-    authorizationParams: {
-      redirect_uri: window.location.origin
-    }
-  });
-};
-
-const logout = () => {
-  auth0Client.logout({
-    logoutParams: {
-      returnTo: window.location.origin
-    }
-  });
-};
+// const logout = () => {
+//   auth0Client.logout({
+//     logoutParams: {
+//       returnTo: window.location.origin
+//     }
+//   });
+// };
 
 
 // /**
