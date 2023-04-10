@@ -9,7 +9,7 @@ class HomePage extends BaseClass {
 
     constructor() {
         super();
-        this.bindClassMethods(['onSearchByNutrients', 'onSearchByIngredients', 'onGetAllRecipes', 'onGetRandomRecipe'], this);
+        this.bindClassMethods(['onSearchByNutrients', 'onSearchByIngredients', 'onGetAllRecipes', 'onGetRandomRecipe', 'onGetAllReviews'], this);
         this.dataStore = new DataStore();
     }
 
@@ -18,9 +18,10 @@ class HomePage extends BaseClass {
      */
     async mount() {
         document.getElementById('search-by-nutrients-form').addEventListener('submit', this.onSearchByNutrients);
-        document.getElementById('get-by-id-form').addEventListener('submit', this.onSearchByIngredients);
-        document.getElementById('get-by-id-form').addEventListener('submit', this.onGetAllRecipes);
-        document.getElementById('get-by-id-form').addEventListener('submit', this.onGetRandomRecipe);
+        document.getElementById('search-form-id').addEventListener('submit', this.onSearchByIngredients);
+        document.getElementById('search-form-id').addEventListener('submit', this.onGetAllRecipes);
+        document.getElementById('search-form-id').addEventListener('submit', this.onGetRandomRecipe);
+        document.getElementById('get-review-form').addEventListener('submit', this.onGetAllReviews);
         this.client = new RecipeClient();
 
         /*this.dataStore.addChangeListener(this.renderExample)*/
@@ -359,6 +360,54 @@ class HomePage extends BaseClass {
         } else {
             loadingSpinner.style.display = "none";
             this.errorHandler("Error doing getAllRecipes!  Try again...");
+        }
+    }
+
+    async onGetAllReviews(event) {
+        event.preventDefault();
+
+        let loadingSpinner = document.getElementById("spinner");
+        loadingSpinner.style.display = "block";
+
+        let recipeId = document.getElementById("recipe-id-input").value;
+
+        let result = await this.client.getRecipeReviews(recipeId, this.errorHandler);
+        this.dataStore.set("allReviews", result);
+
+        let allReviews = this.dataStore.get("allReviews");
+
+        let html = "";
+
+        for (let review of allReviews) {
+
+            html += `<div>
+                        <div class="review-content">
+                             <div>
+                                 <div class="review-returned">
+                                     <p class="review-text-container">
+                                         ${review.comment}
+                                    </p>
+                                 </div>
+                             </div>
+                             <div class="star-container-reviews">
+                                 <div class="star-rating-reviews">`;
+
+            for (let i = 0; i < review.rating; i++) {
+                html += "<label class='fa fa-star'></label>";
+            }
+
+            html += "</div></div></div></div>";
+        }
+
+        let renderingSection = document.getElementById("review-section");
+
+        if (result) {
+            loadingSpinner.style.display = "none";
+            document.getElementById("review-section-container").style.display = "block";
+            renderingSection.innerHTML = html;
+        } else {
+            loadingSpinner.style.display = "none";
+            this.errorHandler("Error doing getAllReviews!  Try again...");
         }
     }
 

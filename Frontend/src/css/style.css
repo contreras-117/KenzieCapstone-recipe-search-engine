@@ -160,7 +160,7 @@
     padding-top: 50px;
 }
 
-#get-by-id-form {
+#search-form-id {
     text-align: center;
 }
 
@@ -433,10 +433,6 @@ ul {
     background: #00BFFF;
 }
 
-.recipes {
-
-}
-
 #rendering-recipes-section {
     overflow-y: auto;
 
@@ -627,22 +623,15 @@ ul {
     margin-top: 5%;
     margin-left: 5%;
     margin-right: 5%;
-
 }
 
-#review-text-container {
+.review-text-container {
    max-height: 200px;
    overflow-x: auto;
-
-
 }
 
 #get-review-form {
-
     display: flex;
-
-       /* justify-content: center;*/
-
 }
 
 #get-reviews-button {
@@ -651,5 +640,5 @@ ul {
 }
 
 #recipe-id-input {
-      width: 45%;
+    width: 45%;
 }
