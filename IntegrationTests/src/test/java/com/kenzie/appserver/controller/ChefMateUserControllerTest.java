@@ -127,7 +127,7 @@ public class ChefMateUserControllerTest {
 
         ChefMateUserResponse userResponse = chefMateUserService.addNewUser(userRequest);
         Set<String> newRecipesTried = new HashSet<>();
-        newRecipesTried.add("Italian Recipe");
+        newRecipesTried.add("98765");
         newRecipesTried.add("Chinese Recipe");
 
         UpdateUserPreferencesRequest updateRequest = new UpdateUserPreferencesRequest();
@@ -260,11 +260,11 @@ public class ChefMateUserControllerTest {
         CreateChefMateUserRequest userRequest1 = new CreateChefMateUserRequest();
         CreateChefMateUserRequest userRequest2 = new CreateChefMateUserRequest();
 
-        String recipeId = UUID.randomUUID().toString();
+        String recipeId = "98765";
         Set<String> recipesTried = new HashSet<>();
         recipesTried.add(recipeId);
 
-        userRequest1.setUserId(UUID.randomUUID().toString());
+        userRequest1.setUserId("UserIdTest");
         userRequest1.setUserPreferences(Optional.empty());
         userRequest1.setRecipesTried(Optional.of(recipesTried));
         userRequest1.setIngredients(Optional.empty());
