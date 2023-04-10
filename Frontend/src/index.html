@@ -154,7 +154,7 @@
                         <li><a class="dropdown-item" href="#" onclick="renderSearchByIngredientsInput()">Search By Ingredients</a></li>
                         <li><a class="dropdown-item" href="#" onclick="openSearchByNutrientsForm()">Search By Nutrients</a></li>
                         <li><a class="dropdown-item" href="#" onclick="renderGetAllRecipesInput()">Get All Recipes</a></li>
-                        <li><a class="dropdown-item" href="#" onclick="renderGetRandomRecipe()">Get Random Recipes</a></li>
+                        <li><a id="random-recipe" class="dropdown-item" href="#" onclick="renderGetRandomRecipe()">Get Random Recipes</a></li>
                     </ul>
                 </div>
                 <div id="search-render-change">
@@ -243,13 +243,10 @@
 
         function renderGetRandomRecipe() {
             let render = document.getElementById("search-render-change");
-            render.innerHTML = `<input class="form-control mr-sm-2" type="search" placeholder="click search" id="get-random-search-field">`;
-
-            let optionsNameChange = document.getElementById("options-button");
-            optionsNameChange.innerHTML = "Get Random Recipe";
+            render.innerHTML = `<input class="form-control mr-sm-2" type="search" id="get-random-search-field">`;
 
             let label = document.getElementById("search-label")
-            label.innerHTML = `<label id="search-label">Currently searching with Get Random Recipe!</label>`;
+            label.innerHTML = `<label id="search-label">Currently searching with Get Random Recipe. Try it again!</label>`;
         }
 
         function closeSearchByNutrientsForm() {

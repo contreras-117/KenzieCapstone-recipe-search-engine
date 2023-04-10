@@ -20,7 +20,7 @@ class HomePage extends BaseClass {
         document.getElementById('search-by-nutrients-form').addEventListener('submit', this.onSearchByNutrients);
         document.getElementById('search-form-id').addEventListener('submit', this.onSearchByIngredients);
         document.getElementById('search-form-id').addEventListener('submit', this.onGetAllRecipes);
-        document.getElementById('search-form-id').addEventListener('submit', this.onGetRandomRecipe);
+        document.getElementById('random-recipe').addEventListener('click', this.onGetRandomRecipe);
         document.getElementById('get-review-form').addEventListener('submit', this.onGetAllReviews);
         this.client = new RecipeClient();
 
