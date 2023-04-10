@@ -2,6 +2,7 @@ const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CopyPlugin = require("copy-webpack-plugin");
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
+const Dotenv = require('dotenv-webpack');
 
 module.exports = {
   optimization: {
@@ -9,6 +10,8 @@ module.exports = {
   },
   entry: {
     homePage: path.resolve(__dirname, 'src', 'pages', 'homePage.js'),
+    ui: path.resolve(__dirname, 'src', 'auth', 'ui.js'),
+    app: path.resolve(__dirname, 'src', 'auth', 'app.js'),
   },
   output: {
     path: path.resolve(__dirname, 'dist'),
@@ -34,6 +37,7 @@ module.exports = {
     ]
   },
   plugins: [
+    new Dotenv(),
     new HtmlWebpackPlugin({
       template: './src/index.html',
       filename: 'index.html',

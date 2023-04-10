@@ -1,7 +1,12 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <script type="text/javascript" src="homePage.js"></script>
+
+    <script src="https://cdn.auth0.com/js/auth0-spa-js/2.0/auth0-spa-js.production.js"></script>
+    <script defer type="text/javascript" src="ui.js"></script>
+    <script defer type="text/javascript" src="app.js"></script>
+    <script defer type="text/javascript" src="homePage.js"></script>
+
     <link rel="stylesheet" type="text/css" href="css/style.css">
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
     <link
@@ -11,32 +16,142 @@
             crossorigin="anonymous"
     />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+
+    <link
+            rel="stylesheet"
+            href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+    />
+
+    <link
+            rel="stylesheet"
+            href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/styles/monokai-sublime.min.css"
+    />
+    <link
+            rel="stylesheet"
+            href="https://use.fontawesome.com/releases/v5.7.2/css/solid.css"
+            integrity="sha384-r/k8YTFqmlOaqRkZuSiE9trsrDXkh07mRaoGBMoDcmA58OHILZPsk29i2BsFng1B"
+            crossorigin="anonymous"
+    />
+    <link
+            rel="stylesheet"
+            href="https://use.fontawesome.com/releases/v5.7.2/css/fontawesome.css"
+            integrity="sha384-4aon80D8rXCGx9ayDt85LbyUHeMWd3UiBaWliBlJ53yzm9hqN21A+o1pqoyK04h+"
+            crossorigin="anonymous"
+    />
+
+    <link
+            rel="stylesheet"
+            href="https://cdn.auth0.com/js/auth0-samples-theme/1.0/css/auth0-theme.min.css"
+    />
+
 </head>
 <body class="background">
 
-<nav id="mainNavbar" class="navbar navbar-dark bg-dark  py-4">
-    <a href="index.html" id="chefmate-header" class="navbar-brand ms-4">ChefMate</a>
-    <div id="navLinks">
-        <ul class="navbar-nav">
-            <li class="nav-item">
-                <a href=".html" class="nav-link">Sign In</a>
-            </li>
-            <li class="nav-item">
-                <a href=".html" class="nav-link">Manage Your Account</a>
-            </li>
-        </ul>
-    </div>
-</nav>
+    <nav id="mainNavbar" class="navbar navbar-dark bg-dark  py-4">
+        <a href="index.html" id="chefmate-header" class="navbar-brand ms-4">ChefMate</a>
 
-<div id = "homepage">
+        <div id="navLinks">
+            <ul class="navbar-nav d-none d-md-block">
+                <!-- Login link: show if NOT authenticated -->
+                <li class="nav-item auth-invisible">
+                    <a
+                            href="javascript:void(0);"
+                            id="login"
+                            class="nav-link auth-invisible hidden"
+                    >Login
+                    </a>
+                </li>
+                <!-- / Login link -->
+
+                <!-- Dropdown: show if authenticated -->
+                <li class="nav-item dropdown auth-visible hidden">
+<!--                    <a href="#" class="nav-link dropdown-toggle" id="profileDropDown" data-toggle="dropdown">Manage Your Account</a>-->
+                    <a
+                            class="nav-link dropdown-toggle"
+                            href="#"
+                            id="profileDropDown"
+                            data-toggle="dropdown"
+                    >
+                        <!-- Profile image should be set to the profile picture from the id token -->
+                        <img
+                                alt="Profile picture"
+                                class="nav-user-profile profile-image rounded-circle"
+                                width="50"
+                        />
+                    </a>
+                    <div class="dropdown-menu">
+                        <!-- Show the user's full name from the id token here -->
+                        <div class="dropdown-header nav-user-name user-name"></div>
+                        <a
+                                href="/profile"
+                                id="profile"
+                                class="dropdown-item dropdown-profile route-link"
+                        >
+                            <i class="fas fa-user-lock mr-3"></i> Profile
+                        </a>
+                        <form id="user-dietary-preference-form">
+                        <a
+                                href="/userPreferences"
+                                class="dropdown-item route-link"
+                                id="update-preference"
+                        >
+                            <i class="fas fa-wheat-slash mr-3"></i>
+                            <div id="update-user-preferences">
+                                <input class="form-control mr-sm-2 validated-field" type="text" placeholder="Gluten-Free, Vegetarian, Dairy-free" id="user-dietary-preference-field">
+                            </div>
+                            <button class="btn btn-outline-primary my-2 my-sm-0" type="submit" id="update-preference-button" onclick="updateUserPreference()">Preferences</button>
+
+                        </a>
+                        </form>
+                        <form id="recipes-tried-by-user-form">
+                        <a
+                                href="/recipesTried"
+                                class="dropdown-item route-link"
+                                id="update-recipes-tried"
+                        >
+                            <i class="fas fa-pot-food mr-3"></i>
+                            <div id="update-recipes-user-tried">
+                                <input class="form-control mr-sm-2 validated-field" type="text" placeholder="Recipes tried" id="recipes-user-tried-field">
+                            </div>
+                            <button class="btn btn-outline-primary my-2 my-sm-0" type="submit" id="update-recipes-user-tried-button" onclick="updateRecipesTried()">Recipes Tried</button>
+                        </a>
+                        </form>
+                        <a
+                                href="/deleteUser"
+                                class="dropdown-item route-link"
+                                id="delete-user"
+                                onclick="deleteUser()"
+                        >
+                            <i class="fas fa-user-slash mr-3"></i> Delete User
+                        </a>
+                        <a
+                                href="javascript:void(0);"
+                                class="dropdown-item"
+                                id="logout"
+                        >
+                            <i class="fas fa-power-off mr-3"></i> Log out
+                        </a>
+                    </div>
+                </li>
+                <!-- /Dropdown -->
+            </ul>
+        </div>
+    </nav>
+
+
+    <div id = "homepage">
 
     <section class ="split-view" id="rendering-recipes-section">
+
         <img id="img-placeholder" src="https://www.chansmiles.com/wp-content/uploads/2021/11/thanksgiving-meal.jpg">
+
     </section>
 
     <div class="form-popup" id="search-by-nutrients-window" style="display: none;">
         <form id="search-by-nutrients-form">
+
             <section id="first-section-search-by-nutrients">
                 <ul>
                     <label>Min Carbs</label>
@@ -282,6 +397,5 @@
             document.querySelector(".chefmate-instructions-innerHTML").style.display = "none";
         }
     </script>
-
 </body>
 </html>

@@ -1,6 +1,7 @@
 import BaseClass from "../util/baseClass";
 import DataStore from "../util/DataStore";
 import RecipeClient from "../api/recipeClient";
+import ChefMateClient from "../api/chefMateClient";
 
 /**
  * Logic needed for the view playlist page of the website.
@@ -9,7 +10,10 @@ class HomePage extends BaseClass {
 
     constructor() {
         super();
-        this.bindClassMethods(['onSearchByNutrients', 'onSearchByIngredients', 'onGetAllRecipes', 'onGetRandomRecipe', 'onGetAllReviews', 'onAddReview'], this);
+
+        this.bindClassMethods(['onSearchByNutrients', 'onSearchByIngredients', 'onGetAllRecipes', 'onGetRandomRecipe', 'onGetAllReviews', 'onAddReview',
+            'onUpdateUserPreference', 'onUpdateRecipesTried', 'onDeleteUser'], this);
+
         this.dataStore = new DataStore();
     }
 
@@ -18,32 +22,24 @@ class HomePage extends BaseClass {
      */
     async mount() {
         document.getElementById('search-by-nutrients-form').addEventListener('submit', this.onSearchByNutrients);
+
         document.getElementById('search-form-id').addEventListener('submit', this.onSearchByIngredients);
         document.getElementById('search-form-id').addEventListener('submit', this.onGetAllRecipes);
         document.getElementById('random-recipe').addEventListener('click', this.onGetRandomRecipe);
         document.getElementById('get-review-form').addEventListener('submit', this.onGetAllReviews);
         document.getElementById('review-form').addEventListener('submit', this.onAddReview);
+        document.getElementById('user-dietary-preference-form').addEventListener('submit', this.onUpdateUserPreference);
+        document.getElementById('recipes-tried-by-user-form').addEventListener('submit', this.onUpdateRecipesTried);
+        document.getElementById('delete-user').addEventListener('click', this.onDeleteUser);
+
         this.client = new RecipeClient();
+        this.client = new ChefMateClient();
 
         /*this.dataStore.addChangeListener(this.renderExample)*/
     }
 
     // Render Methods --------------------------------------------------------------------------------------------------
 
-/*    async renderExample() {
-        let resultArea = document.getElementById("result-info");
-
-        const example = this.dataStore.get("example");
-
-        if (example) {
-            resultArea.innerHTML = `
-                <div>ID: ${example.id}</div>
-                <div>Name: ${example.name}</div>
-            `
-        } else {
-            resultArea.innerHTML = "No Item";
-        }
-    }*/
 
     // Event Handlers --------------------------------------------------------------------------------------------------
 
@@ -368,6 +364,45 @@ class HomePage extends BaseClass {
         }
     }
 
+
+    async onUpdateUserPreference(event) {
+        event.preventDefault();
+
+        const userId = this.dataStore.get("userId");
+        const textInput = document.getElementById("user-dietary-preference-field").value;
+        const updateUserPreferences = await this.client.updateUserPreference(userId, textInput, this.errorHandler);
+        if (!updateUserPreferences.data) {
+            this.showMessage(`Updated users dietary preferences`);
+        } else {
+            this.errorHandler("Error updating user dietary preferences!  Try again...");
+        }
+    }
+
+    async onUpdateRecipesTried(event) {
+        event.preventDefault();
+
+        const userId = this.dataStore.get("userId");
+        const textInput = document.getElementById("recipes-user-tried-field").value;
+        const updateRecipesTried = await this.client.updateRecipesTried(userId, textInput, this.errorHandler);
+        if (!updateRecipesTried.data) {
+            this.showMessage(`Updated Recipes Tried`);
+        } else {
+            this.errorHandler("Error updating recipes tried!  Try again...");
+        }
+    }
+
+    async onDeleteUser(event) {
+        event.preventDefault();
+
+        const userId = this.dataStore.get("userId");
+        const deleteUser = await this.client.deleteUser(userId, this.errorHandler);
+        if (!deleteUser.data) {
+            this.showMessage(`Deleted User from database!`);
+        } else {
+            this.errorHandler("Error deleting user!  Try again...");
+        }
+  }
+  
     async onGetAllReviews(event) {
         event.preventDefault();
 

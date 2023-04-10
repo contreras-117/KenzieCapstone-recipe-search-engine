@@ -171,8 +171,8 @@
 }
 
 #review-field {
-    width: 100%
-    height: 500px
+    width: 100%;
+    height: 500px;
 }
 
 #review-form {
@@ -536,5 +536,19 @@ ul {
 }
 
 #recipe-id-input {
+      width: 45%;
+}
+
+.hidden {
+    display: none;
+}
+
+label {
+    margin-bottom: 10px;
+    display: block;
+}
+
+.navbar {
+    min-height: 115px;
     width: 45%;
 }
