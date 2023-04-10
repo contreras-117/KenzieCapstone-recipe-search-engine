@@ -370,14 +370,38 @@ class HomePage extends BaseClass {
 
     async onUpdateUserPreference(event) {
         event.preventDefault();
+        let userId = this.dataStore.get("userId");
+        const textInput = document.getElementById("user-dietary-preference-field").value;
+        const updatePreferences = await this.client.updateUserPreference(userId, textInput, this.errorHandler);
+        if (!updatePreferences.data) {
+            this.showMessage(`Updated users dietary preferences`);
+        } else {
+            this.errorHandler("Error updating user dietary preferences!  Try again...");
+        }
     }
 
     async onUpdateRecipesTried(event) {
         event.preventDefault();
+        let userId = this.dataStore.get("userId");
+        const textInput = document.getElementById("recipes-user-tried-field").value;
+        const updateRecipesTried = await this.client.updateRecipesTried(userId, textInput, this.errorHandler);
+        if (!updateRecipesTried.data) {
+            this.showMessage(`Updated Recipes Tried`);
+        } else {
+            this.errorHandler("Error updating recipes tried!  Try again...");
+        }
     }
 
     async onDeleteUser(event) {
         event.preventDefault();
+
+        let userId = this.dataStore.get("userId");
+        const deleteUser = await this.client.deleteUser(userId, this.errorHandler);
+        if (!deleteUser.data) {
+            this.showMessage(`Deleted User from database!`);
+        } else {
+            this.errorHandler("Error deleting user!  Try again...");
+        }
     }
 
 }

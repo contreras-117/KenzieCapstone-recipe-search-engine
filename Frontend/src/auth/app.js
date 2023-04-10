@@ -2,6 +2,8 @@ import { createAuth0Client } from '@auth0/auth0-spa-js';
 //import * as utils from 'ui.js';
 //import {updateUI} from "./ui";
 import './ui';
+import ChefMateClient from "../api/chefMateClient";
+import DataStore from "../util/DataStore";
 
 
 let auth0Client = null;
@@ -51,6 +53,10 @@ window.addEventListener('load', async () => {
   //logged in. you can get the user profile like this:
   const user = await auth0Client.getUser();
   console.log(user);
+  // save the userId (user email) in our database
+  const result = await addNewUser(user.email);
+  // Also save it to the frontend datastore for easy access
+  this.dataStore.set("userId", user.email);
 });
 
 
