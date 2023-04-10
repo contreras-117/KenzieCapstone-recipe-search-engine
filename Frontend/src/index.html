@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
     <script src="https://cdn.auth0.com/js/auth0-spa-js/2.0/auth0-spa-js.production.js"></script>
     <script defer type="text/javascript" src="ui.js"></script>
@@ -89,22 +89,33 @@
                         >
                             <i class="fas fa-user-lock mr-3"></i> Profile
                         </a>
+                        <form id="user-dietary-preference-form">
                         <a
                                 href="/userPreferences"
                                 class="dropdown-item route-link"
                                 id="update-preference"
-                                onclick="updateUserPreference()"
                         >
-                            <i class="fas fa-wheat-slash mr-3"></i> Preferences
+                            <i class="fas fa-wheat-slash mr-3"></i>
+                            <div id="update-user-preferences">
+                                <input class="form-control mr-sm-2 validated-field" type="text" placeholder="Gluten-Free, Vegetarian, Dairy-free" id="user-dietary-preference-field">
+                            </div>
+                            <button class="btn btn-outline-primary my-2 my-sm-0" type="submit" id="update-preference-button" onclick="updateUserPreference()">Preferences</button>
+
                         </a>
+                        </form>
+                        <form id="recipes-tried-by-user-form">
                         <a
                                 href="/recipesTried"
                                 class="dropdown-item route-link"
                                 id="update-recipes-tried"
-                                onclick="updateRecipesTried()"
                         >
-                            <i class="fas fa-pot-food mr-3"></i> Recipes Tried
+                            <i class="fas fa-pot-food mr-3"></i>
+                            <div id="update-recipes-user-tried">
+                                <input class="form-control mr-sm-2 validated-field" type="text" placeholder="Recipes tried" id="recipes-user-tried-field">
+                            </div>
+                            <button class="btn btn-outline-primary my-2 my-sm-0" type="submit" id="update-recipes-user-tried-button" onclick="updateRecipesTried()">Recipes Tried</button>
                         </a>
+                        </form>
                         <a
                                 href="/deleteUser"
                                 class="dropdown-item route-link"
@@ -114,10 +125,9 @@
                             <i class="fas fa-user-slash mr-3"></i> Delete User
                         </a>
                         <a
-                                href="#"
+                                href="javascript:void(0);"
                                 class="dropdown-item"
                                 id="logout"
-                                onclick="logout()"
                         >
                             <i class="fas fa-power-off mr-3"></i> Log out
                         </a>

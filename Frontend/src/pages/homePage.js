@@ -8,17 +8,10 @@ import ChefMateClient from "../api/chefMateClient";
  */
 class HomePage extends BaseClass {
 
-    // constructor() {
-    //     super();
-    //     this.bindClassMethods(['onSearchByNutrients', 'onSearchByIngredients', 'onGetAllRecipes', 'onGetRandomRecipe',
-    //         'onUpdateUserPreference', 'onUpdateRecipesTried', 'onDeleteUser', 'addNewUser'], this);
-    //     this.dataStore = new DataStore();
-    // }
-
     constructor() {
         super();
         this.bindClassMethods(['onSearchByNutrients', 'onSearchByIngredients', 'onGetAllRecipes', 'onGetRandomRecipe',
-            'onUpdateUserPreference'], this);
+            'onUpdateUserPreference', 'onUpdateRecipesTried', 'onDeleteUser'], this);
         this.dataStore = new DataStore();
     }
 
@@ -30,7 +23,9 @@ class HomePage extends BaseClass {
         document.getElementById('get-by-id-form').addEventListener('submit', this.onSearchByIngredients);
         document.getElementById('get-by-id-form').addEventListener('submit', this.onGetAllRecipes);
         document.getElementById('get-by-id-form').addEventListener('submit', this.onGetRandomRecipe);
-        document.getElementById('update-preference').addEventListener('click', this.onUpdateUserPreference);
+        document.getElementById('update-preference').addEventListener('submit', this.onUpdateUserPreference);
+        document.getElementById('update-recipes-tried').addEventListener('submit', this.onUpdateRecipesTried);
+        document.getElementById('delete-user').addEventListener('click', this.onDeleteUser);
         this.client = new RecipeClient();
         this.client = new ChefMateClient();
 
