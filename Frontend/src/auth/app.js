@@ -16,7 +16,7 @@ const configureClient = async () => {
 };
 
 
-window.onload = async () => {
+const setup = async () => {
   console.log("About to call configureClient");
   await configureClient();
   // Update the UI state
@@ -24,6 +24,7 @@ window.onload = async () => {
 
   // Check for the code and state parameters
   const query = window.location.search;
+  console.log(query);
   if (query.includes("state=") &&
       (query.includes("code=") ||
           query.includes("error="))) {
@@ -43,19 +44,30 @@ document.getElementById('login').addEventListener('click', async () => {
   await auth0Client.loginWithRedirect();
 });
 
-//in your callback route (<MY_CALLBACK_URL>)
-window.addEventListener('load', async () => {
-  const redirectResult = await auth0Client.handleRedirectCallback();
-  console.log(redirectResult);
-  //logged in. you can get the user profile like this:
-  const user = await auth0Client.getUser();
-  console.log(user);
-  // save the userId (user email) in our database
-  const result = await addNewUser(user.email);
-  // Also save it to the frontend datastore for easy access
-  this.dataStore.set("userId", user.email);
-});
+const redirectSetup = async () => {
+  try {
+    const redirectResult = await auth0Client.handleRedirectCallback();
+    console.log(redirectResult);
+    //logged in. Get the user profile:
+    const user = await auth0Client.getUser();
+    console.log(user);
+    // save only the userId to the frontend datastore for easy access
+    this.dataStore.set("userId", user.email);
+    // save the userId (user email) in our ChefMateUser database
+    const result = await addNewUser(user.email);
+  } catch (error) {
+    if (error.message === 'There are no query params available for parsing.') {
+      console.error('Authentication error: missing query parameters. Please try logging in again.');
+    } else {
+      console.error('Authentication error:', error);
+    }
+  }
+};
 
+window.addEventListener('load', async () => {
+  await setup();
+  await redirectSetup();
+});
 
 const updateUI = async () => {
   const isAuthenticated = await auth0Client.isAuthenticated();
@@ -77,12 +89,11 @@ const updateUI = async () => {
   }
 };
 
-document.getElementById('logout').addEventListener('click', () => {
-  auth0Client.logout();
-});
 
-auth0Client.logout({
-  logoutParams: {
+// Attach logout event listener to HTML element
+document.getElementById('logout').addEventListener('click', () => {
+  // Call logout method with returnTo option
+  auth0Client.logout({
     returnTo: window.location.origin
-  }
+  });
 });
