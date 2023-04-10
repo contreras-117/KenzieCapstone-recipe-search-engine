@@ -185,9 +185,12 @@
     width: 50%;
     height: 200px;
     display: block;
-    margin-left: auto;
-    margin-right: auto;
     margin-top: 10px;
+}
+
+#review-text-area-container {
+    display: flex;
+    justify-content: center;
 }
 
 #img-placeholder {
