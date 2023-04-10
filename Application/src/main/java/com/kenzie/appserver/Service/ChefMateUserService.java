@@ -1,5 +1,6 @@
 package com.kenzie.appserver.Service;
 
+import com.kenzie.appserver.config.CacheStore;
 import com.kenzie.appserver.controller.model.ChefMateUserResponse;
 import com.kenzie.appserver.controller.model.CreateChefMateUserRequest;
 import com.kenzie.appserver.repositories.ChefMateUserRepository;
@@ -24,16 +25,19 @@ import java.util.stream.Collectors;
 @Service
 public class ChefMateUserService {
 
+    private CacheStore cache;
+
     private ChefMateUserRepository chefMateUserRepository;
     private ReviewLambdaServiceClient reviewLambdaServiceClient;
     private RecipeLambdaServiceClient recipeLambdaServiceClient;
 
     public ChefMateUserService(ChefMateUserRepository chefMateUserRepository,
                                ReviewLambdaServiceClient reviewLambdaServiceClient,
-                               RecipeLambdaServiceClient recipeLambdaServiceClient) {
+                               RecipeLambdaServiceClient recipeLambdaServiceClient, CacheStore cache) {
         this.chefMateUserRepository = chefMateUserRepository;
         this.reviewLambdaServiceClient = reviewLambdaServiceClient;
         this.recipeLambdaServiceClient = recipeLambdaServiceClient;
+        this.cache = cache;
     }
 
     /**
@@ -126,12 +130,19 @@ public class ChefMateUserService {
         if (!userRecord.getRecipesTried().contains(request.getRecipeId())) {
             throw new IllegalArgumentException("Cannot review recipe you havent tried");
         }
+        if(cache.get(request.getRecipeId()) != null) {
+            cache.evict(request.getRecipeId());
+        }
         return reviewLambdaServiceClient.addReview(request);
     }
 
     public List<ReviewResponse> getRecipeReviews(String recipeId) {
         if (recipeId == null || recipeId.length() == 0) {
             throw new IllegalArgumentException("Recipe Id cannot be null");
+        }
+        List<ReviewResponse> responses = cache.get(recipeId);
+        if (responses != null) {
+            return responses;
         }
 
         return Optional.ofNullable(reviewLambdaServiceClient.getRecipeReviews(recipeId))
