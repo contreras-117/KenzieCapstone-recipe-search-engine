@@ -8,6 +8,7 @@ import com.kenzie.appserver.Service.ChefMateUserService;
 import com.kenzie.appserver.controller.model.ChefMateUserResponse;
 import com.kenzie.appserver.controller.model.CreateChefMateUserRequest;
 import com.kenzie.appserver.controller.model.UpdateUserPreferencesRequest;
+import com.kenzie.capstone.service.model.RecipeServiceLambdaModel.RecipeResponse;
 import com.kenzie.capstone.service.model.ReviewServiceLambdaModel.ReviewCreateRequest;
 import com.kenzie.capstone.service.model.ReviewServiceLambdaModel.ReviewResponse;
 import net.andreinc.mockneat.MockNeat;
@@ -19,6 +20,7 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 
+import java.io.UnsupportedEncodingException;
 import java.util.*;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -304,6 +306,66 @@ public class ChefMateUserControllerTest {
             assertThat(response.getReviewerId()).isNotEmpty().as("The ID is populated");
             assertThat(response.getComment()).isNotEmpty().as("The Comment is populated");
             Assertions.assertEquals(response.getRecipeId(), recipeId, "recipe Ids should be the same");
+        }
+    }
+
+    @Test
+    void getAllRecipes_successful() throws Exception {
+        CreateChefMateUserRequest userRequest1 = new CreateChefMateUserRequest();
+
+        String recipeId = UUID.randomUUID().toString();
+        Set<String> recipesTried = new HashSet<>();
+        recipesTried.add(recipeId);
+
+        userRequest1.setUserId(UUID.randomUUID().toString());
+        userRequest1.setUserPreferences(Optional.empty());
+        userRequest1.setRecipesTried(Optional.of(recipesTried));
+        userRequest1.setIngredients(Optional.empty());
+
+        ChefMateUserResponse userResponse1 = chefMateUserService.addNewUser(userRequest1);
+
+        ResultActions actions = mvc.perform(get("/user/{userId}/recipes/food/search/{query}", userResponse1.getUserId(), "chicken")
+                        .accept(MediaType.APPLICATION_JSON)
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().is2xxSuccessful());
+
+        String responseBody = actions.andReturn().getResponse().getContentAsString();
+        System.out.println(responseBody);
+
+        List<RecipeResponse> responses = mapper.readValue(responseBody, new TypeReference<List<RecipeResponse>>() {});
+
+        for (RecipeResponse response : responses) {
+            assertThat(response.getRecipeId()).isNotEmpty().as("The ID is populated");
+        }
+    }
+
+    @Test
+    void getRandomRecipe_success() throws Exception {
+        CreateChefMateUserRequest userRequest1 = new CreateChefMateUserRequest();
+
+        String recipeId = UUID.randomUUID().toString();
+        Set<String> recipesTried = new HashSet<>();
+        recipesTried.add(recipeId);
+
+        userRequest1.setUserId(UUID.randomUUID().toString());
+        userRequest1.setUserPreferences(Optional.empty());
+        userRequest1.setRecipesTried(Optional.of(recipesTried));
+        userRequest1.setIngredients(Optional.empty());
+
+        ChefMateUserResponse userResponse1 = chefMateUserService.addNewUser(userRequest1);
+
+        ResultActions actions = mvc.perform(get("/user/{userId}/recipes/random", userResponse1.getUserId())
+                        .accept(MediaType.APPLICATION_JSON)
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().is2xxSuccessful());
+
+        String responseBody = actions.andReturn().getResponse().getContentAsString();
+        System.out.println(responseBody);
+
+        List<RecipeResponse> responses = mapper.readValue(responseBody, new TypeReference<List<RecipeResponse>>() {});
+
+        for (RecipeResponse response : responses) {
+            assertThat(response.getRecipeId()).isNotEmpty().as("The ID is populated");
         }
     }
 }
