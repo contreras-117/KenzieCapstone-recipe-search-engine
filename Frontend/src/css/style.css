@@ -482,14 +482,12 @@ ul {
     display:flex;
     margin-left: 25%;
     margin-right: 25%;
-    background: white;
 }
 
 .star-rating-reviews {
     position: absolute;
     bottom: 0;
     padding-bottom: 20px;
-    background: white;
     display: flex;
     justify-content: center;
     width: 100%;
@@ -524,7 +522,7 @@ ul {
 }
 
 .review-text-container {
-   max-height: 200px;
+   max-height: 325px;
    overflow-x: auto;
 }
 

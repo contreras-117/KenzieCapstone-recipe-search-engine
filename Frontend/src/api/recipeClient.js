@@ -13,7 +13,7 @@ export default class RecipeClient extends BaseClass {
 
     constructor(props = {}){
         super();
-        const methodsToBind = ['clientLoaded', 'searchByNutrients', 'searchByIngredients', 'getAllRecipes', 'getRecipeReviews'];
+        const methodsToBind = ['clientLoaded', 'searchByNutrients', 'searchByIngredients', 'getAllRecipes', 'getRecipeReviews', 'addReview'];
         this.bindClassMethods(methodsToBind, this);
         this.props = props;
         this.clientLoaded(axios);
@@ -88,6 +88,20 @@ export default class RecipeClient extends BaseClass {
         } catch (error) {
             document.getElementById("spinner").style.display = "none";
             this.handleError("getRecipeReviews", error, errorCallback);
+        }
+    }
+
+    async addReview(userId, comment, rating, recipeId, errorCallback) {
+        try {
+            const response = await this.client.post(`/user/${userId}/review/createReview`, {
+                "comment": comment,
+                "rating": rating,
+                "recipeId": recipeId,
+                "reviewerId": userId
+            });
+            return response.data;
+        } catch {
+            this.handleError("addReview", error, errorCallback);
         }
     }
 

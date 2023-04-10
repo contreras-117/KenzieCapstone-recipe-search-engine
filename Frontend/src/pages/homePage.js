@@ -9,7 +9,7 @@ class HomePage extends BaseClass {
 
     constructor() {
         super();
-        this.bindClassMethods(['onSearchByNutrients', 'onSearchByIngredients', 'onGetAllRecipes', 'onGetRandomRecipe', 'onGetAllReviews'], this);
+        this.bindClassMethods(['onSearchByNutrients', 'onSearchByIngredients', 'onGetAllRecipes', 'onGetRandomRecipe', 'onGetAllReviews', 'onAddReview'], this);
         this.dataStore = new DataStore();
     }
 
@@ -22,6 +22,7 @@ class HomePage extends BaseClass {
         document.getElementById('search-form-id').addEventListener('submit', this.onGetAllRecipes);
         document.getElementById('random-recipe').addEventListener('click', this.onGetRandomRecipe);
         document.getElementById('get-review-form').addEventListener('submit', this.onGetAllReviews);
+        document.getElementById('review-form').addEventListener('submit', this.onAddReview);
         this.client = new RecipeClient();
 
         /*this.dataStore.addChangeListener(this.renderExample)*/
@@ -135,7 +136,8 @@ class HomePage extends BaseClass {
 
         query += "&number=10";
 
-        // needs userId data to pass in
+        let userId = this.dataStore.get("userId");
+
         let result = await this.client.searchByNutrients(userId, query, this.errorHandler);
         this.dataStore.set("searchByNutrients", result);
 
@@ -195,7 +197,8 @@ class HomePage extends BaseClass {
 
         let ingredientsQuery = document.getElementById("search-ingredients-field").value;
 
-        // needs userId data
+        let userId = this.dataStore.get("userId");
+
         let result = await this.client.searchByIngredients(userId, ingredientsQuery, this.errorHandler);
         this.dataStore.set("searchByIngredients", result);
 
@@ -257,7 +260,8 @@ class HomePage extends BaseClass {
         let query = document.getElementById("get-all-search-field").value;
         console.log(query);
 
-        // needs userId data
+        let userId = this.dataStore.get("userId");
+
         let result = await this.client.getAllRecipes(userId, query, this.errorHandler);
         this.dataStore.set("getAllRecipes", result);
         console.log(result);
@@ -315,7 +319,8 @@ class HomePage extends BaseClass {
 
         let renderingSection = document.getElementById("rendering-recipes-section");
 
-        // needs userId data
+        let userId = this.dataStore.get("userId");
+
         let result = await this.client.getRandomRecipe(userId, this.errorHandler);
         this.dataStore.set("getRandomRecipe", result);
 
@@ -381,7 +386,7 @@ class HomePage extends BaseClass {
         for (let review of allReviews) {
 
             html += `<div>
-                        <div class="review-content">
+                        <div class="review-content" style="background-image: url('https://cdn.discordapp.com/attachments/1009518597489578125/1095066008995254272/NicePng_tubes-png_8287570.png');">
                              <div>
                                  <div class="review-returned">
                                      <p class="review-text-container">
@@ -409,6 +414,56 @@ class HomePage extends BaseClass {
             loadingSpinner.style.display = "none";
             this.errorHandler("Error doing getAllReviews!  Try again...");
         }
+    }
+
+    async onAddReview(event) {
+        event.preventDefault();
+
+        let loadingSpinner = document.getElementById("spinner");
+        loadingSpinner.style.display = "block";
+
+        let recipeId = document.getElementById("recipeId-review-input").value;
+        let reviewText = document.getElementById("review-text-area").value;
+        let userId = this.dataStore.get("userId");
+
+        let rate1 = document.getElementById("rate-1");
+        let rate2 = document.getElementById("rate-2");
+        let rate3 = document.getElementById("rate-3");
+        let rate4 = document.getElementById("rate-4");
+        let rate5 = document.getElementById("rate-5");
+
+        let rateResult = 0;
+
+        if (rate1.checked) {
+            rateResult = rate1.value;
+        }
+
+        if (rate2.checked) {
+            rateResult = rate2.value;
+        }
+
+        if (rate3.checked) {
+            rateResult = rate3.value;
+        }
+
+        if (rate4.checked) {
+            rateResult = rate4.value;
+        }
+
+        if (rate5.checked) {
+            rateResult = rate5.value;
+        }
+
+        let result = await this.client.addReview(userId, reviewText, rateResult, recipeId, this.errorHandler);
+
+        if (result) {
+            loadingSpinner.style.display = "none";
+            this.showMessage(`Added a review!`);
+        } else {
+            loadingSpinner.style.display = "none";
+            this.errorHandler("Error submitting a review! You cannot submit a review twice to the same recipe");
+        }
+
     }
 
 }
