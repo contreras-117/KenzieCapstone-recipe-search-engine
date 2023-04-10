@@ -1,9 +1,6 @@
 import { createAuth0Client } from '@auth0/auth0-spa-js';
-//import * as utils from 'ui.js';
-//import {updateUI} from "./ui";
 import './ui';
 import ChefMateClient from "../api/chefMateClient";
-import DataStore from "../util/DataStore";
 
 
 let auth0Client = null;

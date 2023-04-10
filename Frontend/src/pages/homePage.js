@@ -23,8 +23,8 @@ class HomePage extends BaseClass {
         document.getElementById('get-by-id-form').addEventListener('submit', this.onSearchByIngredients);
         document.getElementById('get-by-id-form').addEventListener('submit', this.onGetAllRecipes);
         document.getElementById('get-by-id-form').addEventListener('submit', this.onGetRandomRecipe);
-        document.getElementById('update-preference').addEventListener('submit', this.onUpdateUserPreference);
-        document.getElementById('update-recipes-tried').addEventListener('submit', this.onUpdateRecipesTried);
+        document.getElementById('user-dietary-preference-form').addEventListener('submit', this.onUpdateUserPreference);
+        document.getElementById('recipes-tried-by-user-form').addEventListener('submit', this.onUpdateRecipesTried);
         document.getElementById('delete-user').addEventListener('click', this.onDeleteUser);
         this.client = new RecipeClient();
         this.client = new ChefMateClient();
@@ -34,20 +34,6 @@ class HomePage extends BaseClass {
 
     // Render Methods --------------------------------------------------------------------------------------------------
 
-/*    async renderExample() {
-        let resultArea = document.getElementById("result-info");
-
-        const example = this.dataStore.get("example");
-
-        if (example) {
-            resultArea.innerHTML = `
-                <div>ID: ${example.id}</div>
-                <div>Name: ${example.name}</div>
-            `
-        } else {
-            resultArea.innerHTML = "No Item";
-        }
-    }*/
 
     // Event Handlers --------------------------------------------------------------------------------------------------
 
@@ -370,10 +356,11 @@ class HomePage extends BaseClass {
 
     async onUpdateUserPreference(event) {
         event.preventDefault();
-        let userId = this.dataStore.get("userId");
+
+        const userId = this.dataStore.get("userId");
         const textInput = document.getElementById("user-dietary-preference-field").value;
-        const updatePreferences = await this.client.updateUserPreference(userId, textInput, this.errorHandler);
-        if (!updatePreferences.data) {
+        const updateUserPreferences = await this.client.updateUserPreference(userId, textInput, this.errorHandler);
+        if (!updateUserPreferences.data) {
             this.showMessage(`Updated users dietary preferences`);
         } else {
             this.errorHandler("Error updating user dietary preferences!  Try again...");
@@ -382,7 +369,8 @@ class HomePage extends BaseClass {
 
     async onUpdateRecipesTried(event) {
         event.preventDefault();
-        let userId = this.dataStore.get("userId");
+
+        const userId = this.dataStore.get("userId");
         const textInput = document.getElementById("recipes-user-tried-field").value;
         const updateRecipesTried = await this.client.updateRecipesTried(userId, textInput, this.errorHandler);
         if (!updateRecipesTried.data) {
@@ -395,7 +383,7 @@ class HomePage extends BaseClass {
     async onDeleteUser(event) {
         event.preventDefault();
 
-        let userId = this.dataStore.get("userId");
+        const userId = this.dataStore.get("userId");
         const deleteUser = await this.client.deleteUser(userId, this.errorHandler);
         if (!deleteUser.data) {
             this.showMessage(`Deleted User from database!`);
