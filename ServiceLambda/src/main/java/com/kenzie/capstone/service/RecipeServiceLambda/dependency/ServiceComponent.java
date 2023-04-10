@@ -1,6 +1,7 @@
 package com.kenzie.capstone.service.RecipeServiceLambda.dependency;
 
 import com.kenzie.capstone.service.RecipeServiceLambda.RecipeService;
+import com.kenzie.capstone.service.RecipeServiceLambda.util.MapperWrapper;
 import dagger.Component;
 
 import javax.inject.Singleton;

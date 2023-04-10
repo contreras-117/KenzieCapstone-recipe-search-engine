@@ -1,12 +1,15 @@
 package com.kenzie.appserver.service;
 
 import com.kenzie.appserver.Service.ChefMateUserService;
+import com.kenzie.appserver.config.CacheStore;
 import com.kenzie.appserver.controller.model.ChefMateUserResponse;
 import com.kenzie.appserver.controller.model.CreateChefMateUserRequest;
 import com.kenzie.appserver.repositories.ChefMateUserRepository;
 import com.kenzie.appserver.repositories.model.ChefMateUserRecord;
 import com.kenzie.capstone.service.client.RecipeServiceLambdaJavaClient.RecipeLambdaServiceClient;
 import com.kenzie.capstone.service.client.ReviewServiceLambdaJavaClient.ReviewLambdaServiceClient;
+import com.kenzie.capstone.service.model.RecipeServiceLambdaModel.Recipe;
+import com.kenzie.capstone.service.model.RecipeServiceLambdaModel.RecipeResponse;
 import com.kenzie.capstone.service.model.ReviewServiceLambdaModel.Review;
 import com.kenzie.capstone.service.model.ReviewServiceLambdaModel.ReviewCreateRequest;
 import com.kenzie.capstone.service.model.ReviewServiceLambdaModel.ReviewResponse;
@@ -14,7 +17,6 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
-import org.mockito.Matchers;
 import org.mockito.exceptions.base.MockitoAssertionError;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -28,13 +30,16 @@ public class ChefMateUserServiceTest {
     private ChefMateUserRepository chefMateUserRepository;
     private ChefMateUserService chefMateUserService;
     private ReviewLambdaServiceClient reviewLambdaServiceClient;
+    private RecipeLambdaServiceClient recipeLambdaServiceClient;
+    private CacheStore cache;
 
     @BeforeEach
     void setup() {
         chefMateUserRepository = mock(ChefMateUserRepository.class);
         reviewLambdaServiceClient = mock(ReviewLambdaServiceClient.class);
-        RecipeLambdaServiceClient recipeLambdaServiceClient = mock(RecipeLambdaServiceClient.class);
-        chefMateUserService = new ChefMateUserService(chefMateUserRepository, reviewLambdaServiceClient, recipeLambdaServiceClient);
+        recipeLambdaServiceClient = mock(RecipeLambdaServiceClient.class);
+        cache = mock(CacheStore.class);
+        chefMateUserService = new ChefMateUserService(chefMateUserRepository, reviewLambdaServiceClient, recipeLambdaServiceClient, cache);
     }
 
     /** ------------------------------------------------------------------------
@@ -144,7 +149,7 @@ public class ChefMateUserServiceTest {
 
         // THEN
         try {
-            verify(chefMateUserRepository, never()).save(Matchers.any());
+            verify(chefMateUserRepository, never()).save(any());
         } catch(MockitoAssertionError error) {
             throw new MockitoAssertionError("There should not be a call to .save() if the user is not found in the database. - " + error);
         }
@@ -196,7 +201,7 @@ public class ChefMateUserServiceTest {
 
         // THEN
         try {
-            verify(chefMateUserRepository, never()).save(Matchers.any());
+            verify(chefMateUserRepository, never()).save(any());
         } catch(MockitoAssertionError error) {
             throw new MockitoAssertionError("There should not be a call to .save() if the user is not found in the database. - " + error);
         }
@@ -298,7 +303,7 @@ public class ChefMateUserServiceTest {
 
         when(chefMateUserRepository.findById(userId)).thenReturn(Optional.of(userRecord));
 
-        Assertions.assertThrows(ResponseStatusException.class, () -> chefMateUserService.addReview(request));
+        Assertions.assertThrows(IllegalArgumentException.class, () -> chefMateUserService.addReview(request));
     }
 
     @Test
@@ -335,5 +340,50 @@ public class ChefMateUserServiceTest {
     public void getReviews_invalidReviewIds_throwExceptions() {
         Assertions.assertThrows(IllegalArgumentException.class, () -> chefMateUserService.getRecipeReviews(null), "Null Id expected to throw exception");
         Assertions.assertThrows(IllegalArgumentException.class, () -> chefMateUserService.getRecipeReviews(""), "Empty Id expected to throw exception");
+    }
+
+    @Test
+    void searchByNutrients() {
+        String query = "minCarbs=5";
+
+        List<RecipeResponse> recipeResponses = new ArrayList<>();
+        recipeResponses.add(new RecipeResponse());
+        recipeResponses.add(new RecipeResponse());
+
+        when(recipeLambdaServiceClient.getSearchByNutrients(query)).thenReturn(recipeResponses);
+
+        List<RecipeResponse> results = chefMateUserService.searchByNutrients(query);
+
+        Assertions.assertNotNull(results, "The results are not null");
+        Assertions.assertEquals(recipeResponses.size(), results.size());
+    }
+
+    @Test
+    void getAllRecipes(){
+        String query = "Chicken";
+        List<RecipeResponse> expected = new ArrayList<>();
+        expected.add(new RecipeResponse());
+        expected.add(new RecipeResponse());
+
+        when(recipeLambdaServiceClient.getAllRecipes(query)).thenReturn(expected);
+
+        List<RecipeResponse> actual = chefMateUserService.getAllRecipes(query);
+
+        Assertions.assertNotNull(actual, "The recipes should not be null!");
+        Assertions.assertEquals(expected.size(), actual.size());
+    }
+
+    @Test
+    void getRandomRecipe() {
+        List<Recipe> expected = new ArrayList<>();
+        expected.add(new Recipe());
+        expected.add(new Recipe());
+
+        when(recipeLambdaServiceClient.getRandomRecipe()).thenReturn(expected);
+
+        List<Recipe> actual = chefMateUserService.getRandomRecipe();
+
+        Assertions.assertNotNull(actual, "The list of recipes should not be null!");
+        Assertions.assertEquals(actual.size(), expected.size());
     }
 }

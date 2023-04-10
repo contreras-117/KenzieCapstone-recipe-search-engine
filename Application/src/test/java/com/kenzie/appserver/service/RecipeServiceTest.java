@@ -1,6 +1,7 @@
 package com.kenzie.appserver.service;
 
 import com.kenzie.appserver.Service.ChefMateUserService;
+import com.kenzie.appserver.config.CacheStore;
 import com.kenzie.appserver.repositories.ChefMateUserRepository;
 import com.kenzie.capstone.service.client.RecipeServiceLambdaJavaClient.RecipeLambdaServiceClient;
 import com.kenzie.capstone.service.client.ReviewServiceLambdaJavaClient.ReviewLambdaServiceClient;
@@ -21,11 +22,13 @@ public class RecipeServiceTest  {
     private ReviewLambdaServiceClient reviewLambdaServiceClient;
     private ChefMateUserRepository chefMateUserRepository;
     private RecipeLambdaServiceClient recipeLambdaServiceClient;
+    private CacheStore cache;
 
     @BeforeEach
     void setup() {
         recipeLambdaServiceClient = mock(RecipeLambdaServiceClient.class);
-        chefMateUserService = new ChefMateUserService(chefMateUserRepository, reviewLambdaServiceClient, recipeLambdaServiceClient);
+        cache = mock(CacheStore.class);
+        chefMateUserService = new ChefMateUserService(chefMateUserRepository, reviewLambdaServiceClient, recipeLambdaServiceClient, cache);
 
     }
     /** ------------------------------------------------------------------------

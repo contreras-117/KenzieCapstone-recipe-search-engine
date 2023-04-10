@@ -1,5 +1,4 @@
 :root {
-    /* css variables: https://developer.mozilla.org/en-US/docs/Web/CSS/var */
     --primary-color: #131921;
     --secondary-color: #fff;
     --error-color: rgba(194, 0, 0, 0.71);
@@ -12,7 +11,6 @@
 }
 
 .header {
-    /* Flexbox: https://css-tricks.com/snippets/css/a-guide-to-flexbox/ */
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -56,7 +54,6 @@
 .card {
     color: var(--primary-color);
     background-color: var(--secondary-color);
-    /*margin: 20px;*/
     padding: 10px 20px;
     width: 100%;
     height: 20em;
@@ -96,14 +93,6 @@
     background-color: var(--secondary-color);
 }
 
-/*#mainNavbar {
-*//*    top: 0;
-        right: 0;
-        left: 0;
-        z-index: 1;*//*
-    position: static;
-}*/
-
 .navbar-nav {
     margin-right: 20px;
 }
@@ -112,21 +101,7 @@
     width: 50%;
 }
 
-/*#intro-header-container {
-    position: relative;
-    background: gray;
-    width: 100%px;
-    height: 200px;
-}*/
-
 #intro-header {
-/*    margin-left: 20px;
-    top: 50%;
-    left: 25%;
-    width: 50%;
-    height: 100px;
-    border: 1px solid black;
-    position: absolute;*/
     text-align: right;
     padding-top: 100px;
     padding-right: 100px;
@@ -149,10 +124,6 @@
 
 #search-label {
     font-weight: bold;
-    /*text-align: center;*/
-/*    margin-left: 25%;
-    padding-top: 25px;
-    padding-bottom: 10px;*/
 }
 
 #search-container {
@@ -160,7 +131,7 @@
     padding-top: 50px;
 }
 
-#get-by-id-form {
+#search-form-id {
     text-align: center;
 }
 
@@ -172,13 +143,40 @@
     padding-top: 10px;
 }
 
+.mark-as-tried-form {
+    display: flex;
+    width: 40%;
+    padding-bottom: 20px;
+    padding-top: 10px;
+
+}
+
+#mark-as-tried-button {
+    margin-left: 5px;
+}
+
+#mark-as-tried-container {
+    display: flex;
+    justify-content: center;
+}
+
+#mark-as-tried-label {
+    font-weight: bold;
+    padding-top: 45px;
+    padding-bottom: -10px;
+}
+
+#mark-as-tried-outer-container {
+    text-align: center;
+}
+
 #review-field {
     width: 100%;
     height: 500px;
 }
 
 #review-form {
-  padding-top: 50px;
+    padding-top: 40px;
     text-align: center;
     justify-content: center;
 }
@@ -244,7 +242,6 @@ input:checked ~ label {
 
 input#rate-5:checked ~ label {
     color: #fe7;
-/*    text-shadow: 0 0 20px #952;*/
 }
 
 #search-button {
@@ -323,15 +320,6 @@ ul {
     list-style-type: none;
 }
 
-/*.catalog {
-    display: flex;
-    flex-wrap: wrap;
-    width: 100%;
-    justify-content: center;
-    align-items: center;
-    margin: 50px 0;
-}*/
-
 .content {
     width: 20em;
     margin: 15px;
@@ -342,13 +330,11 @@ ul {
     border-radius: 5% 5% 5px 5px;
     cursor: pointer;
     position: relative;
-    /*box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);*/
     box-shadow: 0 3px 6px rgba(0,0,0,0.16);
     transition: .4s;
 }
 
 .recipe-content {
-    /*display: none;*/
     margin-left: -20px;
 }
 
@@ -363,34 +349,12 @@ ul {
     text-align: center;
     margin-top: -10px;
     display: block;
-/*    border-radius: 5% 5% 0 0;*/
 }
-
-/*@media(max-width: 1000px) {
-    .content {
-        width: 45%;
-    }
-}
-
-@media(max-width: 750px) {
-    .content {
-        width: 100%;
-    }
-    }*/
 
 .content:hover {
     box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
     transform: translate(0px, -8px);
 }
-
-/*.content:hover > .recipe-content {
-    display: block;
-}
-
-.content:hover > .instructions-button {
-    display: block;
-
-}*/
 
 .instructions-button {
     width: 100%;
@@ -398,16 +362,10 @@ ul {
     position: absolute;
     bottom: 0;
     z-index: 1;
-    /*display: none;*/
     background: #87CEFA;
     border-radius: 0 0 5px 5px;
-/*    border-top: 1px solid black;*/
-/*    border-bottom: none;
-    border-left: none;
-    border-right: none;*/
     border: none;
     border-top: solid 1px black;
-   /* height: 63px;*/
 }
 
 .chef-mate-instructions-button {
@@ -433,57 +391,14 @@ ul {
     background: #00BFFF;
 }
 
-.recipes {
-
-}
-
 #rendering-recipes-section {
     overflow-y: auto;
-
     height: 900px;
 }
-
-/*.content:hover > .recipe-content {
-    display: block;
-}*/
-
-
-/*
-.dropdown-menu {
-    position: absolute;
-    z-index: 1000;
-    display: none;
-    min-width: 10rem;
-    padding: 0.5rem 0;
-    margin: 0;
-    font-size: 1rem;
-    color: #212529;
-    text-align: left;
-    list-style: none;
-    background-color: #fff;
-    background-clip: padding-box;
-    border: 1px solid rgba(0,0,0,.15);
-    border-radius: 0.25rem;
-}
-
-.dropdown-item {
-    display: block;
-    width: 100%;
-    padding: 0.25rem 1rem;
-    clear: both;
-    font-weight: 400;
-    color: #212529;
-    text-align: inherit;
-    text-decoration: none;
-    white-space: nowrap;
-    background-color: transparent;
-    border: 0;
-}*/
 
 #review-section {
     color: var(--primary-color);
     background-color: var(--secondary-color);
-    /*margin: 20px;*/
     padding: 10px 20px 20px;
     width: 100%;
     height: 30em;
@@ -530,25 +445,6 @@ ul {
     position: fixed;
 }
 
-/*
-.pagination {
-    display: inline-block;
-    z-index: 1;
-    position: fixed;
-}
-
-.pagination a {
-
-  margin-top: 20px;
-  color: black;
-  float: left;
-  padding: 8px 16px;
-  text-decoration: none;
-  transition: background-color .3s;
-  border: 1px solid black;
-  top: 25%;
-}*/
-
 #chefmate-header {
     font-size: 40px;
 }
@@ -572,7 +468,6 @@ ul {
     border-radius: 5% 5% 5px 5px;
     cursor: pointer;
     position: relative;
-    /*box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);*/
     box-shadow: 0 3px 6px rgba(0,0,0,0.16);
     transition: .4s;
     text-align: center;
@@ -587,14 +482,12 @@ ul {
     display:flex;
     margin-left: 25%;
     margin-right: 25%;
-    background: white;
 }
 
 .star-rating-reviews {
     position: absolute;
     bottom: 0;
     padding-bottom: 20px;
-    background: white;
     display: flex;
     justify-content: center;
     width: 100%;
@@ -611,7 +504,6 @@ ul {
     float: right;
     transition: all 0.2s ease;
     color: #fd4;
-    /* for a bright yellow star it is #fe7*/
 }
 
 .user-header {
@@ -627,22 +519,15 @@ ul {
     margin-top: 5%;
     margin-left: 5%;
     margin-right: 5%;
-
 }
 
-#review-text-container {
-   max-height: 200px;
+.review-text-container {
+   max-height: 325px;
    overflow-x: auto;
-
-
 }
 
 #get-review-form {
-
     display: flex;
-
-       /* justify-content: center;*/
-
 }
 
 #get-reviews-button {
@@ -665,4 +550,5 @@ label {
 
 .navbar {
     min-height: 115px;
+    width: 45%;
 }

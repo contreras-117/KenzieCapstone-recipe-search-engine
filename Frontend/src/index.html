@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+
     <script src="https://cdn.auth0.com/js/auth0-spa-js/2.0/auth0-spa-js.production.js"></script>
     <script defer type="text/javascript" src="ui.js"></script>
     <script defer type="text/javascript" src="app.js"></script>
@@ -44,6 +45,7 @@
             rel="stylesheet"
             href="https://cdn.auth0.com/js/auth0-samples-theme/1.0/css/auth0-theme.min.css"
     />
+
 </head>
 <body class="background">
 
@@ -142,23 +144,8 @@
     <div id = "homepage">
 
     <section class ="split-view" id="rendering-recipes-section">
-        <div class="recipes">
-            <div class="content">
-                <img class="recipe-image" src='https://www.chansmiles.com/wp-content/uploads/2021/11/thanksgiving-meal.jpg'>
-                <div class="recipe-title">
-                    <h5>Crispy Swiss Chard Cakes with Mascarpone-Creamed Spinach</h5>
-                </div>
-                <div class="recipe-content">
-                    <ul>
-                        <li>Recipe ID:</li>
-                        <li>ETA: 120 min</li>
-                        <li>Servings:</li>
-                    </ul>
-                </div>
-                <button onclick="window.open('http://google.com','_blank')" class="instructions-button">Instructions</button>
-                <button onclick="openInstructions('${instructionsString}')" class='chef-mate-instructions-button'>ChefMate Instructions</button>
-            </div>
-        </div>
+
+        <img id="img-placeholder" src="https://www.chansmiles.com/wp-content/uploads/2021/11/thanksgiving-meal.jpg">
 
     </section>
 
@@ -273,7 +260,7 @@
 
         <div id="search-container">
             <label id="search-label">Numerous ways to search. Just pick your search option!</label>
-            <form class="search-form" id="get-by-id-form">
+            <form class="search-form" id="search-form-id">
                 <div class="dropdown">
                     <button id="options-button" class="btn btn-outline-primary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
                         Options
@@ -282,8 +269,7 @@
                         <li><a class="dropdown-item" href="#" onclick="renderSearchByIngredientsInput()">Search By Ingredients</a></li>
                         <li><a class="dropdown-item" href="#" onclick="openSearchByNutrientsForm()">Search By Nutrients</a></li>
                         <li><a class="dropdown-item" href="#" onclick="renderGetAllRecipesInput()">Get All Recipes</a></li>
-                        <li><a class="dropdown-item" href="#" onclick="renderGetRandomRecipe()">Get Random Recipes</a></li>
-                        <li><a class="dropdown-item" href="https://www.youtube.com">YouTube</a></li>
+                        <li><a id="random-recipe" class="dropdown-item" href="#" onclick="renderGetRandomRecipe()">Get Random Recipes</a></li>
                     </ul>
                 </div>
                 <div id="search-render-change">
@@ -291,6 +277,16 @@
                 </div>
                 <button class="btn btn-outline-primary my-2 my-sm-0" type="submit" id="search-button">Search</button>
             </form>
+        </div>
+
+        <div id="mark-as-tried-outer-container">
+            <label id="mark-as-tried-label">Mark recipe as tried to submit a review!</label>
+            <div id="mark-as-tried-container">
+                <form class="mark-as-tried-form">
+                    <input class="form-control mr-sm-2" type="number" placeholder="Enter recipe ID" required class="validated-field" id="mark-as-tried-input">
+                    <button class="btn btn-outline-primary my-2 my-sm-0" type="submit" id="mark-as-tried-button">Submit</button>
+                </form>
+            </div>
         </div>
 
         <div>
@@ -317,62 +313,21 @@
                 </div>
             </form>
         </div>
-
     </section>
 </div>
 
-<div id="reviews-header">
-    <h2>Reviews</h2>
-    <form id="get-review-form">
-        <input id="recipe-id-input" class="form-control mr-sm-2" type="number" placeholder="Enter recipe ID" required class="validated-field">
-        <button class="btn btn-md btn-primary" type="submit" form="get-review-form" id="get-reviews-button">Get Reviews</button>
-    </form>
-</div>
-
-<div id="review-section">
-    <div class="recipes" id="result-area">
-        <div class="review-content">
-            <div class="user-header">User ID/Name</div>
-            <div class="review-title">
-                <h5><strong>Loved this recipe!</strong></h5>
-            </div>
-            <div id="">
-
-                <div  class="review-returned">
-                    <p id="review-text-container">i use it until further notice when i'm in my station.
-                        My neighbor Alida has one of these. She works as a gambler and she says it looks spotless.
-                        My co-worker Rey has one of these. He says it looks uneven.
-                        The box this comes in is 3 meter by 5 foot and weights 11 kilogram.
-                        talk about contempt! i use it until further notice when i'm in my station.
-                        My neighbor Alida has one of these. She works as a gambler and she says it looks spotless.
-                        My co-worker Rey has one of these. He says it looks uneven.
-                        The box this comes in is 3 meter by 5 foot and weights 11 kilogram.
-                        talk about contemptAlida has one of these. She works as a gambler and she says it looks spotless.
-                        My co-worker Rey has one of these. He says it looks uneven.
-                        The box this comes in is 3 meter by 5 foot and weights 11 kilogram.
-                        talk about contempt!</p>
-                </div>
-            </div>
-
-
-            <div class="star-container-reviews">
-                <div class="star-rating-reviews">
-                    <input type="radio" name="rate"  id="reviewed-rate-5" class="reviewed-ratings">
-                    <label for="reviewed-rate-5"  class="fa fa-star"></label>
-                    <input type="radio" name="rate" id="reviewed-rate-4">
-                    <label for="reviewed-rate-4"  class="fa fa-star"></label>
-                    <input type="radio" name="rate" id="reviewed-rate-3">
-                    <label for="reviewed-rate-3"  class="fa fa-star"></label>
-                    <input type="radio" name="rate" id="reviewed-rate-2">
-                    <label for="reviewed-rate-2"  class="fa fa-star"></label>
-                    <input type="radio" name="rate" id="reviewed-rate-1">
-                    <label for="reviewed-rate-1"  class="fa fa-star"></label>
-                </div>
-            </div>
-
-        </div>
+    <div id="reviews-header">
+        <h2>Reviews</h2>
+        <form id="get-review-form">
+            <input id="recipe-id-input" class="form-control mr-sm-2" type="number" placeholder="Enter recipe ID" required class="validated-field">
+            <button class="btn btn-md btn-primary" type="submit" form="get-review-form" id="get-reviews-button">Get Reviews</button>
+        </form>
     </div>
-</div>
+
+    <div id="review-section-container" style="display: none">
+        <div id="review-section"></div>
+    </div>
+<!--</div>-->
 <br>
 
 <script>
@@ -402,7 +357,7 @@
 
         function renderGetAllRecipesInput() {
             let render = document.getElementById("search-render-change");
-            render.innerHTML = `<input class="form-control mr-sm-2" type="search" placeholder="apples,flour,sugar" required class="validated-field" id="get-all-search-field">`;
+            render.innerHTML = `<input class="form-control mr-sm-2" type="search" placeholder="apple" required class="validated-field" id="get-all-search-field">`;
 
             let optionsNameChange = document.getElementById("options-button");
             optionsNameChange.innerHTML = "Get All Recipes";
@@ -413,13 +368,10 @@
 
         function renderGetRandomRecipe() {
             let render = document.getElementById("search-render-change");
-            render.innerHTML = `<input class="form-control mr-sm-2" type="search" placeholder="click search" class="validated-field" id="get-all-search-field">`;
-
-            let optionsNameChange = document.getElementById("options-button");
-            optionsNameChange.innerHTML = "Get Random Recipe";
+            render.innerHTML = `<input class="form-control mr-sm-2" type="search" id="get-random-search-field">`;
 
             let label = document.getElementById("search-label")
-            label.innerHTML = `<label id="search-label">Currently searching with Get Random Recipe!</label>`;
+            label.innerHTML = `<label id="search-label">Currently searching with Get Random Recipe. Try it again!</label>`;
         }
 
         function closeSearchByNutrientsForm() {

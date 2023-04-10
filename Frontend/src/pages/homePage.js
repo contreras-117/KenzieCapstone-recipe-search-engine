@@ -10,8 +10,10 @@ class HomePage extends BaseClass {
 
     constructor() {
         super();
-        this.bindClassMethods(['onSearchByNutrients', 'onSearchByIngredients', 'onGetAllRecipes', 'onGetRandomRecipe',
+
+        this.bindClassMethods(['onSearchByNutrients', 'onSearchByIngredients', 'onGetAllRecipes', 'onGetRandomRecipe', 'onGetAllReviews', 'onAddReview',
             'onUpdateUserPreference', 'onUpdateRecipesTried', 'onDeleteUser'], this);
+
         this.dataStore = new DataStore();
     }
 
@@ -20,12 +22,16 @@ class HomePage extends BaseClass {
      */
     async mount() {
         document.getElementById('search-by-nutrients-form').addEventListener('submit', this.onSearchByNutrients);
-        document.getElementById('get-by-id-form').addEventListener('submit', this.onSearchByIngredients);
-        document.getElementById('get-by-id-form').addEventListener('submit', this.onGetAllRecipes);
-        document.getElementById('get-by-id-form').addEventListener('submit', this.onGetRandomRecipe);
+
+        document.getElementById('search-form-id').addEventListener('submit', this.onSearchByIngredients);
+        document.getElementById('search-form-id').addEventListener('submit', this.onGetAllRecipes);
+        document.getElementById('random-recipe').addEventListener('click', this.onGetRandomRecipe);
+        document.getElementById('get-review-form').addEventListener('submit', this.onGetAllReviews);
+        document.getElementById('review-form').addEventListener('submit', this.onAddReview);
         document.getElementById('user-dietary-preference-form').addEventListener('submit', this.onUpdateUserPreference);
         document.getElementById('recipes-tried-by-user-form').addEventListener('submit', this.onUpdateRecipesTried);
         document.getElementById('delete-user').addEventListener('click', this.onDeleteUser);
+
         this.client = new RecipeClient();
         this.client = new ChefMateClient();
 
@@ -126,7 +132,8 @@ class HomePage extends BaseClass {
 
         query += "&number=10";
 
-        // needs userId data to pass in
+        let userId = this.dataStore.get("userId");
+
         let result = await this.client.searchByNutrients(userId, query, this.errorHandler);
         this.dataStore.set("searchByNutrients", result);
 
@@ -186,7 +193,8 @@ class HomePage extends BaseClass {
 
         let ingredientsQuery = document.getElementById("search-ingredients-field").value;
 
-        // needs userId data
+        let userId = this.dataStore.get("userId");
+
         let result = await this.client.searchByIngredients(userId, ingredientsQuery, this.errorHandler);
         this.dataStore.set("searchByIngredients", result);
 
@@ -248,7 +256,8 @@ class HomePage extends BaseClass {
         let query = document.getElementById("get-all-search-field").value;
         console.log(query);
 
-        // needs userId data
+        let userId = this.dataStore.get("userId");
+
         let result = await this.client.getAllRecipes(userId, query, this.errorHandler);
         this.dataStore.set("getAllRecipes", result);
         console.log(result);
@@ -306,7 +315,8 @@ class HomePage extends BaseClass {
 
         let renderingSection = document.getElementById("rendering-recipes-section");
 
-        // needs userId data
+        let userId = this.dataStore.get("userId");
+
         let result = await this.client.getRandomRecipe(userId, this.errorHandler);
         this.dataStore.set("getRandomRecipe", result);
 
@@ -354,6 +364,7 @@ class HomePage extends BaseClass {
         }
     }
 
+
     async onUpdateUserPreference(event) {
         event.preventDefault();
 
@@ -390,6 +401,104 @@ class HomePage extends BaseClass {
         } else {
             this.errorHandler("Error deleting user!  Try again...");
         }
+  }
+  
+    async onGetAllReviews(event) {
+        event.preventDefault();
+
+        let loadingSpinner = document.getElementById("spinner");
+        loadingSpinner.style.display = "block";
+
+        let recipeId = document.getElementById("recipe-id-input").value;
+
+        let result = await this.client.getRecipeReviews(recipeId, this.errorHandler);
+        this.dataStore.set("allReviews", result);
+
+        let allReviews = this.dataStore.get("allReviews");
+
+        let html = "";
+
+        for (let review of allReviews) {
+
+            html += `<div>
+                        <div class="review-content" style="background-image: url('https://cdn.discordapp.com/attachments/1009518597489578125/1095066008995254272/NicePng_tubes-png_8287570.png');">
+                             <div>
+                                 <div class="review-returned">
+                                     <p class="review-text-container">
+                                         ${review.comment}
+                                    </p>
+                                 </div>
+                             </div>
+                             <div class="star-container-reviews">
+                                 <div class="star-rating-reviews">`;
+
+            for (let i = 0; i < review.rating; i++) {
+                html += "<label class='fa fa-star'></label>";
+            }
+
+            html += "</div></div></div></div>";
+        }
+
+        let renderingSection = document.getElementById("review-section");
+
+        if (result) {
+            loadingSpinner.style.display = "none";
+            document.getElementById("review-section-container").style.display = "block";
+            renderingSection.innerHTML = html;
+        } else {
+            loadingSpinner.style.display = "none";
+            this.errorHandler("Error doing getAllReviews!  Try again...");
+        }
+    }
+
+    async onAddReview(event) {
+        event.preventDefault();
+
+        let loadingSpinner = document.getElementById("spinner");
+        loadingSpinner.style.display = "block";
+
+        let recipeId = document.getElementById("recipeId-review-input").value;
+        let reviewText = document.getElementById("review-text-area").value;
+        let userId = this.dataStore.get("userId");
+
+        let rate1 = document.getElementById("rate-1");
+        let rate2 = document.getElementById("rate-2");
+        let rate3 = document.getElementById("rate-3");
+        let rate4 = document.getElementById("rate-4");
+        let rate5 = document.getElementById("rate-5");
+
+        let rateResult = 0;
+
+        if (rate1.checked) {
+            rateResult = rate1.value;
+        }
+
+        if (rate2.checked) {
+            rateResult = rate2.value;
+        }
+
+        if (rate3.checked) {
+            rateResult = rate3.value;
+        }
+
+        if (rate4.checked) {
+            rateResult = rate4.value;
+        }
+
+        if (rate5.checked) {
+            rateResult = rate5.value;
+        }
+
+        let result = await this.client.addReview(userId, reviewText, rateResult, recipeId, this.errorHandler);
+
+        if (result) {
+            loadingSpinner.style.display = "none";
+            this.showMessage(`Added a review!`);
+        } else {
+            loadingSpinner.style.display = "none";
+            this.errorHandler("Error submitting a review! You cannot submit a review twice to the same recipe");
+        }
+
     }
 
 }

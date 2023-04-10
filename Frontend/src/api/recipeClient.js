@@ -13,7 +13,7 @@ export default class RecipeClient extends BaseClass {
 
     constructor(props = {}){
         super();
-        const methodsToBind = ['clientLoaded', 'searchByNutrients', 'searchByIngredients', 'getAllRecipes'];
+        const methodsToBind = ['clientLoaded', 'searchByNutrients', 'searchByIngredients', 'getAllRecipes', 'getRecipeReviews', 'addReview'];
         this.bindClassMethods(methodsToBind, this);
         this.props = props;
         this.clientLoaded(axios);
@@ -66,6 +66,7 @@ export default class RecipeClient extends BaseClass {
             const response = await this.client.get(`/user/${userId}/recipes/food/search/${query}`);
             return response.data;
         } catch (error) {
+            document.getElementById("spinner").style.display = "none";
             this.handleError("getAllRecipes", error, errorCallback);
         }
     }
@@ -75,9 +76,35 @@ export default class RecipeClient extends BaseClass {
             const response = await this.client.get(`/user/${userId}/recipes/random`);
             return response.data;
         } catch (error) {
+            document.getElementById("spinner").style.display = "none";
             this.handleError("getRandomRecipe", error, errorCallback);
         }
     }
+
+    async getRecipeReviews(recipeId, errorCallback) {
+        try{
+            const response = await this.client.get(`/user/review/list/${recipeId}`);
+            return response.data;
+        } catch (error) {
+            document.getElementById("spinner").style.display = "none";
+            this.handleError("getRecipeReviews", error, errorCallback);
+        }
+    }
+
+    async addReview(userId, comment, rating, recipeId, errorCallback) {
+        try {
+            const response = await this.client.post(`/user/${userId}/review/createReview`, {
+                "comment": comment,
+                "rating": rating,
+                "recipeId": recipeId,
+                "reviewerId": userId
+            });
+            return response.data;
+        } catch {
+            this.handleError("addReview", error, errorCallback);
+        }
+    }
+
     /**
      * Helper method to log the error and run any error functions.
      * @param error The error received from the server.

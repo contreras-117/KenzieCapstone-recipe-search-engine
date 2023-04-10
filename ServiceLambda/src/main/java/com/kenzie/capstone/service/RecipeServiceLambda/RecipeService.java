@@ -7,6 +7,7 @@ import com.google.gson.reflect.TypeToken;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
 import com.kenzie.capstone.service.RecipeServiceLambda.dao.RecipeDao;
+import com.kenzie.capstone.service.RecipeServiceLambda.util.MapperWrapper;
 import com.kenzie.capstone.service.model.RecipeServiceLambdaModel.*;
 
 import javax.inject.Inject;
@@ -20,23 +21,17 @@ import java.util.Map;
 public class RecipeService {
 
     private RecipeDao recipeDao;
-    private Gson gson = new GsonBuilder().create();
+    private MapperWrapper mapper;
 
     @Inject
-    public RecipeService(RecipeDao recipeDao) {
+    public RecipeService(RecipeDao recipeDao, MapperWrapper mapper) {
         this.recipeDao = recipeDao;
-    }
-
-    public RecipeService(RecipeDao recipeDao, Gson gson) {
-        this.recipeDao = recipeDao;
-        this.gson = gson;
+        this.mapper = mapper;
     }
 
     public List<RecipeResponse> getAllRecipes(String query) {
         String recipeInfo = recipeDao.getAllRecipes(query);
-        System.out.println(recipeInfo);
-        GetAllRecipesApiResponse recipeResponse = gson.fromJson(recipeInfo, new TypeToken<GetAllRecipesApiResponse>(){}.getType());
-        System.out.println(recipeResponse);
+        GetAllRecipesApiResponse recipeResponse = mapper.recipeResponse(recipeInfo);
         List<RecipeResponse> recipes = new ArrayList<>();
 
         for (RecipeResponse recipe : recipeResponse.getRecipes().get(0).getRecipes()) {
@@ -55,13 +50,12 @@ public class RecipeService {
 
     public List<Recipe> getRandomRecipe(){
         String recipeInfo = recipeDao.getRandomRecipe();
-        System.out.println(recipeInfo);
-        RandomRecipeResponse randomRecipesResponse = gson.fromJson(recipeInfo, new TypeToken<RandomRecipeResponse>(){}.getType());
+
+        RandomRecipeResponse randomRecipesResponse = mapper.randomRecipeResponse(recipeInfo);
 
         List<Recipe> recipes = new ArrayList<>();
-        int counter = 0;
+
         for (Recipe recipe : randomRecipesResponse.getRecipes()){
-            System.out.printf("At recipe index %d%n", counter++);
             RecipeResponse recipeInformation = getRecipeInformation(recipe.getRecipeId());
             recipe.setInstructions(recipeInformation.getInstructions());
             recipe.setImage(recipeInformation.getImage());
@@ -78,7 +72,7 @@ public class RecipeService {
 
         String recipesByNutrientsJson = recipeDao.searchByNutrients(query);
 
-        List<RecipeResponse> recipes = gson.fromJson(recipesByNutrientsJson, new TypeToken<List<RecipeResponse>>() { }.getType());
+        List<RecipeResponse> recipes = mapper.searchByNutrients(recipesByNutrientsJson);
 
         for (RecipeResponse recipe : recipes) {
             RecipeResponse recipeInformation = getRecipeInformation(recipe.getRecipeId());
@@ -96,14 +90,14 @@ public class RecipeService {
 
         String jsonRecipeInformation = recipeDao.getRecipeInformation(recipeId);
 
-        return gson.fromJson(jsonRecipeInformation, new TypeToken<RecipeResponse>(){}.getType());
+        return mapper.getRecipeInformation(jsonRecipeInformation);
     }
 
     public List<RecipeResponse> searchByIngredients(String query) {
 
         String jsonRecipeResponse = recipeDao.searchByIngredients(query);
 
-        List<RecipeResponse> recipes = gson.fromJson(jsonRecipeResponse, new TypeToken<List<RecipeResponse>>() {}.getType());
+        List<RecipeResponse> recipes = mapper.searchByIngredients(jsonRecipeResponse);
 
         for (RecipeResponse recipe : recipes) {
             RecipeResponse recipeInformation = getRecipeInformation(recipe.getRecipeId());
@@ -117,10 +111,10 @@ public class RecipeService {
         return recipes;
     }
 
-    public static void main(String[] args) {
-        RecipeDao recipeDao1 = new RecipeDao();
-        RecipeService recipeService = new RecipeService(recipeDao1);
-        RecipeResponse recipeResponse = recipeService.getRecipeInformation("20183");
+//    public static void main(String[] args) {
+//        RecipeDao recipeDao1 = new RecipeDao();
+//        RecipeService recipeService = new RecipeService(recipeDao1);
+//        RecipeResponse recipeResponse = recipeService.getRecipeInformation("20183");
 //       // System.out.println(recipeResponse.getRecipeId());
 //
 /*        List<RecipeResponse> recipeResponses = recipeService.searchByIngredients("bannans,flour,sugar&number=2");
@@ -140,7 +134,7 @@ public class RecipeService {
         }*/
 //
 //        List<RecipeResponse> recipeResponse1 = recipeService.getAllRecipes("Chicken");
-        int counter = 1;
+//        int counter = 1;
 //        for(RecipeResponse recipe : recipeResponse1) {
 //            System.out.println("Recipe #" + counter++);
 //            System.out.println(recipe.getName());
@@ -148,13 +142,13 @@ public class RecipeService {
 //            System.out.println(recipe.getServings());
 //        }
 
-        List<Recipe> recipes = recipeService.getRandomRecipe();
-        for (Recipe recipe : recipes) {
-            System.out.println("Recipe #" + counter++);
-            System.out.println(recipe.getName());
-            System.out.println(recipe.getServings());
-            System.out.println(recipe.getInstructions());
-        }
-    }
+//        List<Recipe> recipes = recipeService.getRandomRecipe();
+//        for (Recipe recipe : recipes) {
+//            System.out.println("Recipe #" + counter++);
+//            System.out.println(recipe.getName());
+//            System.out.println(recipe.getServings());
+//            System.out.println(recipe.getInstructions());
+//        }
+//    }
 
 }
