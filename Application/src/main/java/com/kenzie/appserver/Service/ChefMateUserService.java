@@ -130,9 +130,6 @@ public class ChefMateUserService {
         if (!userRecord.getRecipesTried().contains(request.getRecipeId())) {
             throw new IllegalArgumentException("Cannot review recipe you haven't tried");
         }
-        if(cache.get(request.getRecipeId()) != null) {
-            cache.evict(request.getRecipeId());
-        }
         return reviewLambdaServiceClient.addReview(request);
     }
 
@@ -141,15 +138,18 @@ public class ChefMateUserService {
             throw new IllegalArgumentException("Recipe Id cannot be null");
         }
         List<ReviewResponse> responses = cache.get(recipeId);
-        if (responses != null) {
+        if (!responses.isEmpty()) {
             return responses;
         }
 
-        return Optional.ofNullable(reviewLambdaServiceClient.getRecipeReviews(recipeId))
-                .orElse(Collections.emptyList())
+        List<ReviewResponse> reviewResponses = reviewLambdaServiceClient.getRecipeReviews(recipeId)
                 .stream()
                 .map(this::reviewToResponseConverter)
                 .collect(Collectors.toList());
+
+        cache.add(recipeId, reviewResponses);
+
+        return Optional.of(reviewResponses).orElse(Collections.emptyList());
     }
 
     public List<RecipeResponse> getAllRecipes(String query){
