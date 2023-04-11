@@ -1,6 +1,8 @@
 import { createAuth0Client } from '@auth0/auth0-spa-js';
-import './ui';
 import ChefMateClient from "../api/chefMateClient";
+import DataStore from "../util/DataStore";
+import HomePage from "../pages/homePage";
+
 
 
 let auth0Client = null;
@@ -20,7 +22,7 @@ const setup = async () => {
   console.log("About to call configureClient");
   await configureClient();
   // Update the UI state
-  //await updateUI();
+  await updateUI();
 
   // Check for the code and state parameters
   const query = window.location.search;
@@ -29,6 +31,7 @@ const setup = async () => {
       (query.includes("code=") ||
           query.includes("error="))) {
 
+    console.log(query);
     // Process the login state
     await auth0Client.handleRedirectCallback();
 
@@ -46,15 +49,10 @@ document.getElementById('login').addEventListener('click', async () => {
 
 const redirectSetup = async () => {
   try {
-    const redirectResult = await auth0Client.handleRedirectCallback();
-    console.log(redirectResult);
     //logged in. Get the user profile:
     const user = await auth0Client.getUser();
     console.log(user);
-    // save only the userId to the frontend datastore for easy access
-    this.dataStore.set("userId", user.email);
-    // save the userId (user email) in our ChefMateUser database
-    const result = await addNewUser(user.email);
+
   } catch (error) {
     if (error.message === 'There are no query params available for parsing.') {
       console.error('Authentication error: missing query parameters. Please try logging in again.');
@@ -79,14 +77,28 @@ const updateUI = async () => {
   const profileElement = document.getElementById("profile");
 
   if (isAuthenticated) {
+
+    console.log(userProfile);
+
+    // save only the userId to the frontend datastore for easy access
+    const dataStore = new DataStore();
+    dataStore.set("userId", userProfile.email);
+    await addNewUser(userProfile.email);
+
+
+    console.log(dataStore.get("userId"));
+
     profileElement.style.display = "block";
     profileElement.innerHTML = `
             <p>${userProfile.name}</p>
-            <img src="${userProfile.picture}" />
+            <img src="${userProfile.picture}" alt="" />
           `;
   } else {
     profileElement.style.display = "none";
   }
+
+
+console.log("UI updated");
 };
 
 

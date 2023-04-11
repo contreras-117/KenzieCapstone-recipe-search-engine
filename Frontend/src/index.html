@@ -66,26 +66,16 @@
                 <!-- / Login link -->
 
                 <!-- Dropdown: show if authenticated -->
-                <li class="nav-item dropdown auth-visible hidden">
-<!--                    <a href="#" class="nav-link dropdown-toggle" id="profileDropDown" data-toggle="dropdown">Manage Your Account</a>-->
-                    <a
-                            class="nav-link dropdown-toggle"
-                            href="#"
-                            id="profileDropDown"
-                            data-toggle="dropdown"
-                    >
-                        <!-- Profile image should be set to the profile picture from the id token -->
-                        <img
-                                alt="Profile picture"
-                                class="nav-user-profile profile-image rounded-circle"
-                                width="50"
-                        />
-                    </a>
+                <li class="nav-item dropdown auth-visible">
+                    <button id="profile-button" class="btn btn-outline-primary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        Profile
+                    </button>
+
                     <div class="dropdown-menu">
                         <!-- Show the user's full name from the id token here -->
                         <div class="dropdown-header nav-user-name user-name"></div>
                         <a
-                                href="/profile"
+                                href="javascript:void(0);"
                                 id="profile"
                                 class="dropdown-item dropdown-profile route-link"
                         >
@@ -93,7 +83,7 @@
                         </a>
                         <form id="user-dietary-preference-form">
                         <a
-                                href="/userPreferences"
+                                href="javascript:void(0);"
                                 class="dropdown-item route-link"
                                 id="update-preference"
                         >
@@ -101,13 +91,13 @@
                             <div id="update-user-preferences">
                                 <input class="form-control mr-sm-2 validated-field" type="text" placeholder="Gluten-Free, Vegetarian, Dairy-free" id="user-dietary-preference-field">
                             </div>
-                            <button class="btn btn-outline-primary my-2 my-sm-0" type="submit" id="update-preference-button" onclick="updateUserPreference()">Preferences</button>
+                            <button class="btn btn-outline-primary my-2 my-sm-0" type="submit" id="update-preference-button">Preferences</button>
 
                         </a>
                         </form>
                         <form id="recipes-tried-by-user-form">
                         <a
-                                href="/recipesTried"
+                                href="javascript:void(0);"
                                 class="dropdown-item route-link"
                                 id="update-recipes-tried"
                         >
@@ -115,11 +105,11 @@
                             <div id="update-recipes-user-tried">
                                 <input class="form-control mr-sm-2 validated-field" type="text" placeholder="Recipes tried" id="recipes-user-tried-field">
                             </div>
-                            <button class="btn btn-outline-primary my-2 my-sm-0" type="submit" id="update-recipes-user-tried-button" onclick="updateRecipesTried()">Recipes Tried</button>
+                            <button class="btn btn-outline-primary my-2 my-sm-0" type="submit" id="update-recipes-user-tried-button">Recipes Tried</button>
                         </a>
                         </form>
                         <a
-                                href="/deleteUser"
+                                href="javascript:void(0);"
                                 class="dropdown-item route-link"
                                 id="delete-user"
                                 onclick="deleteUser()"

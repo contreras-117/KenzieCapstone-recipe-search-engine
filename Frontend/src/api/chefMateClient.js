@@ -1,5 +1,6 @@
 import BaseClass from "../util/baseClass";
 import axios from 'axios'
+import DataStore from "../util/DataStore";
 
 /**
  * Client to call the ChefMateUserService.
@@ -37,9 +38,13 @@ export default class ChefMateClient extends BaseClass {
      * @returns The response after saving the user
      */
     async addNewUser(userId, errorCallback) {
+        //const dataStore = new DataStore();
+        let profileElement = document.getElementById("profile");
+        let email = profileElement.children[0];
+        //const chefMateUserId = dataStore.get("userId");
         try{
             const response = await this.client.post(`/user/createUser`, {
-                userId: userId});
+                "userId": email.innerHTML});
             return response.data;
         } catch (error) {
             this.handleError("addNewUser", error, errorCallback);
@@ -56,8 +61,8 @@ export default class ChefMateClient extends BaseClass {
     async updateUserPreference(userId, userPreferences, errorCallback) {
         try{
             const response = await this.client.put(`/user/userPreferences/${userPreferences}`, {
-                userId: userId,
-                userPreferences: userPreferences});
+                "userId": userId,
+                "userPreferences": userPreferences});
             return response.data;
         } catch (error) {
             this.handleError("updateUserPreference", error, errorCallback);
@@ -74,8 +79,8 @@ export default class ChefMateClient extends BaseClass {
     async updateRecipesTried(userId, recipesTried, errorCallback) {
         try{
             const response = await this.client.put(`/user/recipesTried/${recipesTried}`, {
-                userId: userId,
-                recipesTried: recipesTried});
+                "userId": userId,
+                "recipesTried": recipesTried});
             return response.data;
         } catch (error) {
             this.handleError("updateRecipesTried", error, errorCallback);
@@ -91,7 +96,7 @@ export default class ChefMateClient extends BaseClass {
     async deleteUser(userId, errorCallback) {
         try{
             const response = await this.client.delete(`/user/deleteUser/${userId}`, {
-                userId: userId});
+                "userId": userId});
             return response.data;
         } catch (error) {
             this.handleError("deleteUser", error, errorCallback);

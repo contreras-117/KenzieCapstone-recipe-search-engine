@@ -115,11 +115,11 @@ public class ChefMateUserController {
     @GetMapping("/{userId}/recipes/food/search/{query}")
     public ResponseEntity<List<RecipeResponse>> getAllRecipes(@PathVariable("query") String query,
                                                               @PathVariable("userId") String userId){
-        ChefMateUserResponse chefMateUserResponse = chefMateUserService.getUserById(userId);
+//        ChefMateUserResponse chefMateUserResponse = chefMateUserService.getUserById(userId);
 
-        if (chefMateUserResponse == null || chefMateUserResponse.getUserId() == null || chefMateUserResponse.getUserId().isEmpty()) {
-            return ResponseEntity.notFound().build();
-        }
+//        if (chefMateUserResponse == null || chefMateUserResponse.getUserId() == null || chefMateUserResponse.getUserId().isEmpty()) {
+//            return ResponseEntity.notFound().build();
+//        }
 
         return ResponseEntity.ok(chefMateUserService.getAllRecipes(query));
     }

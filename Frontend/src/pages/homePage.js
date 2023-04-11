@@ -6,7 +6,7 @@ import ChefMateClient from "../api/chefMateClient";
 /**
  * Logic needed for the view playlist page of the website.
  */
-class HomePage extends BaseClass {
+export default class HomePage extends BaseClass {
 
     constructor() {
         super();
@@ -132,9 +132,15 @@ class HomePage extends BaseClass {
 
         query += "&number=10";
 
-        let userId = this.dataStore.get("userId");
+        //let userId = this.dataStore.get("userId");
+        //console.log(this.dataStore);
+        //console.log(userId);
 
-        let result = await this.client.searchByNutrients(userId, query, this.errorHandler);
+        let profileElement = document.getElementById("profile");
+        let email = profileElement.children[0];
+        console.log(email.innerHTML);
+
+        let result = await this.client.searchByNutrients(email.innerHTML, query, this.errorHandler);
         this.dataStore.set("searchByNutrients", result);
 
         let renderingSection = document.getElementById("rendering-recipes-section");
@@ -256,9 +262,11 @@ class HomePage extends BaseClass {
         let query = document.getElementById("get-all-search-field").value;
         console.log(query);
 
-        let userId = this.dataStore.get("userId");
+        //let userId = this.dataStore.get("userId");
+        let profileElement = document.getElementById("profile");
+        let email = profileElement.children[0];
 
-        let result = await this.client.getAllRecipes(userId, query, this.errorHandler);
+        let result = await this.client.getAllRecipes(email.innerHTML, query, this.errorHandler);
         this.dataStore.set("getAllRecipes", result);
         console.log(result);
 
