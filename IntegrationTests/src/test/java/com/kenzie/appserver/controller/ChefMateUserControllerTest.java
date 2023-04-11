@@ -324,7 +324,7 @@ public class ChefMateUserControllerTest {
 
         ChefMateUserResponse userResponse1 = chefMateUserService.addNewUser(userRequest1);
 
-        ResultActions actions = mvc.perform(get("/user/{userId}/recipes/food/search/{query}", userResponse1.getUserId(), "chicken")
+        ResultActions actions = mvc.perform(get("/user/recipes/food/search/{query}", "chicken")
                         .accept(MediaType.APPLICATION_JSON)
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().is2xxSuccessful());
@@ -354,7 +354,7 @@ public class ChefMateUserControllerTest {
 
         ChefMateUserResponse userResponse1 = chefMateUserService.addNewUser(userRequest1);
 
-        ResultActions actions = mvc.perform(get("/user/{userId}/recipes/random", userResponse1.getUserId())
+        ResultActions actions = mvc.perform(get("/user/recipes/random")
                         .accept(MediaType.APPLICATION_JSON)
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().is2xxSuccessful());
@@ -386,7 +386,7 @@ public class ChefMateUserControllerTest {
 
         String query = "minCalories=1200";
 
-        ResultActions actions = mvc.perform(get("/user/{userId}/recipes/food/search/nutrients/{query}", userResponse.getUserId(), query)
+        ResultActions actions = mvc.perform(get("/user/recipes/food/search/nutrients/{query}", query)
                         .accept(MediaType.APPLICATION_JSON)
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().is2xxSuccessful());
@@ -417,7 +417,7 @@ public class ChefMateUserControllerTest {
 
         String query = "apples,flour,sugar";
 
-        ResultActions actions = mvc.perform(get("/user/{userId}/recipes/food/search/ingredients/{query}", userResponse.getUserId(), query)
+        ResultActions actions = mvc.perform(get("/user/recipes/food/search/ingredients/{query}", query)
                         .accept(MediaType.APPLICATION_JSON)
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().is2xxSuccessful());
