@@ -83,7 +83,7 @@ const updateUI = async () => {
     // save only the userId to the frontend datastore for easy access
     const dataStore = new DataStore();
     dataStore.set("userId", userProfile.email);
-    await addNewUser(userProfile.email);
+    //await addNewUser(userProfile.email);
 
 
     console.log(dataStore.get("userId"));
