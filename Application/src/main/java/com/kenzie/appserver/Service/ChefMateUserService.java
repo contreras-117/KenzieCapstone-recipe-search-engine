@@ -120,16 +120,7 @@ public class ChefMateUserService {
     }
 
     public ReviewResponse addReview(ReviewCreateRequest request) {
-/*        Optional<ChefMateUserRecord> userExists = chefMateUserRepository.findById(request.getReviewerId());
-        if (userExists.isEmpty()) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "User Not Found");
-        }
-
-        ChefMateUserRecord userRecord = userExists.get();
-
-        if (!userRecord.getRecipesTried().contains(request.getRecipeId())) {
-            throw new IllegalArgumentException("Cannot review recipe you haven't tried");
-        }*/
+        cache.evict(request.getRecipeId());
         return reviewLambdaServiceClient.addReview(request);
     }
 
@@ -138,7 +129,7 @@ public class ChefMateUserService {
             throw new IllegalArgumentException("Recipe Id cannot be null");
         }
         List<ReviewResponse> responses = cache.get(recipeId);
-        if (!responses.isEmpty()) {
+        if (responses != null) {
             return responses;
         }
 
