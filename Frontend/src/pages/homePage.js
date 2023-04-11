@@ -28,12 +28,12 @@ export default class HomePage extends BaseClass {
         document.getElementById('random-recipe').addEventListener('click', this.onGetRandomRecipe);
         document.getElementById('get-review-form').addEventListener('submit', this.onGetAllReviews);
         document.getElementById('review-form').addEventListener('submit', this.onAddReview);
-        document.getElementById('user-dietary-preference-form').addEventListener('submit', this.onUpdateUserPreference);
-        document.getElementById('recipes-tried-by-user-form').addEventListener('submit', this.onUpdateRecipesTried);
-        document.getElementById('delete-user').addEventListener('click', this.onDeleteUser);
+     //   document.getElementById('user-dietary-preference-form').addEventListener('submit', this.onUpdateUserPreference);
+      //  document.getElementById('recipes-tried-by-user-form').addEventListener('submit', this.onUpdateRecipesTried);
+     //   document.getElementById('delete-user').addEventListener('click', this.onDeleteUser);
 
         this.client = new RecipeClient();
-        this.client = new ChefMateClient();
+     //   this.client = new ChefMateClient();
 
         /*this.dataStore.addChangeListener(this.renderExample)*/
     }
@@ -136,11 +136,11 @@ export default class HomePage extends BaseClass {
         //console.log(this.dataStore);
         //console.log(userId);
 
-        let profileElement = document.getElementById("profile");
+/*        let profileElement = document.getElementById("profile");
         let email = profileElement.children[0];
-        console.log(email.innerHTML);
+        console.log(email.innerHTML);*/
 
-        let result = await this.client.searchByNutrients(email.innerHTML, query, this.errorHandler);
+        let result = await this.client.searchByNutrients(query, this.errorHandler);
         this.dataStore.set("searchByNutrients", result);
 
         let renderingSection = document.getElementById("rendering-recipes-section");
@@ -199,9 +199,7 @@ export default class HomePage extends BaseClass {
 
         let ingredientsQuery = document.getElementById("search-ingredients-field").value;
 
-        let userId = this.dataStore.get("userId");
-
-        let result = await this.client.searchByIngredients(userId, ingredientsQuery, this.errorHandler);
+        let result = await this.client.searchByIngredients(ingredientsQuery, this.errorHandler);
         this.dataStore.set("searchByIngredients", result);
 
         let recipesReturned = this.dataStore.get("searchByIngredients");
@@ -263,10 +261,8 @@ export default class HomePage extends BaseClass {
         console.log(query);
 
         //let userId = this.dataStore.get("userId");
-        let profileElement = document.getElementById("profile");
-        let email = profileElement.children[0];
 
-        let result = await this.client.getAllRecipes(email.innerHTML, query, this.errorHandler);
+        let result = await this.client.getAllRecipes(query, this.errorHandler);
         this.dataStore.set("getAllRecipes", result);
         console.log(result);
 
@@ -323,9 +319,7 @@ export default class HomePage extends BaseClass {
 
         let renderingSection = document.getElementById("rendering-recipes-section");
 
-        let userId = this.dataStore.get("userId");
-
-        let result = await this.client.getRandomRecipe(userId, this.errorHandler);
+        let result = await this.client.getRandomRecipe(this.errorHandler);
         this.dataStore.set("getRandomRecipe", result);
 
         let recipesReturned = this.dataStore.get("getRandomRecipe");
@@ -497,7 +491,11 @@ export default class HomePage extends BaseClass {
             rateResult = rate5.value;
         }
 
-        let result = await this.client.addReview(userId, reviewText, rateResult, recipeId, this.errorHandler);
+/*        let profileElement = document.getElementById("profile");
+        let email = profileElement.children[0];
+        console.log(email.innerHTML);*/
+
+        let result = await this.client.addReview("mandoco.97@gmail.com", reviewText, rateResult, recipeId, this.errorHandler);
 
         if (result) {
             loadingSpinner.style.display = "none";

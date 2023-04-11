@@ -1,3 +1,4 @@
+/*
 import { createAuth0Client } from '@auth0/auth0-spa-js';
 import ChefMateClient from "../api/chefMateClient";
 import DataStore from "../util/DataStore";
@@ -108,4 +109,4 @@ document.getElementById('logout').addEventListener('click', () => {
   auth0Client.logout({
     returnTo: window.location.origin
   });
-});
+});*/

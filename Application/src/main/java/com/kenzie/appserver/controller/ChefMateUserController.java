@@ -81,7 +81,7 @@ public class ChefMateUserController {
         return ResponseEntity.ok().build();
     }
 
-    @PostMapping("/{userId}/review/createReview")
+    @PostMapping("/review/createReview")
     public ResponseEntity<ReviewResponse> addReview(@RequestBody ReviewCreateRequest reviewCreateRequest) {
         if (reviewCreateRequest.getReviewerId() == null || reviewCreateRequest.getRecipeId() ==null) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "User Id or Recipe Ids are null");
@@ -89,21 +89,20 @@ public class ChefMateUserController {
         ReviewResponse reviewResponse = chefMateUserService.addReview(reviewCreateRequest);
         return ResponseEntity.created(URI.create("/review/createReview" + reviewResponse.getReviewerId() + reviewResponse.getRecipeId())).body(reviewResponse);
     }
-    @GetMapping("/{userId}/recipes/food/search/nutrients/{query}")
-    public ResponseEntity<List<RecipeResponse>> searchByNutrients(@PathVariable("query") String query,
-                                                                  @PathVariable("userId") String userId) {
+    @GetMapping("/recipes/food/search/nutrients/{query}")
+    public ResponseEntity<List<RecipeResponse>> searchByNutrients(@PathVariable("query") String query) {
 
-        ChefMateUserResponse chefMateUserResponse = chefMateUserService.getUserById(userId);
+/*        ChefMateUserResponse chefMateUserResponse = chefMateUserService.getUserById(userId);
 
         if (chefMateUserResponse == null || chefMateUserResponse.getUserId() == null || chefMateUserResponse.getUserId().isEmpty()) {
             return ResponseEntity.notFound().build();
-        }
+        }*/
 
         return ResponseEntity.ok(chefMateUserService.searchByNutrients(query));
     }
 
 
-    @GetMapping("review/list/{recipeId}")
+    @GetMapping("/review/list/{recipeId}")
     public ResponseEntity<List<ReviewResponse>> getRecipeReviews(@PathVariable("recipeId") String recipeId) {
         if (recipeId == null) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Recipe Ids cannot be null");
@@ -112,9 +111,8 @@ public class ChefMateUserController {
         return ResponseEntity.ok(reviewResponses);
     }
 
-    @GetMapping("/{userId}/recipes/food/search/{query}")
-    public ResponseEntity<List<RecipeResponse>> getAllRecipes(@PathVariable("query") String query,
-                                                              @PathVariable("userId") String userId){
+    @GetMapping("/recipes/food/search/{query}")
+    public ResponseEntity<List<RecipeResponse>> getAllRecipes(@PathVariable("query") String query){
 //        ChefMateUserResponse chefMateUserResponse = chefMateUserService.getUserById(userId);
 
 //        if (chefMateUserResponse == null || chefMateUserResponse.getUserId() == null || chefMateUserResponse.getUserId().isEmpty()) {
@@ -124,26 +122,25 @@ public class ChefMateUserController {
         return ResponseEntity.ok(chefMateUserService.getAllRecipes(query));
     }
 
-    @GetMapping("/{userId}/recipes/random")
-    public ResponseEntity<List<Recipe>> getRandomRecipe(@PathVariable("userId") String userId){
-        ChefMateUserResponse chefMateUserResponse = chefMateUserService.getUserById(userId);
+    @GetMapping("/recipes/random")
+    public ResponseEntity<List<Recipe>> getRandomRecipe(){
+/*        ChefMateUserResponse chefMateUserResponse = chefMateUserService.getUserById(userId);
 
         if (chefMateUserResponse == null || chefMateUserResponse.getUserId() == null || chefMateUserResponse.getUserId().isEmpty()) {
             return ResponseEntity.notFound().build();
-        }
+        }*/
 
         return ResponseEntity.ok(chefMateUserService.getRandomRecipe());
     }
 
-    @GetMapping("/{userId}/recipes/food/search/ingredients/{query}")
-    public ResponseEntity<List<RecipeResponse>> searchByIngredients(@PathVariable("query") String query,
-                                                                    @PathVariable("userId") String userId) {
+    @GetMapping("/recipes/food/search/ingredients/{query}")
+    public ResponseEntity<List<RecipeResponse>> searchByIngredients(@PathVariable("query") String query) {
 
-        ChefMateUserResponse chefMateUserResponse = chefMateUserService.getUserById(userId);
+   /*     ChefMateUserResponse chefMateUserResponse = chefMateUserService.getUserById(userId);
 
         if (chefMateUserResponse == null || chefMateUserResponse.getUserId() == null || chefMateUserResponse.getUserId().isEmpty()) {
             return ResponseEntity.notFound().build();
-        }
+        }*/
 
         return ResponseEntity.ok(chefMateUserService.searchByIngredients(query));
     }

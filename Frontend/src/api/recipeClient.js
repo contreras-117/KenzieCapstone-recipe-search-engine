@@ -36,9 +36,9 @@ export default class RecipeClient extends BaseClass {
      * @param errorCallback (Optional) A function to execute if the call fails.
      * @returns List of recipes
      */
-    async searchByNutrients(userId, query, errorCallback) {
+    async searchByNutrients(query, errorCallback) {
         try {
-            const response = await this.client.get(`/user/${userId}/recipes/food/search/nutrients/${query}`);
+            const response = await this.client.get(`/user/recipes/food/search/nutrients/${query}`);
             return response.data;
         } catch (error) {
             document.getElementById("spinner").style.display = "none";
@@ -51,9 +51,9 @@ export default class RecipeClient extends BaseClass {
      * @param errorCallback (Optional) A function to execute if the call fails.
      * @returns List of recipes
      */
-     async searchByIngredients(userId, query, errorCallback) {
+     async searchByIngredients(query, errorCallback) {
          try {
-             const response = await this.client.get(`/user/${userId}/recipes/food/search/ingredients/${query}`);
+             const response = await this.client.get(`/user/recipes/food/search/ingredients/${query}`);
              return response.data;
          } catch (error) {
              document.getElementById("spinner").style.display = "none";
@@ -61,9 +61,9 @@ export default class RecipeClient extends BaseClass {
          }
      }
 
-    async getAllRecipes(userId, query, errorCallback) {
+    async getAllRecipes(query, errorCallback) {
         try{
-            const response = await this.client.get(`/user/${userId}/recipes/food/search/${query}`);
+            const response = await this.client.get(`/user/recipes/food/search/${query}`);
             return response.data;
         } catch (error) {
             document.getElementById("spinner").style.display = "none";
@@ -71,9 +71,9 @@ export default class RecipeClient extends BaseClass {
         }
     }
 
-    async getRandomRecipe(userId, errorCallback) {
+    async getRandomRecipe(errorCallback) {
         try{
-            const response = await this.client.get(`/user/${userId}/recipes/random`);
+            const response = await this.client.get(`/user/recipes/random`);
             return response.data;
         } catch (error) {
             document.getElementById("spinner").style.display = "none";
@@ -93,7 +93,7 @@ export default class RecipeClient extends BaseClass {
 
     async addReview(userId, comment, rating, recipeId, errorCallback) {
         try {
-            const response = await this.client.post(`/user/${userId}/review/createReview`, {
+            const response = await this.client.post(`/user/review/createReview`, {
                 "comment": comment,
                 "rating": rating,
                 "recipeId": recipeId,
