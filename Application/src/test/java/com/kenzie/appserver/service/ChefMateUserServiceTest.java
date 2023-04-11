@@ -354,7 +354,7 @@ public class ChefMateUserServiceTest {
 
         List<RecipeResponse> results = chefMateUserService.searchByNutrients(query);
 
-        Assertions.assertNotNull(results, "The results are not null");
+        Assertions.assertNotNull(results, "The results should not be null!");
         Assertions.assertEquals(recipeResponses.size(), results.size());
     }
 
@@ -385,5 +385,21 @@ public class ChefMateUserServiceTest {
 
         Assertions.assertNotNull(actual, "The list of recipes should not be null!");
         Assertions.assertEquals(actual.size(), expected.size());
+    }
+
+    @Test
+    void searchByIngredients() {
+        String query = "apple,flour,sugar";
+
+        List<RecipeResponse> recipeResponses = new ArrayList<>();
+        recipeResponses.add(new RecipeResponse());
+        recipeResponses.add(new RecipeResponse());
+
+        when(recipeLambdaServiceClient.getSearchByIngredients(query)).thenReturn(recipeResponses);
+
+        List<RecipeResponse> results = chefMateUserService.searchByIngredients(query);
+
+        Assertions.assertNotNull(results, "The results should not be null!");
+        Assertions.assertEquals(recipeResponses.size(), results.size());
     }
 }
