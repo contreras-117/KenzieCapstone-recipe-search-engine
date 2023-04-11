@@ -368,4 +368,66 @@ public class ChefMateUserControllerTest {
             assertThat(response.getRecipeId()).isNotEmpty().as("The ID is populated");
         }
     }
+
+    @Test
+    public void searchByNutrients() throws Exception {
+        CreateChefMateUserRequest userRequest = new CreateChefMateUserRequest();
+
+        String recipeId = UUID.randomUUID().toString();
+        Set<String> recipesTried = new HashSet<>();
+        recipesTried.add(recipeId);
+
+        userRequest.setUserId(UUID.randomUUID().toString());
+        userRequest.setUserPreferences(Optional.empty());
+        userRequest.setRecipesTried(Optional.of(recipesTried));
+        userRequest.setIngredients(Optional.empty());
+
+        ChefMateUserResponse userResponse = chefMateUserService.addNewUser(userRequest);
+
+        String query = "minCalories=1200";
+
+        ResultActions actions = mvc.perform(get("/user/{userId}/recipes/food/search/nutrients/{query}", userResponse.getUserId(), query)
+                        .accept(MediaType.APPLICATION_JSON)
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().is2xxSuccessful());
+
+        String responseBody = actions.andReturn().getResponse().getContentAsString();
+        System.out.println(responseBody);
+        List<RecipeResponse> responses = mapper.readValue(responseBody, new TypeReference<List<RecipeResponse>>() {});
+
+        for (RecipeResponse response : responses) {
+            assertThat(response.getRecipeId()).isNotEmpty().as("The ID is populated");
+        }
+    }
+
+    @Test
+    public void searchByIngredients() throws Exception {
+        CreateChefMateUserRequest userRequest = new CreateChefMateUserRequest();
+
+        String recipeId = UUID.randomUUID().toString();
+        Set<String> recipesTried = new HashSet<>();
+        recipesTried.add(recipeId);
+
+        userRequest.setUserId(UUID.randomUUID().toString());
+        userRequest.setUserPreferences(Optional.empty());
+        userRequest.setRecipesTried(Optional.of(recipesTried));
+        userRequest.setIngredients(Optional.empty());
+
+        ChefMateUserResponse userResponse = chefMateUserService.addNewUser(userRequest);
+
+        String query = "apples,flour,sugar";
+
+        ResultActions actions = mvc.perform(get("/user/{userId}/recipes/food/search/ingredients/{query}", userResponse.getUserId(), query)
+                        .accept(MediaType.APPLICATION_JSON)
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().is2xxSuccessful());
+
+        String responseBody = actions.andReturn().getResponse().getContentAsString();
+        System.out.println(responseBody);
+        List<RecipeResponse> responses = mapper.readValue(responseBody, new TypeReference<List<RecipeResponse>>() {});
+
+        for (RecipeResponse response : responses) {
+            assertThat(response.getRecipeId()).isNotEmpty().as("The ID is populated");
+        }
+    }
 }
