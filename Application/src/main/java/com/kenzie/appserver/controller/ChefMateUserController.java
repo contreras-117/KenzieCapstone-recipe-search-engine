@@ -29,18 +29,6 @@ public class ChefMateUserController {
     ChefMateUserController(ChefMateUserService chefMateUserService) {
         this.chefMateUserService = chefMateUserService;
     }
-//
-//    @GetMapping("/userProfile")
-//    public AuthUserProfile getUserProfile(@RequestHeader("Authorization") String authorizationHeader) {
-//       /* String accessToken = extractAccessToken(authorizationHeader);
-//        OAuth2ResourceServerProperties.Jwt jwt = decodeAccessToken(accessToken);
-//        String userId = jwt.;
-//        String email = jwt.getClaim("email").asString();
-//        return new AuthUserProfile(userId, email);
-//        */
-//    return null;
-//    }
-
 
     @PostMapping("/createUser")
     public ResponseEntity<ChefMateUserResponse> addNewUser(@RequestBody CreateChefMateUserRequest createChefMateUserRequest) {
@@ -49,8 +37,15 @@ public class ChefMateUserController {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Invalid User");
         }
 
-        ChefMateUserResponse response = chefMateUserService.addNewUser(createChefMateUserRequest);
-        return ResponseEntity.created(URI.create("/user/createUser" + response.getUserId())).body(response);
+        // Validate if the user already exists
+        if (chefMateUserService.getUserById(createChefMateUserRequest.getUserId()) == null) {
+
+            ChefMateUserResponse response = chefMateUserService.addNewUser(createChefMateUserRequest);
+            return ResponseEntity.created(URI.create("/user/createUser" + response.getUserId())).body(response);
+        } else {
+            return ResponseEntity.badRequest().build();
+        }
+
     }
 
     @PutMapping("/userPreferences/{userPreferences}")
@@ -70,7 +65,7 @@ public class ChefMateUserController {
     public ResponseEntity<ChefMateUserResponse> getUserById(@PathVariable("userId") String userId) {
         ChefMateUserResponse userResponse = chefMateUserService.getUserById(userId);
         if (userResponse == null) {
-            return ResponseEntity.notFound().build();
+            return ResponseEntity.ok().build();
         }
         return ResponseEntity.ok(userResponse);
     }

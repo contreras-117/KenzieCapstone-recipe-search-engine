@@ -1,8 +1,6 @@
-/*
 import { createAuth0Client } from '@auth0/auth0-spa-js';
 import ChefMateClient from "../api/chefMateClient";
 import DataStore from "../util/DataStore";
-import HomePage from "../pages/homePage";
 
 
 
@@ -70,36 +68,42 @@ window.addEventListener('load', async () => {
 
 const updateUI = async () => {
   const isAuthenticated = await auth0Client.isAuthenticated();
-  const userProfile = await auth0Client.getUser();
 
   document.getElementById("logout").disabled = !isAuthenticated;
   document.getElementById("login").disabled = isAuthenticated
   // Use the element with id "profile" in the DOM
   const profileElement = document.getElementById("profile");
+  const profileBtn = document.getElementById("btn-profile");
+  const loginBtn = document.getElementById("btn-login");
 
   if (isAuthenticated) {
+    const userProfile = await auth0Client.getUser();
 
     console.log(userProfile);
 
-    // save only the userId to the frontend datastore for easy access
-    const dataStore = new DataStore();
-    dataStore.set("userId", userProfile.email);
-    //await addNewUser(userProfile.email);
-
-
-    console.log(dataStore.get("userId"));
+    const chefMateClient = new ChefMateClient();
+    // Check if user exists first before calling addNewUser
+    const checkUser = await chefMateClient.getUserById(userProfile.email);
+    if (checkUser == null) {
+      // addNewUser if it does not exist
+      const response = await chefMateClient.addNewUser(userProfile.email);
+      console.log(response);
+    }
 
     profileElement.style.display = "block";
     profileElement.innerHTML = `
             <p>${userProfile.name}</p>
-            <img src="${userProfile.picture}" alt="" />
           `;
+    profileBtn.style.display = "block";
+    loginBtn.style.display = "none";
   } else {
     profileElement.style.display = "none";
+    profileBtn.style.display = "none";
+    loginBtn.style.display = "block";
   }
 
 
-console.log("UI updated");
+  console.log("UI updated");
 };
 
 
@@ -109,4 +113,4 @@ document.getElementById('logout').addEventListener('click', () => {
   auth0Client.logout({
     returnTo: window.location.origin
   });
-});*/
+});

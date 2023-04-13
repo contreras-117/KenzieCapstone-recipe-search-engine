@@ -28,12 +28,12 @@ export default class HomePage extends BaseClass {
         document.getElementById('random-recipe').addEventListener('click', this.onGetRandomRecipe);
         document.getElementById('get-review-form').addEventListener('submit', this.onGetAllReviews);
         document.getElementById('review-form').addEventListener('submit', this.onAddReview);
-     //   document.getElementById('user-dietary-preference-form').addEventListener('submit', this.onUpdateUserPreference);
-      //  document.getElementById('recipes-tried-by-user-form').addEventListener('submit', this.onUpdateRecipesTried);
-     //   document.getElementById('delete-user').addEventListener('click', this.onDeleteUser);
+        document.getElementById('user-dietary-preference-form').addEventListener('submit', this.onUpdateUserPreference);
+        document.getElementById('recipes-tried-by-user-form').addEventListener('submit', this.onUpdateRecipesTried);
+        document.getElementById('delete-user').addEventListener('click', this.onDeleteUser);
 
         this.client = new RecipeClient();
-     //   this.client = new ChefMateClient();
+        this.chefMateClient = new ChefMateClient();
 
         /*this.dataStore.addChangeListener(this.renderExample)*/
     }
@@ -370,9 +370,10 @@ export default class HomePage extends BaseClass {
     async onUpdateUserPreference(event) {
         event.preventDefault();
 
-        const userId = this.dataStore.get("userId");
+        //const userId = this.dataStore.get("userId");
+        //console.log(userId);
         const textInput = document.getElementById("user-dietary-preference-field").value;
-        const updateUserPreferences = await this.client.updateUserPreference(userId, textInput, this.errorHandler);
+        const updateUserPreferences = await this.chefMateClient.updateUserPreference(textInput, this.errorHandler);
         if (!updateUserPreferences.data) {
             this.showMessage(`Updated users dietary preferences`);
         } else {
@@ -383,9 +384,9 @@ export default class HomePage extends BaseClass {
     async onUpdateRecipesTried(event) {
         event.preventDefault();
 
-        const userId = this.dataStore.get("userId");
+        //const userId = this.dataStore.get("userId");
         const textInput = document.getElementById("recipes-user-tried-field").value;
-        const updateRecipesTried = await this.client.updateRecipesTried(userId, textInput, this.errorHandler);
+        const updateRecipesTried = await this.chefMateClient.updateRecipesTried( textInput, this.errorHandler);
         if (!updateRecipesTried.data) {
             this.showMessage(`Updated Recipes Tried`);
         } else {
@@ -396,8 +397,8 @@ export default class HomePage extends BaseClass {
     async onDeleteUser(event) {
         event.preventDefault();
 
-        const userId = this.dataStore.get("userId");
-        const deleteUser = await this.client.deleteUser(userId, this.errorHandler);
+        //const userId = this.chefMateClient.dataStore.get("userId");
+        const deleteUser = await this.chefMateClient.deleteUser(this.errorHandler);
         if (!deleteUser.data) {
             this.showMessage(`Deleted User from database!`);
         } else {
@@ -461,7 +462,9 @@ export default class HomePage extends BaseClass {
 
         let recipeId = document.getElementById("recipeId-review-input").value;
         let reviewText = document.getElementById("review-text-area").value;
-        let userId = this.dataStore.get("userId");
+        //const userId = this.dataStore.get("userId");
+        console.log("addReview method");
+
 
         let rate1 = document.getElementById("rate-1");
         let rate2 = document.getElementById("rate-2");
@@ -491,11 +494,11 @@ export default class HomePage extends BaseClass {
             rateResult = rate5.value;
         }
 
-/*        let profileElement = document.getElementById("profile");
+        let profileElement = document.getElementById("profile");
         let email = profileElement.children[0];
-        console.log(email.innerHTML);*/
+        console.log(email.innerHTML);
 
-        let result = await this.client.addReview("mandoco.97@gmail.com", reviewText, rateResult, recipeId, this.errorHandler);
+        let result = await this.client.addReview(email.innerHTML, reviewText, rateResult, recipeId, this.errorHandler);
 
         if (result) {
             loadingSpinner.style.display = "none";

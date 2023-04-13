@@ -14,10 +14,11 @@ export default class ChefMateClient extends BaseClass {
 
     constructor(props = {}){
         super();
-        const methodsToBind = ['clientLoaded', 'addNewUser', 'updateUserPreference', 'updateRecipesTried', 'deleteUser'];
+        const methodsToBind = ['clientLoaded', 'addNewUser', 'updateUserPreference', 'updateRecipesTried', 'getUserById', 'deleteUser'];
         this.bindClassMethods(methodsToBind, this);
         this.props = props;
         this.clientLoaded(axios);
+        this.dataStore = new DataStore();
     }
 
     /**
@@ -38,14 +39,17 @@ export default class ChefMateClient extends BaseClass {
      * @returns The response after saving the user
      */
     async addNewUser(userId, errorCallback) {
+
+        // save only the userId to the frontend datastore for easy access
         //const dataStore = new DataStore();
-        let profileElement = document.getElementById("profile");
-        let email = profileElement.children[0];
-        //const chefMateUserId = dataStore.get("userId");
+        this.dataStore.set("userId", userId);
+        console.log(userId);
+        console.log(this.dataStore.get("userId"));
+
         try{
             const response = await this.client.post(`/user/createUser`, {
-                "userId": email.innerHTML});
-            return response.data;
+                "userId": userId});
+            return response;
         } catch (error) {
             this.handleError("addNewUser", error, errorCallback);
         }
@@ -58,10 +62,10 @@ export default class ChefMateClient extends BaseClass {
      * @param errorCallback (Optional) A function to execute if the call fails.
      * @returns The list of preferences retrieved
      */
-    async updateUserPreference(userId, userPreferences, errorCallback) {
+    async updateUserPreference(userPreferences, errorCallback) {
         try{
             const response = await this.client.put(`/user/userPreferences/${userPreferences}`, {
-                "userId": userId,
+                "userId": this.dataStore.get("userId"),
                 "userPreferences": userPreferences});
             return response.data;
         } catch (error) {
@@ -76,10 +80,10 @@ export default class ChefMateClient extends BaseClass {
      * @param errorCallback (Optional) A function to execute if the call fails.
      * @returns The set of recipes tried by the user is retrieved
      */
-    async updateRecipesTried(userId, recipesTried, errorCallback) {
+    async updateRecipesTried(recipesTried, errorCallback) {
         try{
             const response = await this.client.put(`/user/recipesTried/${recipesTried}`, {
-                "userId": userId,
+                "userId": this.dataStore.get("userId"),
                 "recipesTried": recipesTried});
             return response.data;
         } catch (error) {
@@ -93,14 +97,31 @@ export default class ChefMateClient extends BaseClass {
      * @param errorCallback (Optional) A function to execute if the call fails.
      * @returns The set of recipes tried by the user is retrieved
      */
-    async deleteUser(userId, errorCallback) {
+    async deleteUser( errorCallback) {
         try{
-            const response = await this.client.delete(`/user/deleteUser/${userId}`, {
-                "userId": userId});
-            return response.data;
+            const response = await this.client.delete(`/user/deleteUser/${this.dataStore.get("userId")}`, {
+                "userId": this.dataStore.get("userId")});
+            return response;
         } catch (error) {
             this.handleError("deleteUser", error, errorCallback);
         }
+    }
+
+    /**
+     * Makes a request to the backend to delete the user record from the ChefMateUser database.
+     * @param userId Id of the authenticated user to update the recipes tried.
+     * @param errorCallback (Optional) A function to execute if the call fails.
+     * @returns The set of recipes tried by the user is retrieved
+     */
+    async getUserById(userId, errorCallback) {
+        // try{
+        //     return await this.client.get(`/user/getUserById/${userId}`, {
+        //         "userId": userId});
+        // } catch (error) {
+        //     this.handleError("getUserById", error, errorCallback);
+        // }
+
+        return await this.client.get(`/user/getUserById/${userId}`);
     }
 
     /**
