@@ -7,6 +7,7 @@
     <script defer type="text/javascript" src="app.js"></script>
     <script defer type="text/javascript" src="homePage.js"></script>
 
+    <!--    <link type="text/images" href="images/meal.jpg">-->
     <link rel="stylesheet" type="text/css" href="css/style.css">
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
     <link
@@ -19,12 +20,12 @@
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
 
-   <!-- <link
+    <link
             rel="stylesheet"
             href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
-    />-->
+    />
 
-   <!-- <link
+    <link
             rel="stylesheet"
             href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/styles/monokai-sublime.min.css"
     />
@@ -45,43 +46,43 @@
             rel="stylesheet"
             href="https://cdn.auth0.com/js/auth0-samples-theme/1.0/css/auth0-theme.min.css"
     />
--->
+
 </head>
 <body class="background">
 
-    <nav id="mainNavbar" class="navbar navbar-dark bg-dark  py-4">
-        <a href="index.html" id="chefmate-header" class="navbar-brand ms-4">ChefMate</a>
+<nav id="mainNavbar" class="navbar navbar-dark bg-dark  py-4">
+    <a href="index.html" id="chefmate-header" class="navbar-brand ms-4">ChefMate</a>
 
-        <!--<div id="navLinks">
-            <ul class="navbar-nav d-none d-md-block">
-                &lt;!&ndash; Login link: show if NOT authenticated &ndash;&gt;
-                <li class="nav-item auth-invisible">
+    <div id="navLinks">
+        <ul class="navbar-nav d-none d-md-block">
+            <!-- Login link: show if NOT authenticated -->
+            <li class="nav-item auth-invisible" id="btn-login">
+                <a
+                        href="javascript:void(0);"
+                        id="login"
+                        class="nav-link auth-invisible hidden"
+                >Login
+                </a>
+            </li>
+            <!-- / Login link -->
+
+            <!-- Dropdown: show if authenticated -->
+            <li class="nav-item dropdown auth-visible" id="btn-profile">
+                <button id="profile-button" class="btn btn-outline-primary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    Profile
+                </button>
+
+                <div class="dropdown-menu">
+                    <!-- Show the user's full name from the id token here -->
+                    <div class="dropdown-header nav-user-name user-name"></div>
                     <a
                             href="javascript:void(0);"
-                            id="login"
-                            class="nav-link auth-invisible hidden"
-                    >Login
+                            id="profile"
+                            class="dropdown-item dropdown-profile route-link"
+                    >
+                        <i class="fas fa-user mr-3"></i> Profile
                     </a>
-                </li>
-                &lt;!&ndash; / Login link &ndash;&gt;
-
-                &lt;!&ndash; Dropdown: show if authenticated &ndash;&gt;
-                <li class="nav-item dropdown auth-visible">
-                    <button id="profile-button" class="btn btn-outline-primary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                        Profile
-                    </button>
-
-                    <div class="dropdown-menu">
-                        &lt;!&ndash; Show the user's full name from the id token here &ndash;&gt;
-                        <div class="dropdown-header nav-user-name user-name"></div>
-                        <a
-                                href="javascript:void(0);"
-                                id="profile"
-                                class="dropdown-item dropdown-profile route-link"
-                        >
-                            <i class="fas fa-user-lock mr-3"></i> Profile
-                        </a>
-                        <form id="user-dietary-preference-form">
+                    <form id="user-dietary-preference-form">
                         <a
                                 href="javascript:void(0);"
                                 class="dropdown-item route-link"
@@ -94,8 +95,8 @@
                             <button class="btn btn-outline-primary my-2 my-sm-0" type="submit" id="update-preference-button">Preferences</button>
 
                         </a>
-                        </form>
-                        <form id="recipes-tried-by-user-form">
+                    </form>
+                    <form id="recipes-tried-by-user-form">
                         <a
                                 href="javascript:void(0);"
                                 class="dropdown-item route-link"
@@ -107,27 +108,27 @@
                             </div>
                             <button class="btn btn-outline-primary my-2 my-sm-0" type="submit" id="update-recipes-user-tried-button">Recipes Tried</button>
                         </a>
-                        </form>
-                        <a
-                                href="javascript:void(0);"
-                                class="dropdown-item route-link"
-                                id="delete-user"
-                                onclick="deleteUser()"
-                        >
-                            <i class="fas fa-user-slash mr-3"></i> Delete User
-                        </a>
-                        <a
-                                href="javascript:void(0);"
-                                class="dropdown-item"
-                                id="logout"
-                        >
-                            <i class="fas fa-power-off mr-3"></i> Log out
-                        </a>
-                    </div>
-                </li>
-                &lt;!&ndash; /Dropdown &ndash;&gt;
-            </ul>
-        </div>-->
+                    </form>
+                    <a
+                            href="javascript:void(0);"
+                            class="dropdown-item route-link"
+                            id="delete-user"
+                            onclick="deleteUser()"
+                    >
+                        <i class="fas fa-user-slash mr-3"></i> Delete User
+                    </a>
+                    <a
+                            href="javascript:void(0);"
+                            class="dropdown-item"
+                            id="logout"
+                    >
+                        <i class="fas fa-power-off mr-3"></i> Log out
+                    </a>
+                </div>
+            </li>
+            <!-- /Dropdown -->
+        </ul>
+    </div>
     </nav>
 
 

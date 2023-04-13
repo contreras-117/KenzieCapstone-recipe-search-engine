@@ -546,8 +546,11 @@ ul {
     display: none;
 }
 
-/*
+/*#btn-profile {*/
+/*    display: none;*/
+/*}*/
+
 label {
     margin-bottom: 10px;
     display: block;
-}*/
+}

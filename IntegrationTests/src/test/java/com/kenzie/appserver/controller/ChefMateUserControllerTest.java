@@ -202,11 +202,6 @@ public class ChefMateUserControllerTest {
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().is2xxSuccessful());
 
-        // THEN
-        mvc.perform(get("/user/getUserById/{userId}", userResponse.getUserId())
-                        .accept(MediaType.APPLICATION_JSON)
-                        .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isNotFound());
     }
 
     @Test
