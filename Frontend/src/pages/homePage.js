@@ -130,7 +130,7 @@ export default class HomePage extends BaseClass {
             query = query.slice(0, query.length - 1);
         }
 
-        query += "&number=10";
+        query += "&number=20";
 
         //let userId = this.dataStore.get("userId");
         //console.log(this.dataStore);
@@ -173,7 +173,7 @@ export default class HomePage extends BaseClass {
             html += "</ul>";
             html += "</div>";
             html += `<a href=${recipe.sourceUrl} rel="noopener noreferrer" target="_blank"><button class='instructions-button'>Instructions</button></a>`;
-            html += `<button id="chef-mate-instructions-anchor" onclick="openInstructions('${instructionsString}')" class='chef-mate-instructions-button'>ChefMate Instructions</button>`;
+            html += `<button id="chef-mate-instructions-anchor" onclick="openInstructions('${instructionsString}')" class='chef-mate-instructions-button'>Quick Instructions</button>`;
             html += "</div>";
             html += "</div>";
 
@@ -198,6 +198,7 @@ export default class HomePage extends BaseClass {
         let renderingSection = document.getElementById("rendering-recipes-section");
 
         let ingredientsQuery = document.getElementById("search-ingredients-field").value;
+        ingredientsQuery += "&number=20"
 
         let result = await this.client.searchByIngredients(ingredientsQuery, this.errorHandler);
         this.dataStore.set("searchByIngredients", result);
@@ -230,7 +231,7 @@ export default class HomePage extends BaseClass {
             html += "</ul>";
             html += "</div>";
             html += `<a href=${recipe.sourceUrl} rel="noopener noreferrer" target="_blank"><button class='instructions-button'>Instructions</button></a>`;
-            html += `<button id="chef-mate-instructions-anchor" onclick="openInstructions('${instructionsString}')" class='chef-mate-instructions-button'>ChefMate Instructions</button>`;
+            html += `<button id="chef-mate-instructions-anchor" onclick="openInstructions('${instructionsString}')" class='chef-mate-instructions-button'>Quick Instructions</button>`;
             html += "</div>";
             html += "</div>";
 
@@ -294,7 +295,7 @@ export default class HomePage extends BaseClass {
             html += "</ul>";
             html += "</div>";
             html += `<a href=${recipe.sourceUrl} rel="noopener noreferrer" target="_blank"><button class='instructions-button'>Instructions</button></a>`;
-            html += `<button id="chef-mate-instructions-anchor" onclick="openInstructions('${instructionsString}')" class='chef-mate-instructions-button'>ChefMate Instructions</button>`;
+            html += `<button id="chef-mate-instructions-anchor" onclick="openInstructions('${instructionsString}')" class='chef-mate-instructions-button'>Quick Instructions</button>`;
             html += "</div>";
             html += "</div>";
 
@@ -350,7 +351,7 @@ export default class HomePage extends BaseClass {
             html += "</ul>";
             html += "</div>";
             html += `<a href=${recipe.sourceUrl} rel="noopener noreferrer" target="_blank"><button class='instructions-button'>Instructions</button></a>`;
-            html += `<button id="chef-mate-instructions-anchor" onclick="openInstructions('${instructionsString}')" class='chef-mate-instructions-button'>ChefMate Instructions</button>`;
+            html += `<button id="chef-mate-instructions-anchor" onclick="openInstructions('${instructionsString}')" class='chef-mate-instructions-button'>Quick Instructions</button>`;
             html += "</div>";
             html += "</div>";
 

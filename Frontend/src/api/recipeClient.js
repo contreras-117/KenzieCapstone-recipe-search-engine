@@ -101,6 +101,7 @@ export default class RecipeClient extends BaseClass {
             });
             return response.data;
         } catch {
+            document.getElementById("spinner").style.display = "none";
             this.handleError("addReview", error, errorCallback);
         }
     }
