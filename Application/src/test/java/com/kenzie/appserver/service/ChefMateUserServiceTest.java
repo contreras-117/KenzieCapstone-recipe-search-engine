@@ -303,7 +303,7 @@ public class ChefMateUserServiceTest {
 
         when(chefMateUserRepository.findById(userId)).thenReturn(Optional.of(userRecord));
 
-        Assertions.assertThrows(IllegalArgumentException.class, () -> chefMateUserService.addReview(request));
+        Assertions.assertThrows(ResponseStatusException.class, () -> chefMateUserService.addReview(request));
     }
 
     @Test
