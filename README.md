@@ -1,4 +1,4 @@
-# Capstone-Project
+# Capstone Project
 
 This is my Kenie Capstone project. ChefMate: A Recipe Search Engine
 
