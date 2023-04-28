@@ -14,4 +14,4 @@ The different endpoints are: /user
 - /review/createReview
 - /review/list/{recipeId}
 
-Feel free to look at our server design! File named ServerDesign.png
+Feel free to look at our server design diagram! File named ServerDesign.png
