@@ -1,6 +1,6 @@
 # Capstone Project
 
-This is my Kenie Capstone project. ChefMate: A Recipe Search Engine
+This is my Kenzie Academy Capstone project. ChefMate: A Recipe Search Engine
 
 This project was done with a team of 4
 
